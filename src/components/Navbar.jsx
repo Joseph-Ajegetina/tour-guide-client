@@ -1,37 +1,65 @@
-import React from 'react'
-import {Link} from "react-router-dom"
+import React from "react";
+import { useContext } from "react";
+import { AuthContext } from "../context/auth.context";
+import logo from "../assets/tour.png";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
-function Navbar() {
+function NavBar() {
+  const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
-    <div className="container-fluid">
-      <Link className="navbar-brand" to="/">Tour-Guide</Link>
-      <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-          <li className="nav-item">
-            <Link className="nav-link active" aria-current="page" to="/">Home</Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/login">Login</Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/signup">SignUp</Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link disabled" aria-disabled="true">Disabled</Link>
-          </li>
-        </ul>
-        <form className="d-flex" role="search">
-          <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-          <button className="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
-    </div>
-  </nav>
-  )
+    <Navbar fixed="top" expand="lg" className="bg-body-tertiary">
+      <Container fluid>
+        <Navbar.Brand href="/">
+          <img
+            src={logo}
+            width="40"
+            height="35"
+            className="d-inline-block align-top"
+            alt="React Bootstrap logo"
+          />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse id="navbarScroll">
+          <Nav
+            className="me-auto my-2 my-lg-0 w-100 justify-content-end"
+            style={{ maxHeight: "100px" }}
+            navbarScroll
+          >
+            {isLoggedIn && (
+              <>
+                <Nav.Link href="/wishlist">Wishlist</Nav.Link>
+              </>
+            )}
+            <NavDropdown title="Account" id="navbarScrollingDropdown">
+              {isLoggedIn && (
+                <>
+                  <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
+                  <NavDropdown.Item onClick={logOutUser}>
+                    Log Out
+                  </NavDropdown.Item>
+                </>
+              )}
+
+              {!isLoggedIn && (
+                <>
+                  <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                  <NavDropdown.Item href="/signup">Create</NavDropdown.Item>
+                </>
+              )}
+            </NavDropdown>
+          </Nav>
+          {isLoggedIn && user.isAdmin && (
+              <>
+                <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+              </>
+            )}
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 }
 
-export default Navbar
+export default NavBar;
