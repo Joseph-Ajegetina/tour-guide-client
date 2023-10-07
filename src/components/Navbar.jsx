@@ -9,8 +9,9 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 
 function NavBar() {
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
+  
   return (
-    <Navbar fixed="top" expand="lg" className="bg-body-tertiary">
+    <Navbar sticky="top" expand="lg" className="bg-body-tertiary">
       <Container fluid>
         <Navbar.Brand href="/">
           <img

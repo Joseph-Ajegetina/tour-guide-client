@@ -14,7 +14,7 @@ import Spinner from "react-bootstrap/Spinner";
 function SignupPage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [username, setUserName] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,12 +23,12 @@ function SignupPage(props) {
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
-  const handleName = (e) => setName(e.target.value);
+  const handleName = (e) => setUserName(e.target.value);
 
   const handleSignupSubmit = (e) => {
     e.preventDefault();
 
-    const requestBody = { email, password, name };
+    const requestBody = { email, password, username };
 
     if (props.isAdmin) {
       requestBody["isAdmin"] = true;
@@ -94,7 +94,7 @@ function SignupPage(props) {
                             className="bg-dark text-white"
                             id="floatingInputCustom"
                             type="text"
-                            value={name}
+                            value={username}
                             onChange={handleName}
                             placeholder="Enter your name"
                           />
@@ -153,7 +153,14 @@ function SignupPage(props) {
       ) : (
         <Container className="py-5 h-100">
           <Row className="d-flex justify-content-center align-items-center h-100">
-            <Spinner animation="grow" size="lg" />
+            <Col md={8} xl={5}>
+              <Card
+                style={{ borderRadius: "1rem" }}
+                className="card bg-dark text-white"
+              >
+                <Spinner animation="grow" size="lg" />
+              </Card>
+            </Col>
           </Row>
         </Container>
       )}
