@@ -6,10 +6,11 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { NavLink } from "react-router-dom";
 
 function NavBar() {
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
-  
+
   return (
     <Navbar sticky="top" expand="lg" className="bg-body-tertiary">
       <Container fluid>
@@ -51,12 +52,17 @@ function NavBar() {
                 </>
               )}
             </NavDropdown>
-          </Nav>
-          {isLoggedIn && user.isAdmin && (
+            {isLoggedIn && user.isAdmin && (
               <>
-                <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                <NavLink
+                  to="/dashboard"
+                  className="nav-link"
+                >
+                  Dashboard
+                </NavLink>
               </>
             )}
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

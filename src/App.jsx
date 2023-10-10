@@ -4,7 +4,7 @@ import NavBar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
-import IsAnon from './isAnon';
+import IsAnon from './components/isAnon';
 import IsPrivate from './components/isPrivate';
 import AdminPage from './pages/AdminPage';
 
