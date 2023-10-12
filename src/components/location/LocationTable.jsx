@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../loading/LoadingSpinner";
 import { useState } from "react";
 import CreateLocationModal from "./modals/CreateLocationModal";
 import locationsService from "../../services/location.service";

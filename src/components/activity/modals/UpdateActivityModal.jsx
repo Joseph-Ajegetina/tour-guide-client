@@ -31,7 +31,7 @@ function UpdateActivityModal({ show, location, handleClose,handleUpdate   }) {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Update Location</Modal.Title>
+          <Modal.Title>Update Activity</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSave}>

@@ -13,7 +13,7 @@ function DeleteActivityModal({ show, location, handleClose, handleDelete }) {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Delete Location</Modal.Title>
+          <Modal.Title>Delete Activity</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>Do you want to delete the selected location ?</p>

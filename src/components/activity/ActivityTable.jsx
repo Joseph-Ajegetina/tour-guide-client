@@ -1,6 +1,6 @@
 import React from "react";
 import { Button} from "react-bootstrap";
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../loading/LoadingSpinner";
 import { useState } from "react";
 import CreateActivityModal from "./modals/CreateActivityModal";
 import activitiesService from "../../services/activity.service";

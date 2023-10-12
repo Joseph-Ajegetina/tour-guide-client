@@ -31,7 +31,7 @@ function ViewActivityModal({ show, location, handleClose,handleView   }) {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>View Location</Modal.Title>
+          <Modal.Title>Activiy Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSave}>
