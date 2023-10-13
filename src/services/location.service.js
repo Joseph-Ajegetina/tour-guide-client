@@ -21,7 +21,7 @@ class LocationsService {
 
   // POST /api/locations
   createLocation = (requestBody) => {
-    return this.api.post("/api/locations", requestBody);
+    return this.api.post("/api/locations/create", requestBody);
   };
 
   // GET /api/locations

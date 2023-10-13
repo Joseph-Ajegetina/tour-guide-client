@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 function DeleteLocationModal({ show, location, handleClose, handleDelete }) {
@@ -17,7 +16,7 @@ function DeleteLocationModal({ show, location, handleClose, handleDelete }) {
           <Modal.Title>Delete Location</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Do you want to delete the selected location ?</p>
+          <p>Are you sure you want to delete location with city <strong>{location.city}</strong>?</p>
         </Modal.Body>
 
         <Modal.Footer>

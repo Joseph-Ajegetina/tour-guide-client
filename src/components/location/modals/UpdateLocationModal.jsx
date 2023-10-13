@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
+
 function UpdateLocationModal({ show, location, handleClose,handleUpdate   }) {
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
+  const [city, setCity] = useState(location.city);
+  const [country, setCountry] = useState(location.country);
 
   const handleCity = (e) => {
     setCity(e.target.value);
@@ -40,7 +41,7 @@ function UpdateLocationModal({ show, location, handleClose,handleUpdate   }) {
                 className="bg-dae"
                 id="floatingInputCustom"
                 type="text"
-                value={ location ? location.city: city}
+                value={ city}
                 onChange={handleCity}
                 placeholder="City Name"
               />
@@ -51,7 +52,7 @@ function UpdateLocationModal({ show, location, handleClose,handleUpdate   }) {
                 className="bg--white"
                 id="floatingInputCustom"
                 type="text"
-                value={ location ? location.country: country}
+                value={ country}
                 onChange={handleCountry}
                 placeholder="Country Name"
               />
@@ -69,6 +70,7 @@ function UpdateLocationModal({ show, location, handleClose,handleUpdate   }) {
               variant="success"
               type="submit"
               className="btn-outline-light btn-lg px-5"
+              onClick={handleSave}
             >
               Update
             </Button>

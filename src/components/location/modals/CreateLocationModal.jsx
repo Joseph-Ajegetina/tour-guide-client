@@ -17,7 +17,7 @@ function CreateLocationModal({ show, handleClose,handleCreate   }) {
   const handleSave = () => {
     const requestBody = {city, country}
     handleCreate(requestBody);
-    handleClose();
+
   }
 
   return (

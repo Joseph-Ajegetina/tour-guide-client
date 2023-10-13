@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import LoadingSpinner from "../loading/LoadingSpinner";
@@ -10,9 +11,7 @@ import DeleteLocationModal from "./modals/DeleteLocationModal";
 import Search from "../Search";
 
 function LocationTable() {
-  const [locations, setLocations] = useState([
-    { _id: "20", city: "Navrongo", country: "Ghana" },
-  ]);
+  const [locations, setLocations] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -21,8 +20,6 @@ function LocationTable() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
-  
-
   const handleCloseCreateModal = () => setShowCreateModal(false);
   const handleShowCreateModal = () => setShowCreateModal(true);
 
@@ -32,22 +29,22 @@ function LocationTable() {
   };
 
   const handleShowUpdateModal = (id) => {
-    getLocationDetails(id);
+    findSelectedLocationFromId(id);
     setShowUpdateModal(true);
   };
 
   const handleCloseDeleteModal = (id) => {
-    getLocationDetails(id);
+    findSelectedLocationFromId(id);
     setShowDeleteModal(false);
   };
 
   const handleShowDeleteModal = (id) => {
-    getLocationDetails(id);
+    findSelectedLocationFromId(id);
     setShowDeleteModal(true);
   };
 
   const handleShowViewModal = (id) => {
-    getLocationDetails(id);
+    findSelectedLocationFromId(id);
     setShowViewModal(true);
   };
 
@@ -56,34 +53,62 @@ function LocationTable() {
     setShowViewModal(false);
   };
 
-  const handleCreate = () => {
-    console.log("creating");
-  };
-
-  const handleUpdate = () => {
-    console.log("we will update");
-  };
-
-  const handleDelete = () => {
-    console.log("handlng the view delete");
-  };
-
-  const getLocationDetails = async (id) => {
+  const handleCreate = (body) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      const res = await locationsService.getLocation(id);
-      console.log(res);
-      setSelectedLocation(res);
-      setIsLoading(false);
+      const res = locationsService.createLocation(body);
+      getAllLocations();
+      handleCloseCreateModal();
     } catch (error) {
-      setIsLoading(false);
       console.log(error);
+      setIsLoading(false);
     }
+  };
+
+  const handleUpdate = (id, body) => {
+    setIsLoading(true);
+    try {
+      const res = locationsService.updateLocation(id, body);
+      getAllLocations();
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  const handleDelete = (id) => {
+    setIsLoading(true);
+    try {
+      const res = locationsService.deleteLocation(id);
+      getAllLocations();
+      handleCloseDeleteModal();
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  // const getLocationDetails = async (id) => {
+  //   try {
+  //     setIsLoading(true);
+  //     const res = await locationsService.getLocation(id);
+  //     setSelectedLocation(res.data);
+  //     setIsLoading(false);
+  //   } catch (error) {
+  //     setIsLoading(false);
+  //     console.log(error);
+  //   }
+  // };
+
+  const findSelectedLocationFromId = (id) => {
+    const foundLocation = locations.find((location) => location._id === id);
+    setSelectedLocation(foundLocation);
   };
 
   const handleSearch = (term) => {
     if (term === "") {
-      return setFilteredData(locations);
+      setFilteredData(locations);
+      return;
     }
 
     const found = locations.filter(
@@ -95,19 +120,26 @@ function LocationTable() {
     setFilteredData(found);
   };
 
+  const findIndexAndUpdate = (id) => {
+    return locations.findIndex(location => location._id === id);
+  }
+
   const getAllLocations = async () => {
     try {
+      setIsLoading(true);
       const res = await locationsService.getAllLocations();
-
-      setLocations(res.data);
+      const data = res.data;
+      setLocations(data);
+      setFilteredData(data);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     getAllLocations();
-    handleSearch('');
   }, []);
 
   return isLoading ? (
@@ -201,35 +233,43 @@ function LocationTable() {
 
         {/* <!--- Model Box ---> */}
         {/* New location */}
-        <CreateLocationModal
-          show={showCreateModal}
-          handleClose={handleCloseCreateModal}
-          handleCreate={handleCreate}
-          selectedLocation={selectedLocation}
-        />
+        {showCreateModal && (
+          <CreateLocationModal
+            show={showCreateModal}
+            handleClose={handleCloseCreateModal}
+            handleCreate={handleCreate}
+            location={selectedLocation}
+          />
+        )}
 
         {/* Update location */}
-        <UpdateLocationModal
-          show={showUpdateModal}
-          handleClose={handleCloseUpdateModal}
-          handleUpdate={handleUpdate}
-          selectedLocation={selectedLocation}
-        />
+        {showUpdateModal && (
+          <UpdateLocationModal
+            show={showUpdateModal}
+            handleClose={handleCloseUpdateModal}
+            handleUpdate={handleUpdate}
+            location={selectedLocation}
+          />
+        )}
 
         {/* View location */}
-        <ViewLocationModal
-          show={showViewModal}
-          handleClose={handleCloseViewModal}
-          selectedLocation={selectedLocation}
-        />
+        {showViewModal && (
+          <ViewLocationModal
+            show={showViewModal}
+            handleClose={handleCloseViewModal}
+            location={selectedLocation}
+          />
+        )}
 
         {/* Delete */}
-        <DeleteLocationModal
-          show={showDeleteModal}
-          handleClose={handleCloseDeleteModal}
-          handleDelete={handleDelete}
-          selectedLocation={selectedLocation}
-        />
+        {showDeleteModal && (
+          <DeleteLocationModal
+            show={showDeleteModal}
+            handleClose={handleCloseDeleteModal}
+            handleDelete={handleDelete}
+            location={selectedLocation}
+          />
+        )}
       </div>
     </div>
   );

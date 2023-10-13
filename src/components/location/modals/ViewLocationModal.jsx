@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 function ViewLocationModal({ show, location, handleClose,handleView   }) {
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
+  console.log('location from modal ' + location);
+  const [city, setCity] = useState(location.city);
+  const [country, setCountry] = useState(location.country);
 
   const handleCity = (e) => {
     setCity(e.target.value);
@@ -43,6 +44,7 @@ function ViewLocationModal({ show, location, handleClose,handleView   }) {
                 value={ location ? location.city: city}
                 onChange={handleCity}
                 placeholder="City Name"
+                readOnly={true}
               />
               <label htmlFor="floatingInputCustom">City</label>
             </Form.Floating>
@@ -54,6 +56,7 @@ function ViewLocationModal({ show, location, handleClose,handleView   }) {
                 value={ location ? location.country: country}
                 onChange={handleCountry}
                 placeholder="Country Name"
+                readOnly={true}
               />
               <label htmlFor="floatingInputCustom">Country</label>
             </Form.Floating>
