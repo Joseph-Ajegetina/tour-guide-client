@@ -109,9 +109,7 @@ function LocationTable() {
     setFilteredData(found);
   };
 
-  const findIndexAndUpdate = (id) => {
-    return locations.findIndex(location => location._id === id);
-  }
+
 
   const getAllLocations = async () => {
     try {

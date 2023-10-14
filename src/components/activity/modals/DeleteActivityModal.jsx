@@ -1,6 +1,6 @@
 import { Modal, Button} from "react-bootstrap";
 
-function DeleteActivityModal({ show, location, handleClose, handleDelete }) {
+function DeleteActivityModal({ show, activity, handleClose, handleDelete }) {
   return (
     <div className="model_box">
       <Modal
@@ -16,7 +16,7 @@ function DeleteActivityModal({ show, location, handleClose, handleDelete }) {
           <Modal.Title>Delete Activity</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Do you want to delete the selected location ?</p>
+        <p>Are you sure you want to delete location with title <strong>{activity.title}</strong>?</p>
         </Modal.Body>
 
         <Modal.Footer>
@@ -26,7 +26,7 @@ function DeleteActivityModal({ show, location, handleClose, handleDelete }) {
           <Button
             variant="danger"
             onClick={() => {
-              handleDelete(location._id);
+              handleDelete(activity._id);
             }}
           >
             Delete

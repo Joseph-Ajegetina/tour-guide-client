@@ -4,11 +4,10 @@ import Select from 'react-select';
 import { Form } from 'react-bootstrap';
 import countryList from 'react-select-country-list'
 
-const CountrySelector = ({ value, onChange, options}) => {
-
+const CountrySelector = ({ value, onChange, inputOptions}) => {
+  const options =  useMemo(() => inputOptions ? inputOptions: countryList().getData(), [inputOptions])
   return (
     <Form.Group>
-      <Form.Label>Select a country</Form.Label>
       <Select
         value={value}
         onChange={onChange}

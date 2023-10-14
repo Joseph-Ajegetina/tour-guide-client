@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 function ViewLocationModal({ show, location, handleClose,handleView   }) {
-  console.log('location from modal ' + location);
   const [city, setCity] = useState(location.city);
   const [country, setCountry] = useState(location.country);
 

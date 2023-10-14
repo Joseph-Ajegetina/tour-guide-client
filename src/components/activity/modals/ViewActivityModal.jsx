@@ -1,24 +1,12 @@
-import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
-function ViewActivityModal({ show, location, handleClose,handleView   }) {
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-
-  const handleCity = (e) => {
-    setCity(e.target.value);
-  };
-
-  const handleCountry = (e) => {
-    setCountry(e.target.value);
-  };
-
-  const handleSave = () => {
-    const requestBody = {city, country}
-    handleView(location._id, requestBody);
-    handleClose();
-  }
-
+function ViewActivityModal({
+  show,
+  activity,
+  location,
+  handleClose,
+}) {
+  console.log(location)
   return (
     <div className="model_box">
       <Modal
@@ -31,38 +19,119 @@ function ViewActivityModal({ show, location, handleClose,handleView   }) {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>Activiy Details</Modal.Title>
+          <Modal.Title>New Activity</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSave}>
-            <Form.Floating className="mb-4">
-              <Form.Control
-                className="bghite"
-                id="floatingInputCustom"
-                type="text"
-                value={ location ? location.city: city}
-                onChange={handleCity}
-                placeholder="City Name"
-              />
-              <label htmlFor="floatingInputCustom">City</label>
-            </Form.Floating>
-            <Form.Floating className="mb-4">
-              <Form.Control
-                className="bg-hite"
-                id="floatingInputCustom"
-                type="text"
-                value={ location ? location.country: country}
-                onChange={handleCountry}
-                placeholder="Country Name"
-              />
-              <label htmlFor="floatingInputCustom">Country</label>
-            </Form.Floating>
+          <Form>
+            <div className="row">
+              <div className="col-sm-6 mb-3">
+                <Form.Floating className="mb-4">
+                  <Form.Control
+                    className="b"
+                    id="floatingInputCustom"
+                    type="text"
+                    value={activity.title}
+                    placeholder="City Name"
+                    readOnly
+                  />
+                  <label htmlFor="floatingInputCustom">Title</label>
+                </Form.Floating>
+              </div>
+              <div className="col-sm-6 mb-3">
+                <Form.Floating className="mb-4">
+                  <Form.Control
+                    className="b"
+                    id="floatingInputCustom"
+                    type="text"
+                    value={activity.category}
+                    readOnly
+                  />
+                  <label htmlFor="floatingInputCustom">Category</label>
+                </Form.Floating>
+              </div>
+              <div className="col-sm-6 mb-3">
+                <Form.Floating className="mb-4">
+                  <Form.Control
+                    className="b"
+                    id="floatingInputCustom"
+                    type="number"
+                    value={activity.duration}
+                    readOnly
+                  />
+                  <label htmlFor="floatingInputCustom">Duration</label>
+                </Form.Floating>
+              </div>
+              <div className="col-sm-6 mb-3">
+                <Form.Floating className="mb-4">
+                  <Form.Control
+                    className="b"
+                    id="floatingInputCustom"
+                    type="decimal"
+                    value={activity.price}
+                    readOnly
+                  />
+                  <label htmlFor="floatingInputCustom">Price</label>
+                </Form.Floating>
+              </div>
+              <div className="col-sm-12 mb-3">
+                <Form.Group className="mb-4">
+                  <label htmlFor="floatingInputCustom">Description</label>
+                  <Form.Control
+                    className="b"
+                    id="floatingInputCustom"
+                    as="textarea"
+                    rows={2}
+                    value={activity.description}
+                    readOnly
+                  />
+                </Form.Group>
+              </div>
+              <div className="col-sm-12 mb-5">
+                <label htmlFor="">Location</label>
+                <Form.Select
+                  aria-label="Default select example"
+                  value={activity.location.city}
+                  disabled
+                >
+                  <option>{location.city}</option>
+                </Form.Select>
+              </div>
+              <div className="col-sm-12 mb-5">
+                <p>Inclusions:</p>
+                <ul className="list-group mt-3">
+                  {activity.inclusions.map((include, index) => (
+                    <li
+                      key={index}
+                      className="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                      <span>{include}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="col-sm-12 mb-3">
+                <p>Requirements:</p>
+                <ul className="list-group mt-3">
+                  {activity.requirements.map((require, index) => (
+                    <li
+                      key={index}
+                      className="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                      <span>{require}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </Form>
         </Modal.Body>
 
         <Modal.Footer>
-
-          <Button variant="secondary" onClick={handleClose}>
+          <Button
+            className=" btn-lg px-5"
+            variant="danger"
+            onClick={handleClose}
+          >
             Close
           </Button>
         </Modal.Footer>

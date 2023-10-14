@@ -1,4 +1,4 @@
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 
 function DeleteLocationModal({ show, location, handleClose, handleDelete }) {
   return (

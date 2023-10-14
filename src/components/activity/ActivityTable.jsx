@@ -9,6 +9,7 @@ import ViewActivityModal from "./modals/ViewActivityModal";
 import DeleteActivityModal from "./modals/DeleteActivityModal";
 import Search from "../Search";
 import { useEffect } from "react";
+import locationsService from "../../services/location.service";
 
 function ActivityTable() {
   const [activities, setActivities] = useState([]);
@@ -20,6 +21,7 @@ function ActivityTable() {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
+  const [locations, setLocations] = useState([]);
 
   const handleCloseCreateModal = () => setShowCreateModal(false);
   const handleShowCreateModal = () => setShowCreateModal(true);
@@ -30,22 +32,22 @@ function ActivityTable() {
   };
 
   const handleShowUpdateModal = (id) => {
-    getActivityDetails(id);
+    findSelectedActivityFromId(id);
     setShowUpdateModal(true);
   };
 
   const handleCloseDeleteModal = (id) => {
-    getActivityDetails(id);
+    findSelectedActivityFromId(id);
     setShowDeleteModal(false);
   };
 
   const handleShowDeleteModal = (id) => {
-    getActivityDetails(id);
+    findSelectedActivityFromId(id);
     setShowDeleteModal(true);
   };
 
   const handleShowViewModal = (id) => {
-    getActivityDetails(id);
+    findSelectedActivityFromId(id);
     setShowViewModal(true);
   };
 
@@ -54,29 +56,50 @@ function ActivityTable() {
     setShowViewModal(false);
   };
 
-  const handleCreate = () => {
-    console.log("creating");
-  };
-
-  const handleUpdate = () => {
-    console.log("we will update");
-  };
-
-  const handleDelete = () => {
-    console.log("handlng the view delete");
-  };
-
-  const getActivityDetails = async (id) => {
+  const handleCreate = async (body) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      const res = await activitiesService.getActivity(id);
-      console.log(res);
-      setSelectedActivity(res);
-      setIsLoading(false);
+      await activitiesService.createActivity(body);
+      getAllActivities();
+      handleCloseCreateModal();
     } catch (error) {
-      setIsLoading(false);
       console.log(error);
+      setIsLoading(false);
     }
+  };
+
+  const handleUpdate = async (id, body) => {
+    setIsLoading(true);
+    try {
+      await activitiesService.updateActivity(id, body);
+      getAllActivities();
+      handleCloseUpdateModal();
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    setIsLoading(true);
+    try {
+      await activitiesService.deleteActivity(id);
+      getAllActivities();
+      handleCloseDeleteModal();
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  const findSelectedActivityFromId = (id) => {
+    const foundActivity = activities.find((activity) => activity._id === id);
+    setSelectedActivity(foundActivity);
+  };
+
+  const findLocationFromId = (id) => {
+    const foundLocation = locations.find((location) => location._id === id);
+    return foundLocation
   };
 
   const handleSearch = (term) => {
@@ -92,19 +115,35 @@ function ActivityTable() {
   };
 
   const getAllActivities = async () => {
+    setIsLoading(true);
     try {
       const res = await activitiesService.getAllActivities();
+      const data = res.data;
+      setActivities(data);
+      setFilteredData(data);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+    }
+  };
 
-      setActivities(res.data);
-      setFilteredData(res.data);
+  const getAllLocations = async () => {
+    try {
+      setIsLoading(true);
+      const res = await locationsService.getAllLocations();
+      const data = res.data;
+      setLocations(data);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     getAllActivities();
-    handleSearch("");
+    getAllLocations();
   }, []);
   return isLoading ? (
     <LoadingSpinner />
@@ -151,8 +190,22 @@ function ActivityTable() {
                         <td>{index + 1} </td>
                         <td>{activity.title}</td>
                         <td>{activity.duration}</td>
-                        <td>{activity.requirements}</td>
-                        <td>{activity.inclusion}</td>
+                        <td>
+                          <ul className="list-unstyled">
+                            {activity.requirements
+                              .slice(0, 2)
+                              .map((h, index) => (
+                                <li key={index}>{h}</li>
+                              ))}
+                          </ul>
+                        </td>
+                        <td>
+                          <ul className="list-unstyled">
+                            {activity.inclusions.slice(0, 2).map((h, index) => (
+                              <li key={index}>{h}</li>
+                            ))}
+                          </ul>
+                        </td>
                         <td>{activity.price}</td>
                         <td>
                           <span
@@ -203,35 +256,45 @@ function ActivityTable() {
 
         {/* <!--- Model Box ---> */}
         {/* New Activity */}
-        <CreateActivityModal
-          show={showCreateModal}
-          handleClose={handleCloseCreateModal}
-          handleCreate={handleCreate}
-          selectedActivity={selectedActivity}
-        />
+        {showCreateModal && (
+          <CreateActivityModal
+            show={showCreateModal}
+            handleClose={handleCloseCreateModal}
+            handleCreate={handleCreate}
+            locationOptions={locations}
+          />
+        )}
 
         {/* Update Activity */}
-        <UpdateActivityModal
-          show={showUpdateModal}
-          handleClose={handleCloseUpdateModal}
-          handleUpdate={handleUpdate}
-          selectedActivity={selectedActivity}
-        />
+        {showUpdateModal && (
+          <UpdateActivityModal
+            show={showUpdateModal}
+            handleClose={handleCloseUpdateModal}
+            handleUpdate={handleUpdate}
+            activity={selectedActivity}
+            locationOptions={locations}
+          />
+        )}
 
         {/* View Activity */}
-        <ViewActivityModal
-          show={showViewModal}
-          handleClose={handleCloseViewModal}
-          selectedActivity={selectedActivity}
-        />
+        {showViewModal && (
+          <ViewActivityModal
+            show={showViewModal}
+            handleClose={handleCloseViewModal}
+            activity={selectedActivity}
+            location={findLocationFromId(selectedActivity.location)}
+          />
+        )}
 
         {/* Delete */}
-        <DeleteActivityModal
-          show={showDeleteModal}
-          handleClose={handleCloseDeleteModal}
-          handleDelete={handleDelete}
-          selectedActivity={selectedActivity}
-        />
+        {showDeleteModal && (
+          <DeleteActivityModal
+            show={showDeleteModal}
+            handleClose={handleCloseDeleteModal}
+            handleDelete={handleDelete}
+            activity={selectedActivity}
+          />
+        )}
       </div>
     </div>
   );

@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
-function CreateActivityModal({ show, handleClose, handleCreate }) {
+function CreateActivityModal({
+  show,
+  handleClose,
+  handleCreate,
+  locationOptions,
+}) {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const [price, setPrice] = useState(null);
-  const [duration, setDuration] = useState(null);
-  const [inclusions, setInclusions] = useState(null);
-  const [requirements, setRequirements] = useState(null);
-  const [location, setLocation] = useState(null);
-  
+  const [price, setPrice] = useState(5.0);
+  const [duration, setDuration] = useState(3);
+  const [include, setInclude] = useState("");
+  const [inclusions, setInclusions] = useState([]);
+  const [requirement, setRequirement] = useState("");
+  const [requirements, setRequirements] = useState([]);
+  const [location, setLocation] = useState("");
 
   const handleTitle = (e) => {
     setTitle(e.target.value);
@@ -20,12 +26,12 @@ function CreateActivityModal({ show, handleClose, handleCreate }) {
     setLocation(e.target.value);
   };
 
-  const handleRequirements = (e) => {
-    setRequirements(e.target.value);
+  const handleRequirement = (e) => {
+    setRequirement(e.target.value);
   };
 
-  const handleInclusions = (e) => {
-    setInclusions(e.target.value);
+  const handleInclude = (e) => {
+    setInclude(e.target.value);
   };
 
   const handleDuration = (e) => {
@@ -45,9 +51,58 @@ function CreateActivityModal({ show, handleClose, handleCreate }) {
   };
 
   const handleSave = () => {
-    const requestBody = { title, category };
+    const requestBody = {
+      title,
+      category,
+      description,
+      price,
+      duration,
+      inclusions,
+      requirements,
+      location,
+    };
     handleCreate(requestBody);
-    handleClose();
+  };
+
+  const addInclusion = () => {
+    if (include === "") {
+      return;
+    }
+    setInclusions([...inclusions, include]);
+    setInclude("");
+  };
+
+  const removeInclusion = (value) => {
+    const updatedInclusions = inclusions.filter((include) => include !== value);
+    setInclusions(updatedInclusions);
+  };
+
+  const addRequirement = () => {
+    if (requirement === "") {
+      return;
+    }
+    setRequirements([...requirements, requirement]);
+    setRequirement("");
+  };
+
+  const addInclusionFromEnterKey = (e) => {
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      addInclusion()
+    }
+  }
+
+  const addRequirementFromEnterKey = (e) => {
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      addRequirement()
+    }
+  }
+  const removeRequirement = (value) => {
+    const updatedRequirements = requirements.filter(
+      (include) => include !== value
+    );
+    setRequirements(updatedRequirements);
   };
 
   return (
@@ -93,30 +148,17 @@ function CreateActivityModal({ show, handleClose, handleCreate }) {
                   <label htmlFor="floatingInputCustom">Category</label>
                 </Form.Floating>
               </div>
-              <div className="col-sm-12 mb-3">
-                <Form.Floating className="mb-4">
-                  <Form.Control
-                    className="b"
-                    id="floatingInputCustom"
-                    type="textarea"
-                    value={description}
-                    onChange={handleDescription}
-                    placeholder="City Name"
-                  />
-                  <label htmlFor="floatingInputCustom">Description</label>
-                </Form.Floating>
-              </div>
               <div className="col-sm-6 mb-3">
                 <Form.Floating className="mb-4">
                   <Form.Control
                     className="b"
                     id="floatingInputCustom"
-                    type="text"
+                    type="number"
                     value={duration}
                     onChange={handleDuration}
                     placeholder="City Name"
                   />
-                  <label htmlFor="floatingInputCustom">City</label>
+                  <label htmlFor="floatingInputCustom">Duration</label>
                 </Form.Floating>
               </div>
               <div className="col-sm-6 mb-3">
@@ -124,65 +166,147 @@ function CreateActivityModal({ show, handleClose, handleCreate }) {
                   <Form.Control
                     className="b"
                     id="floatingInputCustom"
-                    type="text"
+                    type="decimal"
                     value={price}
                     onChange={handlePrice}
                     placeholder="City Name"
                   />
-                  <label htmlFor="floatingInputCustom">City</label>
+                  <label htmlFor="floatingInputCustom">Price</label>
                 </Form.Floating>
               </div>
-              <div className="col-sm-6 mb-3">
-                <Form.Floating className="mb-4">
+              <div className="col-sm-12 mb-3">
+                <Form.Group className="mb-4">
+                  <label htmlFor="floatingInputCustom">Description</label>
                   <Form.Control
                     className="b"
                     id="floatingInputCustom"
-                    type="text"
-                    value={inclusions}
-                    onChange={handleInclusions}
-                    placeholder="City Name"
+                    as="textarea"
+                    rows={2}
+                    value={description}
+                    onChange={handleDescription}
                   />
-                  <label htmlFor="floatingInputCustom">City</label>
-                </Form.Floating>
-                <div className="col-sm-6 mb-3">
-                <Form.Floating className="mb-4">
-                  <Form.Control
-                    className="b"
-                    id="floatingInputCustom"
-                    type="text"
-                    value={requirements}
-                    onChange={handleRequirements}
-                    placeholder="City Name"
-                  />
-                  <label htmlFor="floatingInputCustom">City</label>
-                </Form.Floating>
+                </Form.Group>
               </div>
-              <div className="col-sm-6 mb-3">
-                <Form.Floating className="mb-4">
-                  <Form.Control
-                    className="b"
-                    id="floatingInputCustom"
-                    type="text"
-                    value={location}
-                    onChange={handleLocation}
-                    placeholder="City Name"
-                  />
-                  <label htmlFor="floatingInputCustom">City</label>
-                </Form.Floating>
+              <div className="col-sm-12 mb-5">
+                <Form.Select
+                  aria-label="Default select example"
+                  value={location}
+                  onChange={handleLocation}
+                >
+                  <option>Select location</option>
+                  {locationOptions.length &&
+                    locationOptions.map((location) => {
+                      return (
+                        <option key={location._id} value={location._id}>
+                          {location.city}
+                        </option>
+                      );
+                    })}
+                </Form.Select>
               </div>
+              <div className="col-sm-12 mb-5">
+                <div className="items-wrapper d-flex align-items-center gap-3">
+                 
+                  <Form.Group className="w-100">
+                  
+                    <Form.Control
+                      className="b"
+                      id="floatingInputCustom"
+                      type="text"
+                      value={include}
+                      onChange={handleInclude}
+                      onKeyDown={addInclusionFromEnterKey}
+                      placeholder="What does it include"
+                    />
+                  </Form.Group>
+                  <Button
+                    variant="secondary"
+                    onClick={addInclusion}
+                    className="btn"
+                  >
+                    Add
+                  </Button>
+                </div>
+
+                <ul className="list-group mt-3">
+                  {inclusions.map((include, index) => (
+                    <li
+                      key={index}
+                      className="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                      <span>{include}</span>
+                      <Button
+                        variant="danger"
+                        onClick={() => {
+                          removeInclusion(include);
+                        }}
+                        className="h-38"
+                      >
+                        Remove
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="col-sm-12 mb-3">
+                <div className="items-wrapper d-flex align-items-center gap-3">
+                  <Form.Group className="w-100">
+
+                    <Form.Control
+                      className="b"
+                      id="floatingInputCustom"
+                      type="text"
+                      value={requirement}
+                      onChange={handleRequirement}
+                      onKeyDown={addRequirementFromEnterKey}
+                      placeholder="What does it require"
+                    />
+                  </Form.Group>
+                  <Button
+                    variant="secondary"
+                    onClick={addRequirement}
+                    className="btn"
+                  >
+                    Add
+                  </Button>
+                </div>
+
+                <ul className="list-group mt-3">
+                  {requirements.map((require, index) => (
+                    <li
+                      key={index}
+                      className="list-group-item d-flex justify-content-between align-items-center"
+                    >
+                      <span>{require}</span>
+                      <Button
+                        variant="danger"
+                        onClick={() => {
+                          removeRequirement(require);
+                        }}
+                        className="h-38"
+                      >
+                        Remove
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </Form>
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button
+            className=" btn-lg px-5"
+            variant="danger"
+            onClick={handleClose}
+          >
             Close
           </Button>
           <Button
             variant="success"
             onClick={handleSave}
-            className="btn-outline-light btn-lg px-5"
+            className="btn-lg px-5"
           >
             Create
           </Button>
