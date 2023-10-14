@@ -42,8 +42,10 @@ function SignupPage(props) {
       })
       .catch((error) => {
         setIsLoading(false);
-        const errorDescription = error.response.data.message;
-        setErrorMessage(errorDescription);
+        if(error.response){
+          const errorDescription = error.response.data.message;
+          setErrorMessage(errorDescription);
+        }
       });
   };
 

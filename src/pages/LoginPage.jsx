@@ -33,15 +33,17 @@ function LoginPage(props) {
       .login(requestBody)
       .then((response) => {
         console.log("JWT token", response.data.authToken);
-
+     
         storeToken(response.data.authToken);
         authenticateUser();
         navigate("/");
       })
       .catch((error) => {
         setIsLoading(false);
-        const errorDescription = error.response.data.message;
-        setErrorMessage(errorDescription);
+        if(error.response){
+          const errorDescription = error.response.data.message;
+          setErrorMessage(errorDescription);
+        }
       });
   };
 
