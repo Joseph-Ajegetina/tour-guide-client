@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
-import locationsService from "../../../services/location.service";
 
 function CreateLocationModal({ show, handleClose,handleCreate   }) {
   const [city, setCity] = useState("");

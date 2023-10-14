@@ -53,10 +53,10 @@ function LocationTable() {
     setShowViewModal(false);
   };
 
-  const handleCreate = (body) => {
+  const handleCreate = async (body) => {
     setIsLoading(true);
     try {
-      const res = locationsService.createLocation(body);
+      await locationsService.createLocation(body);
       getAllLocations();
       handleCloseCreateModal();
     } catch (error) {
@@ -65,10 +65,10 @@ function LocationTable() {
     }
   };
 
-  const handleUpdate = (id, body) => {
+  const handleUpdate = async (id, body) => {
     setIsLoading(true);
     try {
-      const res = locationsService.updateLocation(id, body);
+      await locationsService.updateLocation(id, body);
       getAllLocations();
     } catch (error) {
       console.log(error);
@@ -76,10 +76,10 @@ function LocationTable() {
     }
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     setIsLoading(true);
     try {
-      const res = locationsService.deleteLocation(id);
+      await locationsService.deleteLocation(id);
       getAllLocations();
       handleCloseDeleteModal();
     } catch (error) {
@@ -88,17 +88,6 @@ function LocationTable() {
     }
   };
 
-  // const getLocationDetails = async (id) => {
-  //   try {
-  //     setIsLoading(true);
-  //     const res = await locationsService.getLocation(id);
-  //     setSelectedLocation(res.data);
-  //     setIsLoading(false);
-  //   } catch (error) {
-  //     setIsLoading(false);
-  //     console.log(error);
-  //   }
-  // };
 
   const findSelectedLocationFromId = (id) => {
     const foundLocation = locations.find((location) => location._id === id);

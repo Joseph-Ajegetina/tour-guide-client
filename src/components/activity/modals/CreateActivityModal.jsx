@@ -2,19 +2,50 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
 function CreateActivityModal({ show, handleClose, handleCreate }) {
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState(null);
+  const [duration, setDuration] = useState(null);
+  const [inclusions, setInclusions] = useState(null);
+  const [requirements, setRequirements] = useState(null);
+  const [location, setLocation] = useState(null);
+  
 
-  const handleCity = (e) => {
-    setCity(e.target.value);
+  const handleTitle = (e) => {
+    setTitle(e.target.value);
   };
 
-  const handleCountry = (e) => {
-    setCountry(e.target.value);
+  const handleLocation = (e) => {
+    setLocation(e.target.value);
+  };
+
+  const handleRequirements = (e) => {
+    setRequirements(e.target.value);
+  };
+
+  const handleInclusions = (e) => {
+    setInclusions(e.target.value);
+  };
+
+  const handleDuration = (e) => {
+    setDuration(e.target.value);
+  };
+
+  const handlePrice = (e) => {
+    setPrice(e.target.value);
+  };
+
+  const handleDescription = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const handleCategory = (e) => {
+    setCategory(e.target.value);
   };
 
   const handleSave = () => {
-    const requestBody = { city, country };
+    const requestBody = { title, category };
     handleCreate(requestBody);
     handleClose();
   };
@@ -42,8 +73,47 @@ function CreateActivityModal({ show, handleClose, handleCreate }) {
                     className="b"
                     id="floatingInputCustom"
                     type="text"
-                    value={city}
-                    onChange={handleCity}
+                    value={title}
+                    onChange={handleTitle}
+                    placeholder="City Name"
+                  />
+                  <label htmlFor="floatingInputCustom">Title</label>
+                </Form.Floating>
+              </div>
+              <div className="col-sm-6 mb-3">
+                <Form.Floating className="mb-4">
+                  <Form.Control
+                    className="b"
+                    id="floatingInputCustom"
+                    type="text"
+                    value={category}
+                    onChange={handleCategory}
+                    placeholder="City Name"
+                  />
+                  <label htmlFor="floatingInputCustom">Category</label>
+                </Form.Floating>
+              </div>
+              <div className="col-sm-12 mb-3">
+                <Form.Floating className="mb-4">
+                  <Form.Control
+                    className="b"
+                    id="floatingInputCustom"
+                    type="textarea"
+                    value={description}
+                    onChange={handleDescription}
+                    placeholder="City Name"
+                  />
+                  <label htmlFor="floatingInputCustom">Description</label>
+                </Form.Floating>
+              </div>
+              <div className="col-sm-6 mb-3">
+                <Form.Floating className="mb-4">
+                  <Form.Control
+                    className="b"
+                    id="floatingInputCustom"
+                    type="text"
+                    value={duration}
+                    onChange={handleDuration}
                     placeholder="City Name"
                   />
                   <label htmlFor="floatingInputCustom">City</label>
@@ -55,8 +125,8 @@ function CreateActivityModal({ show, handleClose, handleCreate }) {
                     className="b"
                     id="floatingInputCustom"
                     type="text"
-                    value={city}
-                    onChange={handleCity}
+                    value={price}
+                    onChange={handlePrice}
                     placeholder="City Name"
                   />
                   <label htmlFor="floatingInputCustom">City</label>
@@ -68,8 +138,20 @@ function CreateActivityModal({ show, handleClose, handleCreate }) {
                     className="b"
                     id="floatingInputCustom"
                     type="text"
-                    value={city}
-                    onChange={handleCity}
+                    value={inclusions}
+                    onChange={handleInclusions}
+                    placeholder="City Name"
+                  />
+                  <label htmlFor="floatingInputCustom">City</label>
+                </Form.Floating>
+                <div className="col-sm-6 mb-3">
+                <Form.Floating className="mb-4">
+                  <Form.Control
+                    className="b"
+                    id="floatingInputCustom"
+                    type="text"
+                    value={requirements}
+                    onChange={handleRequirements}
                     placeholder="City Name"
                   />
                   <label htmlFor="floatingInputCustom">City</label>
@@ -81,38 +163,13 @@ function CreateActivityModal({ show, handleClose, handleCreate }) {
                     className="b"
                     id="floatingInputCustom"
                     type="text"
-                    value={city}
-                    onChange={handleCity}
+                    value={location}
+                    onChange={handleLocation}
                     placeholder="City Name"
                   />
                   <label htmlFor="floatingInputCustom">City</label>
                 </Form.Floating>
               </div>
-              <div className="col-sm-6 mb-3">
-                <Form.Floating className="mb-4">
-                  <Form.Control
-                    className="b"
-                    id="floatingInputCustom"
-                    type="text"
-                    value={city}
-                    onChange={handleCity}
-                    placeholder="City Name"
-                  />
-                  <label htmlFor="floatingInputCustom">City</label>
-                </Form.Floating>
-              </div>
-              <div className="col-sm-6 mb-3">
-                <Form.Floating className="mb-4">
-                  <Form.Control
-                    className="b"
-                    id="floatingInputCustom"
-                    type="text"
-                    value={city}
-                    onChange={handleCity}
-                    placeholder="City Name"
-                  />
-                  <label htmlFor="floatingInputCustom">City</label>
-                </Form.Floating>
               </div>
             </div>
           </Form>

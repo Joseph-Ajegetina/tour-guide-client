@@ -1,5 +1,5 @@
 import React from "react";
-import { Button} from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import LoadingSpinner from "../loading/LoadingSpinner";
 import { useState } from "react";
 import CreateActivityModal from "./modals/CreateActivityModal";
@@ -11,15 +11,7 @@ import Search from "../Search";
 import { useEffect } from "react";
 
 function ActivityTable() {
-  const [activities, setActivities] = useState([
-    {
-      _id: "20",
-      title: "Paga Crocodile Pond",
-      duration: "2h 30mins",
-      category: "culture",
-      price: "ghc100",
-    },
-  ]);
+  const [activities, setActivities] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
@@ -104,6 +96,7 @@ function ActivityTable() {
       const res = await activitiesService.getAllActivities();
 
       setActivities(res.data);
+      setFilteredData(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -127,7 +120,7 @@ function ActivityTable() {
             style={{ color: "green" }}
           >
             <h2>
-              <b>Activitys</b>
+              <b>Activities</b>
             </h2>
           </div>
           <div className="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
