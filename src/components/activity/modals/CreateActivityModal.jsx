@@ -5,6 +5,7 @@ function CreateActivityModal({
   show,
   handleClose,
   handleCreate,
+  handleUpload,
   locationOptions,
 }) {
   const [title, setTitle] = useState("");
@@ -17,6 +18,7 @@ function CreateActivityModal({
   const [requirement, setRequirement] = useState("");
   const [requirements, setRequirements] = useState([]);
   const [location, setLocation] = useState("");
+  const [images, setImages] = useState([]);
 
   const handleTitle = (e) => {
     setTitle(e.target.value);
@@ -60,8 +62,10 @@ function CreateActivityModal({
       inclusions,
       requirements,
       location,
+      images
     };
-    handleCreate(requestBody);
+    handleUpload(images)
+    // handleCreate(requestBody);
   };
 
   const addInclusion = () => {
@@ -86,23 +90,29 @@ function CreateActivityModal({
   };
 
   const addInclusionFromEnterKey = (e) => {
-    if(e.key === 'Enter'){
+    if (e.key === "Enter") {
       e.preventDefault();
-      addInclusion()
+      addInclusion();
     }
-  }
+  };
 
   const addRequirementFromEnterKey = (e) => {
-    if(e.key === 'Enter'){
+    if (e.key === "Enter") {
       e.preventDefault();
-      addRequirement()
+      addRequirement();
     }
-  }
+  };
   const removeRequirement = (value) => {
     const updatedRequirements = requirements.filter(
       (include) => include !== value
     );
     setRequirements(updatedRequirements);
+  };
+
+  const addImage = (e) => {
+    const newImage = e.target.files[0];
+    setImages((prevImages) => [...prevImages, newImage]);
+    console.log(images);
   };
 
   return (
@@ -206,9 +216,7 @@ function CreateActivityModal({
               </div>
               <div className="col-sm-12 mb-5">
                 <div className="items-wrapper d-flex align-items-center gap-3">
-                 
                   <Form.Group className="w-100">
-                  
                     <Form.Control
                       className="b"
                       id="floatingInputCustom"
@@ -251,7 +259,6 @@ function CreateActivityModal({
               <div className="col-sm-12 mb-3">
                 <div className="items-wrapper d-flex align-items-center gap-3">
                   <Form.Group className="w-100">
-
                     <Form.Control
                       className="b"
                       id="floatingInputCustom"
@@ -288,6 +295,14 @@ function CreateActivityModal({
                         Remove
                       </Button>
                     </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="col-sm-12 mb-5">
+                <input type="file" multiple onChange={(e) => addImage(e)} />
+                <ul>
+                  {images.map((image) => (
+                    <li key={image.name}>{image.name}</li>
                   ))}
                 </ul>
               </div>

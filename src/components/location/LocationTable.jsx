@@ -99,11 +99,11 @@ function LocationTable() {
       setFilteredData(locations);
       return;
     }
-
+    const termLower = term.toLowerCase();
     const found = locations.filter(
       (location) =>
-        location.city.toLocaleLowerCase().includes(term) ||
-        location.country.toLocaleLowerCase().includes(term)
+        location.city.toLowerCase().includes(termLower) ||
+        location.country.toLowerCase().includes(termLower)
     );
 
     setFilteredData(found);

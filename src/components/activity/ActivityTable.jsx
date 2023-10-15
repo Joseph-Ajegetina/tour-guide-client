@@ -10,6 +10,7 @@ import DeleteActivityModal from "./modals/DeleteActivityModal";
 import Search from "../Search";
 import { useEffect } from "react";
 import locationsService from "../../services/location.service";
+import uploadService from "../../services/upload.service";
 
 function ActivityTable() {
   const [activities, setActivities] = useState([]);
@@ -22,6 +23,7 @@ function ActivityTable() {
   const [showViewModal, setShowViewModal] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [locations, setLocations] = useState([]);
+  const [imagesUrl, setImagesUrl] = useState([])
 
   const handleCloseCreateModal = () => setShowCreateModal(false);
   const handleShowCreateModal = () => setShowCreateModal(true);
@@ -59,7 +61,7 @@ function ActivityTable() {
   const handleCreate = async (body) => {
     setIsLoading(true);
     try {
-      await activitiesService.createActivity(body);
+      await activitiesService.createActivity({...body, images: imagesUrl});
       getAllActivities();
       handleCloseCreateModal();
     } catch (error) {
@@ -108,7 +110,7 @@ function ActivityTable() {
     }
 
     const found = activities.filter((activity) =>
-      activity.title.toLocaleLowerCase().includes(term)
+      activity.title.toLowerCase().includes(term.toLowerCase())
     );
 
     setFilteredData(found);
@@ -138,6 +140,26 @@ function ActivityTable() {
     } catch (error) {
       console.log(error);
       setIsLoading(false);
+    }
+  };
+
+  const handleImageUpload = async (data) => {
+
+    const uploadData = new FormData();
+    console.log(data)
+   
+    setIsLoading(true);
+    uploadData.append("imgUrls", [...data]);
+    console.log(uploadData)
+
+    try {
+      const res = await uploadService.multiple(uploadData);
+      setImagesUrl(res.data.fileUrls);
+      setIsLoading(false);
+
+    } catch (err) {
+      setIsLoading(false);
+      console.log("Error while uploading the file: ", err);
     }
   };
 
@@ -262,6 +284,7 @@ function ActivityTable() {
             handleClose={handleCloseCreateModal}
             handleCreate={handleCreate}
             locationOptions={locations}
+            handleUpload={handleImageUpload}
           />
         )}
 
