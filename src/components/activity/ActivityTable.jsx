@@ -23,10 +23,11 @@ function ActivityTable() {
   const [showViewModal, setShowViewModal] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [locations, setLocations] = useState([]);
-  const [imagesUrl, setImagesUrl] = useState([])
 
   const handleCloseCreateModal = () => setShowCreateModal(false);
-  const handleShowCreateModal = () => setShowCreateModal(true);
+  const handleShowCreateModal = () => {
+    setShowCreateModal(true);
+  };
 
   const handleCloseUpdateModal = () => {
     setSelectedActivity(null);
@@ -58,10 +59,20 @@ function ActivityTable() {
     setShowViewModal(false);
   };
 
-  const handleCreate = async (body) => {
+  const handleCreate = async (body, image) => {
+    let payload = body;
+    const uploadData = new FormData();
+    let imagePath;
     setIsLoading(true);
     try {
-      await activitiesService.createActivity({...body, images: imagesUrl});
+      if (image) {
+        uploadData.append("imgUrl", image);
+        const res = await uploadService.single(uploadData);
+        imagePath = res.data.fileUrl;
+        payload["images"] = imagePath;
+      }
+
+      await activitiesService.createActivity(payload);
       getAllActivities();
       handleCloseCreateModal();
     } catch (error) {
@@ -70,12 +81,33 @@ function ActivityTable() {
     }
   };
 
-  const handleUpdate = async (id, body) => {
+  const handleUpdate = async (id, body, image, activityImages) => {
+    let payload = body;
+    const uploadData = new FormData();
+    let imagePath;
     setIsLoading(true);
     try {
-      await activitiesService.updateActivity(id, body);
-      getAllActivities();
-      handleCloseUpdateModal();
+      if (image) {
+        uploadData.append("imgUrl", image);
+        uploadService
+          .single(uploadData)
+          .then((res) => {
+            imagePath = res.data.fileUrl;
+            payload["images"] = [...activityImages, imagePath];
+          })
+          .then(async (_) => {
+            await activitiesService.updateActivity(id, payload);
+            getAllActivities();
+            handleCloseUpdateModal();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        await activitiesService.updateActivity(id, payload);
+        getAllActivities();
+        handleCloseUpdateModal();
+      }
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -101,7 +133,7 @@ function ActivityTable() {
 
   const findLocationFromId = (id) => {
     const foundLocation = locations.find((location) => location._id === id);
-    return foundLocation
+    return foundLocation;
   };
 
   const handleSearch = (term) => {
@@ -143,26 +175,6 @@ function ActivityTable() {
     }
   };
 
-  const handleImageUpload = async (data) => {
-
-    const uploadData = new FormData();
-    console.log(data)
-   
-    setIsLoading(true);
-    uploadData.append("imgUrls", [...data]);
-    console.log(uploadData)
-
-    try {
-      const res = await uploadService.multiple(uploadData);
-      setImagesUrl(res.data.fileUrls);
-      setIsLoading(false);
-
-    } catch (err) {
-      setIsLoading(false);
-      console.log("Error while uploading the file: ", err);
-    }
-  };
-
   useEffect(() => {
     getAllActivities();
     getAllLocations();
@@ -185,9 +197,11 @@ function ActivityTable() {
             </h2>
           </div>
           <div className="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
-            <Button variant="primary" onClick={handleShowCreateModal}>
-              New
-            </Button>
+            <div className="table-btn">
+              <Button variant="primary" onClick={handleShowCreateModal}>
+                Create
+              </Button>
+            </div>
           </div>
         </div>
         <div className="row">
@@ -284,7 +298,6 @@ function ActivityTable() {
             handleClose={handleCloseCreateModal}
             handleCreate={handleCreate}
             locationOptions={locations}
-            handleUpload={handleImageUpload}
           />
         )}
 
@@ -295,6 +308,7 @@ function ActivityTable() {
             handleClose={handleCloseUpdateModal}
             handleUpdate={handleUpdate}
             activity={selectedActivity}
+            location={findLocationFromId(selectedActivity.location)}
             locationOptions={locations}
           />
         )}

@@ -6,7 +6,6 @@ function ViewActivityModal({
   location,
   handleClose,
 }) {
-  console.log(location)
   return (
     <div className="model_box">
       <Modal
@@ -19,7 +18,7 @@ function ViewActivityModal({
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>New Activity</Modal.Title>
+          <Modal.Title>View Activity</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -122,6 +121,22 @@ function ViewActivityModal({
                   ))}
                 </ul>
               </div>
+              {activity.images.length > 0 && <div className="col-sm-12 mb-3">
+                <label htmlFor="">Activity Image:</label>
+                  <div
+                    key={activity._id}
+                    className="card"
+                    style={{ width: "18rem" }}
+                  >
+                    <img
+                      className="card-img-top"
+                      src={activity.images[0]}
+                      alt="Card cap"
+                    />
+                  </div>
+               
+              </div>
+               }
             </div>
           </Form>
         </Modal.Body>
