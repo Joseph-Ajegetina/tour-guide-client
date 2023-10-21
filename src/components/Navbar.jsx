@@ -272,7 +272,7 @@ function NavBar() {
                 minW={0}
               >
                 <Avatar
-                  size={"md"}
+                  size={"sm"}
                   src={
                     user
                       ? user.image

@@ -9,10 +9,11 @@ import IsAnon from './components/isAnon';
 import IsPrivate from './components/isPrivate';
 import AdminPage from './pages/AdminPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import { Box } from '@chakra-ui/react';
 
 function App() {
   return (
-    <div className="App">
+    <Box >
       <NavBar /> 
       <Routes>
          <Route exact path='/' element={<HomePage />} /> 
@@ -22,7 +23,7 @@ function App() {
          <Route path="/profile" element={<IsPrivate> <ProfilePage/> </IsPrivate>} />
         <Route path="/login" element={<IsAnon> <LoginPage /> </IsAnon>} />
       </Routes>
-    </div>
+    </Box>
   );
 }
 
