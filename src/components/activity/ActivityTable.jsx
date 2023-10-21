@@ -93,7 +93,7 @@ function ActivityTable() {
           .single(uploadData)
           .then((res) => {
             imagePath = res.data.fileUrl;
-            payload["images"] = [...activityImages, imagePath];
+            payload["images"] = [ imagePath];
           })
           .then(async (_) => {
             await activitiesService.updateActivity(id, payload);
@@ -104,6 +104,7 @@ function ActivityTable() {
             console.error(error);
           });
       } else {
+        payload['images'] = activityImages;
         await activitiesService.updateActivity(id, payload);
         getAllActivities();
         handleCloseUpdateModal();
@@ -117,6 +118,7 @@ function ActivityTable() {
   const handleDelete = async (id) => {
     setIsLoading(true);
     try {
+
       await activitiesService.deleteActivity(id);
       getAllActivities();
       handleCloseDeleteModal();
