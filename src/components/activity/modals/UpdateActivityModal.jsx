@@ -22,7 +22,7 @@ function UpdateActivityModal({
   const [newInclusion, setNewInclusion] = useState("");
   const [newRequirement, setNewRequirement] = useState("");
 
-  const [images, setImages] = useState([activity.images]);
+  const [images, setImages] = useState([...activity.images]);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleChange = (e) => {
