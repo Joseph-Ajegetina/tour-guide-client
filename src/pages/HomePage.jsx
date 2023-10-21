@@ -1,30 +1,32 @@
 import React from 'react';
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
+import { Tabs, TabList, Tab, Box } from '@chakra-ui/react';
 
 function HomePage() {
   return (
-    <div className='mt-4 p-4'>
-      HomePage
-      <Tabs>
-        <TabList>
-          <Tab>One</Tab>
-          <Tab>Two</Tab>
-          <Tab>Three</Tab>
-        </TabList>
-
-        <TabPanels>
-          <TabPanel>
-            <p>Content for tab one</p>
-          </TabPanel>
-          <TabPanel>
-            <p>Content for tab two</p>
-          </TabPanel>
-          <TabPanel>
-            <p>Content for tab three</p>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-    </div>
+    <Box>
+      <Tabs defaultIndex={1} borderBottomColor="transparent">
+          <TabList>
+            <Tab
+              py={4}
+              m={0}
+              _focus={{
+                boxShadow: "none",
+              }}
+            >
+              Basic
+            </Tab>
+            <Tab
+              py={4}
+              m={0}
+              _focus={{
+                boxShadow: "none",
+              }}
+            >
+              Integrations
+            </Tab>
+          </TabList>
+        </Tabs>
+    </Box>
   );
 }
 
