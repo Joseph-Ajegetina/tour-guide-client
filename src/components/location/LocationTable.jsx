@@ -88,7 +88,6 @@ function LocationTable() {
     }
   };
 
-
   const findSelectedLocationFromId = (id) => {
     const foundLocation = locations.find((location) => location._id === id);
     setSelectedLocation(foundLocation);
@@ -99,17 +98,15 @@ function LocationTable() {
       setFilteredData(locations);
       return;
     }
-
+    const termLower = term.toLowerCase();
     const found = locations.filter(
       (location) =>
-        location.city.toLocaleLowerCase().includes(term) ||
-        location.country.toLocaleLowerCase().includes(term)
+        location.city.toLowerCase().includes(termLower) ||
+        location.country.toLowerCase().includes(termLower)
     );
 
     setFilteredData(found);
   };
-
-
 
   const getAllLocations = async () => {
     try {
@@ -147,9 +144,11 @@ function LocationTable() {
             </h2>
           </div>
           <div className="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
-            <Button variant="primary" onClick={handleShowCreateModal}>
-              New
-            </Button>
+            <div className="table-btn">
+              <Button variant="primary" onClick={handleShowCreateModal}>
+                Create
+              </Button>
+            </div>
           </div>
         </div>
         <div className="row">

@@ -10,6 +10,7 @@ import DeleteActivityModal from "./modals/DeleteActivityModal";
 import Search from "../Search";
 import { useEffect } from "react";
 import locationsService from "../../services/location.service";
+import uploadService from "../../services/upload.service";
 
 function ActivityTable() {
   const [activities, setActivities] = useState([]);
@@ -24,7 +25,9 @@ function ActivityTable() {
   const [locations, setLocations] = useState([]);
 
   const handleCloseCreateModal = () => setShowCreateModal(false);
-  const handleShowCreateModal = () => setShowCreateModal(true);
+  const handleShowCreateModal = () => {
+    setShowCreateModal(true);
+  };
 
   const handleCloseUpdateModal = () => {
     setSelectedActivity(null);
@@ -56,10 +59,20 @@ function ActivityTable() {
     setShowViewModal(false);
   };
 
-  const handleCreate = async (body) => {
+  const handleCreate = async (body, image) => {
+    let payload = body;
+    const uploadData = new FormData();
+    let imagePath;
     setIsLoading(true);
     try {
-      await activitiesService.createActivity(body);
+      if (image) {
+        uploadData.append("imgUrl", image);
+        const res = await uploadService.single(uploadData);
+        imagePath = res.data.fileUrl;
+        payload["images"] = imagePath;
+      }
+
+      await activitiesService.createActivity(payload);
       getAllActivities();
       handleCloseCreateModal();
     } catch (error) {
@@ -68,12 +81,34 @@ function ActivityTable() {
     }
   };
 
-  const handleUpdate = async (id, body) => {
+  const handleUpdate = async (id, body, image, activityImages) => {
+    let payload = body;
+    const uploadData = new FormData();
+    let imagePath;
     setIsLoading(true);
     try {
-      await activitiesService.updateActivity(id, body);
-      getAllActivities();
-      handleCloseUpdateModal();
+      if (image) {
+        uploadData.append("imgUrl", image);
+        uploadService
+          .single(uploadData)
+          .then((res) => {
+            imagePath = res.data.fileUrl;
+            payload["images"] = [ imagePath];
+          })
+          .then(async (_) => {
+            await activitiesService.updateActivity(id, payload);
+            getAllActivities();
+            handleCloseUpdateModal();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        payload['images'] = activityImages;
+        await activitiesService.updateActivity(id, payload);
+        getAllActivities();
+        handleCloseUpdateModal();
+      }
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -83,6 +118,7 @@ function ActivityTable() {
   const handleDelete = async (id) => {
     setIsLoading(true);
     try {
+
       await activitiesService.deleteActivity(id);
       getAllActivities();
       handleCloseDeleteModal();
@@ -99,7 +135,7 @@ function ActivityTable() {
 
   const findLocationFromId = (id) => {
     const foundLocation = locations.find((location) => location._id === id);
-    return foundLocation
+    return foundLocation;
   };
 
   const handleSearch = (term) => {
@@ -108,7 +144,7 @@ function ActivityTable() {
     }
 
     const found = activities.filter((activity) =>
-      activity.title.toLocaleLowerCase().includes(term)
+      activity.title.toLowerCase().includes(term.toLowerCase())
     );
 
     setFilteredData(found);
@@ -163,9 +199,11 @@ function ActivityTable() {
             </h2>
           </div>
           <div className="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
-            <Button variant="primary" onClick={handleShowCreateModal}>
-              New
-            </Button>
+            <div className="table-btn">
+              <Button variant="primary" onClick={handleShowCreateModal}>
+                Create
+              </Button>
+            </div>
           </div>
         </div>
         <div className="row">
@@ -272,6 +310,7 @@ function ActivityTable() {
             handleClose={handleCloseUpdateModal}
             handleUpdate={handleUpdate}
             activity={selectedActivity}
+            location={findLocationFromId(selectedActivity.location)}
             locationOptions={locations}
           />
         )}

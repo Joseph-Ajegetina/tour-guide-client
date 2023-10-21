@@ -7,102 +7,95 @@ function CreateActivityModal({
   handleCreate,
   locationOptions,
 }) {
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState(5.0);
-  const [duration, setDuration] = useState(3);
-  const [include, setInclude] = useState("");
-  const [inclusions, setInclusions] = useState([]);
-  const [requirement, setRequirement] = useState("");
-  const [requirements, setRequirements] = useState([]);
-  const [location, setLocation] = useState("");
+  const [formData, setFormData] = useState({
+    title: "",
+    category: "",
+    description: "",
+    price: 0.0,
+    duration: 5,
+    inclusions: [],
+    requirements: [],
+    location: "",
+  });
 
-  const handleTitle = (e) => {
-    setTitle(e.target.value);
+  const [newInclusion, setNewInclusion] = useState("");
+  const [newRequirement, setNewRequirement] = useState("");
+
+  const [images, setImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const handleLocation = (e) => {
-    setLocation(e.target.value);
-  };
-
-  const handleRequirement = (e) => {
-    setRequirement(e.target.value);
-  };
-
-  const handleInclude = (e) => {
-    setInclude(e.target.value);
-  };
-
-  const handleDuration = (e) => {
-    setDuration(e.target.value);
-  };
-
-  const handlePrice = (e) => {
-    setPrice(e.target.value);
-  };
-
-  const handleDescription = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const handleCategory = (e) => {
-    setCategory(e.target.value);
-  };
-
-  const handleSave = () => {
-    const requestBody = {
-      title,
-      category,
-      description,
-      price,
-      duration,
-      inclusions,
-      requirements,
-      location,
-    };
-    handleCreate(requestBody);
+  const handleImageSelect = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImages([...images, file]);
+      setSelectedImage(file);
+    }
   };
 
   const addInclusion = () => {
-    if (include === "") {
-      return;
+    if (newInclusion.trim() !== "") {
+      setFormData({
+        ...formData,
+        inclusions: [...formData.inclusions, newInclusion],
+      });
+      setNewInclusion("");
     }
-    setInclusions([...inclusions, include]);
-    setInclude("");
-  };
-
-  const removeInclusion = (value) => {
-    const updatedInclusions = inclusions.filter((include) => include !== value);
-    setInclusions(updatedInclusions);
   };
 
   const addRequirement = () => {
-    if (requirement === "") {
-      return;
+    if (newRequirement.trim() !== "") {
+      setFormData({
+        ...formData,
+        requirements: [...formData.requirements, newRequirement],
+      });
+      setNewRequirement("");
     }
-    setRequirements([...requirements, requirement]);
-    setRequirement("");
+  };
+
+  const handleSave = () => {
+    const newActivity = {
+      ...formData
+    };
+
+    handleCreate(newActivity, selectedImage);
   };
 
   const addInclusionFromEnterKey = (e) => {
-    if(e.key === 'Enter'){
+    if (e.key === "Enter") {
       e.preventDefault();
-      addInclusion()
+      addInclusion();
     }
-  }
+  };
 
   const addRequirementFromEnterKey = (e) => {
-    if(e.key === 'Enter'){
+    if (e.key === "Enter") {
       e.preventDefault();
-      addRequirement()
+      addRequirement();
     }
-  }
-  const removeRequirement = (value) => {
-    const updatedRequirements = requirements.filter(
+  };
+
+  const removeInclusion = (value) => {
+    const updatedInclusions = formData.inclusions.filter(
       (include) => include !== value
     );
-    setRequirements(updatedRequirements);
+    formData({ ...formData, inclusions: [updatedInclusions] });
+    setNewInclusion("");
+  };
+
+  const removeRequirement = (value) => {
+    const updatedRequirements = formData.requirements.filter(
+      (include) => include !== value
+    );
+    setFormData({ ...formData, requirements: updatedRequirements });
+    setNewRequirement("");
   };
 
   return (
@@ -128,9 +121,10 @@ function CreateActivityModal({
                     className="b"
                     id="floatingInputCustom"
                     type="text"
-                    value={title}
-                    onChange={handleTitle}
-                    placeholder="City Name"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    placeholder="title"
                   />
                   <label htmlFor="floatingInputCustom">Title</label>
                 </Form.Floating>
@@ -141,9 +135,10 @@ function CreateActivityModal({
                     className="b"
                     id="floatingInputCustom"
                     type="text"
-                    value={category}
-                    onChange={handleCategory}
-                    placeholder="City Name"
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    placeholder="Category"
                   />
                   <label htmlFor="floatingInputCustom">Category</label>
                 </Form.Floating>
@@ -154,9 +149,10 @@ function CreateActivityModal({
                     className="b"
                     id="floatingInputCustom"
                     type="number"
-                    value={duration}
-                    onChange={handleDuration}
-                    placeholder="City Name"
+                    name="duration"
+                    value={formData.duration}
+                    onChange={handleChange}
+                    placeholder="duration"
                   />
                   <label htmlFor="floatingInputCustom">Duration</label>
                 </Form.Floating>
@@ -167,9 +163,10 @@ function CreateActivityModal({
                     className="b"
                     id="floatingInputCustom"
                     type="decimal"
-                    value={price}
-                    onChange={handlePrice}
-                    placeholder="City Name"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
+                    placeholder="price"
                   />
                   <label htmlFor="floatingInputCustom">Price</label>
                 </Form.Floating>
@@ -182,16 +179,20 @@ function CreateActivityModal({
                     id="floatingInputCustom"
                     as="textarea"
                     rows={2}
-                    value={description}
-                    onChange={handleDescription}
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
+                   
                   />
                 </Form.Group>
               </div>
               <div className="col-sm-12 mb-5">
                 <Form.Select
                   aria-label="Default select example"
-                  value={location}
-                  onChange={handleLocation}
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  placeholder="location"
                 >
                   <option>Select location</option>
                   {locationOptions.length &&
@@ -206,15 +207,13 @@ function CreateActivityModal({
               </div>
               <div className="col-sm-12 mb-5">
                 <div className="items-wrapper d-flex align-items-center gap-3">
-                 
                   <Form.Group className="w-100">
-                  
                     <Form.Control
                       className="b"
                       id="floatingInputCustom"
                       type="text"
-                      value={include}
-                      onChange={handleInclude}
+                      value={newInclusion}
+                      onChange={(e) => setNewInclusion(e.target.value)}
                       onKeyDown={addInclusionFromEnterKey}
                       placeholder="What does it include"
                     />
@@ -229,7 +228,7 @@ function CreateActivityModal({
                 </div>
 
                 <ul className="list-group mt-3">
-                  {inclusions.map((include, index) => (
+                  {formData.inclusions.map((include, index) => (
                     <li
                       key={index}
                       className="list-group-item d-flex justify-content-between align-items-center"
@@ -251,13 +250,12 @@ function CreateActivityModal({
               <div className="col-sm-12 mb-3">
                 <div className="items-wrapper d-flex align-items-center gap-3">
                   <Form.Group className="w-100">
-
                     <Form.Control
                       className="b"
                       id="floatingInputCustom"
                       type="text"
-                      value={requirement}
-                      onChange={handleRequirement}
+                      value={newRequirement}
+                      onChange={e => setNewRequirement(e.target.value)}
                       onKeyDown={addRequirementFromEnterKey}
                       placeholder="What does it require"
                     />
@@ -271,8 +269,8 @@ function CreateActivityModal({
                   </Button>
                 </div>
 
-                <ul className="list-group mt-3">
-                  {requirements.map((require, index) => (
+                <ul className="list-group mt-5">
+                  {formData.requirements.map((require, index) => (
                     <li
                       key={index}
                       className="list-group-item d-flex justify-content-between align-items-center"
@@ -290,6 +288,26 @@ function CreateActivityModal({
                     </li>
                   ))}
                 </ul>
+              </div>
+              <div className="col-sm-12 mb-3">
+                <Form.Group className="mb-3">
+                  <Form.Label>Images</Form.Label>
+                  <input
+                    type="file"
+                    onChange={handleImageSelect}
+                    accept="image/*"
+                  />
+                </Form.Group>
+                {selectedImage && (
+                  <div className="mb-3">
+                    <p>Selected Image:</p>
+                    <img
+                      src={URL.createObjectURL(selectedImage)}
+                      alt="Selected"
+                      width="150"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </Form>

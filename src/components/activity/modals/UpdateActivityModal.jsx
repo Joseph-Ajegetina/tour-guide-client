@@ -1,103 +1,106 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
-function UpdateActivityModal({ show, activity, locationOptions, handleClose,handleUpdate   }) {
-  const [title, setTitle] = useState(activity.title)
-  const [category, setCategory] = useState(activity.category);
-  const [description, setDescription] = useState(activity.description);
-  const [price, setPrice] = useState(activity.price);
-  const [duration, setDuration] = useState(activity.duration);
-  const [include, setInclude] = useState("");
-  const [inclusions, setInclusions] = useState(activity.inclusions);
-  const [requirement, setRequirement] = useState("");
-  const [requirements, setRequirements] = useState(activity.requirements);
-  const [location, setLocation] = useState(activity.location);
+function UpdateActivityModal({
+  show,
+  activity,
+  locationOptions,
+  handleClose,
+  handleUpdate,
+}) {
+  const [formData, setFormData] = useState({
+    title: activity.title,
+    category: activity.category,
+    description: activity.description,
+    price: activity.price,
+    duration: activity.duration,
+    inclusions: activity.inclusions,
+    requirements: activity.requirements,
+    location: activity.location,
+  });
 
-  const handleTitle = (e) => {
-    setTitle(e.target.value);
+  const [newInclusion, setNewInclusion] = useState("");
+  const [newRequirement, setNewRequirement] = useState("");
+
+  const [images, setImages] = useState([activity.images]);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const handleLocation = (e) => {
-    setLocation(e.target.value);
-  };
-
-  const handleRequirement = (e) => {
-    setRequirement(e.target.value);
-  };
-
-  const handleInclude = (e) => {
-    setInclude(e.target.value);
-  };
-
-  const handleDuration = (e) => {
-    setDuration(e.target.value);
-  };
-
-  const handlePrice = (e) => {
-    setPrice(e.target.value);
-  };
-
-  const handleDescription = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const handleCategory = (e) => {
-    setCategory(e.target.value);
+  const handleImageSelect = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedImage(file);
+    }
   };
 
   const handleSave = () => {
-    const requestBody = {
-      title,
-      category,
-      description,
-      price,
-      duration,
-      inclusions,
-      requirements,
-      location,
+    const upadatedActivity = {
+      ...formData,
     };
-    handleUpdate(activity._id, requestBody);
+
+    handleUpdate(activity._id, upadatedActivity, selectedImage, images);
   };
 
   const addInclusion = () => {
-    if (include === "") {
-      return;
+    if (newInclusion.trim() !== "") {
+      setFormData({
+        ...formData,
+        inclusions: [...formData.inclusions, newInclusion],
+      });
+      setNewInclusion("");
     }
-    setInclusions([...inclusions, include]);
-    setInclude("");
-  };
-
-  const removeInclusion = (value) => {
-    const updatedInclusions = inclusions.filter((include) => include !== value);
-    setInclusions(updatedInclusions);
   };
 
   const addRequirement = () => {
-    if (requirement === "") {
-      return;
+    if (newRequirement.trim() !== "") {
+      setFormData({
+        ...formData,
+        requirements: [...formData.requirements, newRequirement],
+      });
+      setNewRequirement("");
     }
-    setRequirements([...requirements, requirement]);
-    setRequirement("");
   };
 
   const addInclusionFromEnterKey = (e) => {
-    if(e.key === 'Enter'){
+    if (e.key === "Enter") {
       e.preventDefault();
-      addInclusion()
+      addInclusion();
     }
-  }
+  };
 
   const addRequirementFromEnterKey = (e) => {
-    if(e.key === 'Enter'){
+    if (e.key === "Enter") {
       e.preventDefault();
-      addRequirement()
+      addRequirement();
     }
-  }
-  const removeRequirement = (value) => {
-    const updatedRequirements = requirements.filter(
+  };
+
+  const removeImage = (image) => {
+    const filterdImages = images.filter((item) => item !== image);
+    setImages(filterdImages);
+  };
+
+  const removeInclusion = (value) => {
+    const updatedInclusions = formData.inclusions.filter(
       (include) => include !== value
     );
-    setRequirements(updatedRequirements);
+    formData({ ...formData, inclusions: [updatedInclusions] });
+    setNewInclusion("");
+  };
+
+  const removeRequirement = (value) => {
+    const updatedRequirements = formData.requirements.filter(
+      (include) => include !== value
+    );
+    setFormData({ ...formData, requirements: updatedRequirements });
+    setNewRequirement("");
   };
 
   return (
@@ -112,7 +115,7 @@ function UpdateActivityModal({ show, activity, locationOptions, handleClose,hand
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>New Activity</Modal.Title>
+          <Modal.Title>Update Activity</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSave}>
@@ -123,8 +126,9 @@ function UpdateActivityModal({ show, activity, locationOptions, handleClose,hand
                     className="b"
                     id="floatingInputCustom"
                     type="text"
-                    value={title}
-                    onChange={handleTitle}
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
                     placeholder="City Name"
                   />
                   <label htmlFor="floatingInputCustom">Title</label>
@@ -136,8 +140,9 @@ function UpdateActivityModal({ show, activity, locationOptions, handleClose,hand
                     className="b"
                     id="floatingInputCustom"
                     type="text"
-                    value={category}
-                    onChange={handleCategory}
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
                     placeholder="City Name"
                   />
                   <label htmlFor="floatingInputCustom">Category</label>
@@ -149,8 +154,9 @@ function UpdateActivityModal({ show, activity, locationOptions, handleClose,hand
                     className="b"
                     id="floatingInputCustom"
                     type="number"
-                    value={duration}
-                    onChange={handleDuration}
+                    name="duration"
+                    value={formData.duration}
+                    onChange={handleChange}
                     placeholder="City Name"
                   />
                   <label htmlFor="floatingInputCustom">Duration</label>
@@ -162,8 +168,9 @@ function UpdateActivityModal({ show, activity, locationOptions, handleClose,hand
                     className="b"
                     id="floatingInputCustom"
                     type="decimal"
-                    value={price}
-                    onChange={handlePrice}
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
                     placeholder="City Name"
                   />
                   <label htmlFor="floatingInputCustom">Price</label>
@@ -177,16 +184,18 @@ function UpdateActivityModal({ show, activity, locationOptions, handleClose,hand
                     id="floatingInputCustom"
                     as="textarea"
                     rows={2}
-                    value={description}
-                    onChange={handleDescription}
+                    name="description"
+                    value={formData.description}
+                    onChange={handleChange}
                   />
                 </Form.Group>
               </div>
               <div className="col-sm-12 mb-5">
                 <Form.Select
                   aria-label="Default select example"
-                  value={location}
-                  onChange={handleLocation}
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
                 >
                   <option>Select location</option>
                   {locationOptions.length &&
@@ -201,15 +210,15 @@ function UpdateActivityModal({ show, activity, locationOptions, handleClose,hand
               </div>
               <div className="col-sm-12 mb-5">
                 <div className="items-wrapper d-flex align-items-center gap-3">
-                 
                   <Form.Group className="w-100">
-                  
                     <Form.Control
                       className="b"
                       id="floatingInputCustom"
                       type="text"
-                      value={include}
-                      onChange={handleInclude}
+                      value={newInclusion}
+                      onChange={(e) => {
+                        setNewInclusion(e.target.value);
+                      }}
                       onKeyDown={addInclusionFromEnterKey}
                       placeholder="What does it include"
                     />
@@ -224,7 +233,7 @@ function UpdateActivityModal({ show, activity, locationOptions, handleClose,hand
                 </div>
 
                 <ul className="list-group mt-3">
-                  {inclusions.map((include, index) => (
+                  {formData.inclusions.map((include, index) => (
                     <li
                       key={index}
                       className="list-group-item d-flex justify-content-between align-items-center"
@@ -243,16 +252,15 @@ function UpdateActivityModal({ show, activity, locationOptions, handleClose,hand
                   ))}
                 </ul>
               </div>
-              <div className="col-sm-12 mb-3">
+              <div className="col-sm-12 mb-5">
                 <div className="items-wrapper d-flex align-items-center gap-3">
                   <Form.Group className="w-100">
-
                     <Form.Control
                       className="b"
                       id="floatingInputCustom"
                       type="text"
-                      value={requirement}
-                      onChange={handleRequirement}
+                      value={newRequirement}
+                      onChange={(e) => setNewRequirement(e.target.value)}
                       onKeyDown={addRequirementFromEnterKey}
                       placeholder="What does it require"
                     />
@@ -267,7 +275,7 @@ function UpdateActivityModal({ show, activity, locationOptions, handleClose,hand
                 </div>
 
                 <ul className="list-group mt-3">
-                  {requirements.map((require, index) => (
+                  {formData.requirements.map((require, index) => (
                     <li
                       key={index}
                       className="list-group-item d-flex justify-content-between align-items-center"
@@ -285,6 +293,57 @@ function UpdateActivityModal({ show, activity, locationOptions, handleClose,hand
                     </li>
                   ))}
                 </ul>
+              </div>
+
+              <div className="col-sm-12 mb-5">
+                <label htmlFor="">Activity Image:</label>
+                <div className="row mb-3">
+                  <div className="col">
+                    <input type="file" onChange={handleImageSelect} />
+                    {selectedImage && (
+                      <div className="mb-3">
+                        <p>Selected Image:</p>
+                        <img
+                          src={URL.createObjectURL(selectedImage)}
+                          alt="Selected"
+                          width="150"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {activity.images.length > 0 && (
+                  <div className="row">
+                    {images.map((image) => {
+                      return (
+                        <div key={activity._id} className="col-md-4">
+                          <div
+                            key={activity._id}
+                            className="card"
+                            style={{ width: "18rem" }}
+                          >
+                            <img
+                              className="c ard-img-top"
+                              src={image}
+                              alt="Card cap"
+                            />
+                            <div className="card-body">
+                              <button
+                                onClick={() => {
+                                  removeImage(image);
+                                }}
+                                className="btn btn-danger"
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </div>
           </Form>

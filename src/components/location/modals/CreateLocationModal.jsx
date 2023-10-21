@@ -62,7 +62,7 @@ function CreateLocationModal({ show, handleClose,handleCreate   }) {
 
         <Modal.Footer>
 
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose} className="btn-lg px-5">
             Close
           </Button>
           <Button
