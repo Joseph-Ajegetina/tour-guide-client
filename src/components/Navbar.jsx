@@ -1,76 +1,3 @@
-import React from "react";
-// import { useContext } from "react";
-// import { AuthContext } from "../context/auth.context";
-// import Container from "react-bootstrap/Container";
-// import logo from "../assets/tour.png"
-// import Nav from "react-bootstrap/Nav";
-// import Navbar from "react-bootstrap/Navbar";
-// import NavDropdown from "react-bootstrap/NavDropdown";
-// import { NavLink } from "react-router-dom";
-
-// function NavBar() {
-//   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
-
-//   return (
-//     <Navbar sticky="top" expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
-//       <Container fluid>
-//         <Navbar.Brand href="/">
-//           <img
-//             src={logo}
-//             width="40"
-//             height="35"
-//             className="d-inline-block align-top"
-//             alt="React Bootstrap logo"
-//           />
-//         </Navbar.Brand>
-//         <Navbar.Toggle aria-controls="navbarScroll" />
-//         <Navbar.Collapse id="navbarScroll">
-//           <Nav
-//             className="me-auto my-2 my-lg-0 w-100 justify-content-end"
-//             style={{ maxHeight: "100px" }}
-//             navbarScroll
-//           >
-//             {isLoggedIn && (
-//               <>
-//                 <Nav.Link href="/wishlist">Wishlist</Nav.Link>
-//               </>
-//             )}
-//             <NavDropdown title="Account" id="navbarScrollingDropdown">
-//               {isLoggedIn && (
-//                 <>
-//                   <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>
-//                   <NavDropdown.Item onClick={logOutUser}>
-//                     Log Out
-//                   </NavDropdown.Item>
-//                 </>
-//               )}
-
-//               {!isLoggedIn && (
-//                 <>
-//                   <NavDropdown.Item href="/login">Login</NavDropdown.Item>
-//                   <NavDropdown.Item href="/signup">Create</NavDropdown.Item>
-//                 </>
-//               )}
-//             </NavDropdown>
-//             {isLoggedIn && user.isAdmin && (
-//               <>
-//                 <NavLink
-//                   to="/dashboard"
-//                   className="nav-link"
-//                 >
-//                   Dashboard
-//                 </NavLink>
-//               </>
-//             )}
-//           </Nav>
-//         </Navbar.Collapse>
-//       </Container>
-//     </Navbar>
-//   );
-// }
-
-// export default NavBar;
-
 import {
   useDisclosure,
   chakra,
@@ -82,7 +9,6 @@ import {
   VStack,
   Button,
   CloseButton,
-  Spacer,
   VisuallyHidden,
   Avatar,
   useColorMode,
@@ -92,11 +18,11 @@ import {
   MenuItem,
   Center,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { AiOutlineMenu, AiFillHome } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { BiLogIn, BiLogOut } from "react-icons/bi";
 import {BsCardList} from "react-icons/bs"
-import { CgProfile } from "react-icons/cg";
 import { useScroll } from "framer-motion";
 import { useRef, useState } from "react";
 import { useContext } from "react";
@@ -117,7 +43,7 @@ function NavBar() {
   const height = header.current ? header.current.getBoundingClientRect() : 0;
 
   const { scrollY } = useScroll();
-  React.useEffect(() => {
+  useEffect(() => {
     return scrollY.onChange(() => setY(scrollY.get()));
   }, [scrollY]);
   return (
