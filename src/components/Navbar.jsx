@@ -306,15 +306,6 @@ function NavBar() {
           </HStack>
         </Flex>
       </chakra.header>
-      <Flex
-        alignItems="center"
-        justifyContent="space-between"
-        mx={2}
-        borderWidth={0}
-        overflowX="auto"
-      >
-        <Spacer />
-      </Flex>
     </Box>
   );
 }

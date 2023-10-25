@@ -1,82 +1,76 @@
 import React, { useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import {
+  Modal,
+  Button,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  Text,
+  useDisclosure,
+  ModalFooter,
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea,
+} from "@chakra-ui/react";
 
-function CreateLocationModal({ show, handleClose,handleCreate   }) {
+function CreateLocationModal({ show, handleClose, handleCreate }) {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
-
-  const handleCity = (e) => {
-    setCity(e.target.value);
-  };
-
-  const handleCountry = (e) => {
-    setCountry(e.target.value);
-  };
+  const [description, setDescription] = useState("");
 
   const handleSave = () => {
-    const requestBody = {city, country}
+    const requestBody = { city, country };
     handleCreate(requestBody);
-
-  }
+  };
 
   return (
-    <div className="model_box">
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Add Record</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSave}>
-            <Form.Floating className="mb-4">
-              <Form.Control
-                className="b"
-                id="floatingInputCustom"
-                type="text"
-                value={city}
-                onChange={handleCity}
-                placeholder="City Name"
-              />
-              <label htmlFor="floatingInputCustom">City</label>
-            </Form.Floating>
-            <Form.Floating className="mb-4">
-              <Form.Control
-                className="bg-da"
-                id="floatingInputCustom"
-                type="text"
-                value={country}
-                onChange={handleCountry}
-                placeholder="Country Name"
-              />
-              <label htmlFor="floatingInputCustom">Country</label>
-            </Form.Floating>
-          </Form>
-        </Modal.Body>
+    <Modal blockScrollOnMount={false} isOpen={show} onClose={handleClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>New Location</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <FormControl>
+            <FormLabel>City</FormLabel>
+            <Input
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              placeholder="City Name"
+            />
+          </FormControl>
 
-        <Modal.Footer>
+          <FormControl mt={4}>
+            <FormLabel>Country</FormLabel>
+            <Input
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              placeholder="Country Name"
+            />
+          </FormControl>
 
-          <Button variant="secondary" onClick={handleClose} className="btn-lg px-5">
+          <FormControl mt={4}>
+            <FormLabel>Description</FormLabel>
+            <Textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Tell us about this place"
+            />
+          </FormControl>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={handleClose}>
             Close
           </Button>
-          <Button
-              variant="success"
-              onClick={handleSave}
-              className="btn-outline-light btn-lg px-5"
-            >
-              Create
-            </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* Model Box Finsihs */}
-    </div>
+          <Button variant="ghost" onClick={handleSave}>
+            Create
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }
 
