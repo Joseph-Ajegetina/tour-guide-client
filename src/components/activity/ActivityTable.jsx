@@ -1,20 +1,36 @@
-import React from "react";
-import { Button } from "react-bootstrap";
+import React, { useEffect } from "react";
 import LoadingSpinner from "../loading/LoadingSpinner";
 import { useState } from "react";
 import CreateActivityModal from "./modals/CreateActivityModal";
-import activitiesService from "../../services/activity.service";
 import UpdateActivityModal from "./modals/UpdateActivityModal";
 import ViewActivityModal from "./modals/ViewActivityModal";
-import DeleteActivityModal from "./modals/DeleteActivityModal";
-import Search from "../Search";
-import { useEffect } from "react";
-import locationsService from "../../services/location.service";
 import uploadService from "../../services/upload.service";
+import Search from "../Search";
+import activitiesService from "../../services/activity.service";
+import locationsService from "../../services/location.service";
+import DeleteActivityModal from "./modals/DeleteActivityModal";
+import {
+  ButtonGroup,
+  IconButton,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  TableCaption,
+  HStack,
+  Box,
+  Button,
+  useToast,
+} from "@chakra-ui/react";
+import { AiFillEdit } from "react-icons/ai";
+import { MdAddCircle } from "react-icons/md";
+import { BsBoxArrowUpRight, BsFillTrashFill } from "react-icons/bs";
 
-function ActivityTable() {
+function ActivityTable({ selectedTab }) {
   const [activities, setActivities] = useState([]);
-
   const [isLoading, setIsLoading] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -23,6 +39,19 @@ function ActivityTable() {
   const [showViewModal, setShowViewModal] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [locations, setLocations] = useState([]);
+
+  const toast = useToast();
+
+  const showToast = (title, description, status) => {
+    toast({
+      title: title,
+      description: description,
+      position: "top",
+      status: status,
+      duration: 5000,
+      isClosable: true,
+    });
+  };
 
   const handleCloseCreateModal = () => setShowCreateModal(false);
   const handleShowCreateModal = () => {
@@ -93,7 +122,7 @@ function ActivityTable() {
           .single(uploadData)
           .then((res) => {
             imagePath = res.data.fileUrl;
-            payload["images"] = [ imagePath];
+            payload["images"] = [imagePath];
           })
           .then(async (_) => {
             await activitiesService.updateActivity(id, payload);
@@ -104,7 +133,7 @@ function ActivityTable() {
             console.error(error);
           });
       } else {
-        payload['images'] = activityImages;
+        payload["images"] = activityImages;
         await activitiesService.updateActivity(id, payload);
         getAllActivities();
         handleCloseUpdateModal();
@@ -118,7 +147,6 @@ function ActivityTable() {
   const handleDelete = async (id) => {
     setIsLoading(true);
     try {
-
       await activitiesService.deleteActivity(id);
       getAllActivities();
       handleCloseDeleteModal();
@@ -184,158 +212,125 @@ function ActivityTable() {
   return isLoading ? (
     <LoadingSpinner />
   ) : (
-    <div className="container ">
-      <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
-        <div className="row ">
-          <div className="col-sm-3 mt-5 mb-4 text-gred">
-            <Search handleSearch={handleSearch} />
-          </div>
-          <div
-            className="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred"
-            style={{ color: "green" }}
-          >
-            <h2>
-              <b>Activities</b>
-            </h2>
-          </div>
-          <div className="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
-            <div className="table-btn">
-              <Button variant="primary" onClick={handleShowCreateModal}>
-                Create
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="table-responsive ">
-            <table className="table table-striped table-hover table-bordered">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Title</th>
-                  <th>Duration </th>
-                  <th>Requirements</th>
-                  <th>Inclusion</th>
-                  <th>Price</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {!!filteredData ? (
-                  filteredData.map((activity, index) => {
-                    return (
-                      <tr key={activity._id}>
-                        <td>{index + 1} </td>
-                        <td>{activity.title}</td>
-                        <td>{activity.duration}</td>
-                        <td>
-                          <ul className="list-unstyled">
-                            {activity.requirements
-                              .slice(0, 2)
-                              .map((h, index) => (
-                                <li key={index}>{h}</li>
-                              ))}
-                          </ul>
-                        </td>
-                        <td>
-                          <ul className="list-unstyled">
-                            {activity.inclusions.slice(0, 2).map((h, index) => (
-                              <li key={index}>{h}</li>
-                            ))}
-                          </ul>
-                        </td>
-                        <td>{activity.price}</td>
-                        <td>
-                          <span
-                            onClick={() => {
-                              handleShowViewModal(activity._id);
-                            }}
-                            className="action view"
-                            title="View"
-                            data-toggle="tooltip"
-                            style={{ color: "#10ab80" }}
-                          >
-                            <i className="material-icons">&#xE417;</i>
-                          </span>
-                          <span
-                            onClick={() => {
-                              handleShowUpdateModal(activity._id);
-                            }}
-                            className="action edit"
-                            title="Edit"
-                            data-toggle="tooltip"
-                          >
-                            <i className="material-icons">&#xE254;</i>
-                          </span>
-                          <span
-                            onClick={() => {
-                              handleShowDeleteModal(activity._id);
-                            }}
-                            className="action delete"
-                            title="Delete"
-                            data-toggle="tooltip"
-                            style={{ color: "red" }}
-                          >
-                            <i className="material-icons">&#xE872;</i>
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <div className="d-flex w-100 justify-content-center">
-                    No data
-                  </div>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* <!--- Model Box ---> */}
-        {/* New Activity */}
-        {showCreateModal && (
-          <CreateActivityModal
-            show={showCreateModal}
-            handleClose={handleCloseCreateModal}
-            handleCreate={handleCreate}
-            locationOptions={locations}
-          />
-        )}
-
-        {/* Update Activity */}
-        {showUpdateModal && (
-          <UpdateActivityModal
-            show={showUpdateModal}
-            handleClose={handleCloseUpdateModal}
-            handleUpdate={handleUpdate}
-            activity={selectedActivity}
-            location={findLocationFromId(selectedActivity.location)}
-            locationOptions={locations}
-          />
-        )}
-
-        {/* View Activity */}
-        {showViewModal && (
-          <ViewActivityModal
-            show={showViewModal}
-            handleClose={handleCloseViewModal}
-            activity={selectedActivity}
-            location={findLocationFromId(selectedActivity.location)}
-          />
-        )}
-
-        {/* Delete */}
-        {showDeleteModal && (
-          <DeleteActivityModal
-            show={showDeleteModal}
-            handleClose={handleCloseDeleteModal}
-            handleDelete={handleDelete}
-            activity={selectedActivity}
-          />
-        )}
-      </div>
-    </div>
+    <Box my={"10"} w={"50"} maxW={"5xl"}>
+      <HStack pb={"10"} spacing={3} alignItems="center">
+        <Search handleSearch={handleSearch} />
+        <Button
+          rightIcon={<MdAddCircle />}
+          colorScheme="blue"
+          variant="outline"
+          onClick={handleShowCreateModal}
+        >
+          Add
+        </Button>
+      </HStack>
+      <TableContainer w={"full"} minW={"lg"}>
+        <Table variant="striped" colorScheme="green">
+          <TableCaption>
+            Manage the activities that will be displayed.
+          </TableCaption>
+          <Thead>
+            <Tr>
+              <Th>#</Th>
+              <Th>Title</Th>
+              <Th>Duration </Th>
+              <Th>Requirements</Th>
+              <Th>Inclusion</Th>
+              <Th>Price</Th>
+              <Th>Actions</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {filteredData.map((activity, index) => {
+              return (
+                <Tr key={activity._id}>
+                  <Td>{index + 1}</Td>
+                  <Td>{activity.title}</Td>
+                  <Td>{activity.duration}</Td>
+                  <Td>
+                    <ul className="list-unstyled">
+                      {activity.requirements.slice(0, 2).map((h, index) => (
+                        <li key={index}>{h}</li>
+                      ))}
+                    </ul>
+                  </Td>
+                  <Td>
+                    <ul className="list-unstyled">
+                      {activity.inclusions.slice(0, 2).map((h, index) => (
+                        <li key={index}>{h}</li>
+                      ))}
+                    </ul>
+                  </Td>
+                  <Td>{activity.price}</Td>
+                  <Td>
+                    <ButtonGroup variant="solid" size="sm" spacing={3}>
+                      <IconButton
+                        colorScheme="blue"
+                        icon={<BsBoxArrowUpRight />}
+                        aria-label="Up"
+                        onClick={() => handleShowViewModal(activity._id)}
+                      />
+                      <IconButton
+                        colorScheme="green"
+                        icon={<AiFillEdit />}
+                        aria-label="Edit"
+                        onClick={() => handleShowUpdateModal(activity._id)}
+                      />
+                      <IconButton
+                        colorScheme="red"
+                        variant="outline"
+                        icon={<BsFillTrashFill />}
+                        aria-label="Delete"
+                        onClick={() => handleShowDeleteModal(activity._id)}
+                      />
+                    </ButtonGroup>
+                  </Td>
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </Table>
+      </TableContainer>
+      {/* <!--- Model Box ---> */}
+      {/* New Activity */}{" "}
+      {showCreateModal && (
+        <CreateActivityModal
+          show={showCreateModal}
+          handleClose={handleCloseCreateModal}
+          handleCreate={handleCreate}
+          locationOptions={locations}
+        />
+      )}
+      {/* Update Activity */}
+      {showUpdateModal && (
+        <UpdateActivityModal
+          show={showUpdateModal}
+          handleClose={handleCloseUpdateModal}
+          handleUpdate={handleUpdate}
+          activity={selectedActivity}
+          location={findLocationFromId(selectedActivity.location)}
+          locationOptions={locations}
+        />
+      )}
+      {/* View Activity */}
+      {showViewModal && (
+        <ViewActivityModal
+          show={showViewModal}
+          handleClose={handleCloseViewModal}
+          activity={selectedActivity}
+          location={findLocationFromId(selectedActivity.location)}
+        />
+      )}
+      {/* Delete */}
+      {showDeleteModal && (
+        <DeleteActivityModal
+          show={showDeleteModal}
+          handleClose={handleCloseDeleteModal}
+          handleDelete={handleDelete}
+          activity={selectedActivity}
+        />
+      )}
+    </Box>
   );
 }
 

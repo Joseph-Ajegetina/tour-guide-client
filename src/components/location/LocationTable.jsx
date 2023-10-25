@@ -40,18 +40,8 @@ function LocationTable() {
   const [showViewModal, setShowViewModal] = useState(false);
   const handleCloseCreateModal = () => setShowCreateModal(false);
   const toast = useToast();
-  const showToast = (title, description, status) => {
-    toast({
-      title: title,
-      description: description,
-      position: "top",
-      status: status,
-      duration: 5000,
-      isClosable: true,
-    });
-  };
+
   const handleShowCreateModal = () => {
-    console.log('callinngg create ')
     setShowCreateModal(true)};
 
   const handleCloseUpdateModal = () => {
@@ -102,6 +92,8 @@ function LocationTable() {
     try {
       await locationsService.updateLocation(id, body);
       getAllLocations();
+      handleCloseUpdateModal()
+      showToast('Update Locationn', `${body.city} updated Successfully`, 'success')
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -157,6 +149,17 @@ function LocationTable() {
   useEffect(() => {
     getAllLocations();
   }, []);
+
+  const showToast = (title, description, status) => {
+    toast({
+      title: title,
+      description: description,
+      position: "top",
+      status: status,
+      duration: 5000,
+      isClosable: true,
+    });
+  };
   return isLoading ? (
     <LoadingSpinner />
   ) : (
@@ -236,7 +239,7 @@ function LocationTable() {
           show={showUpdateModal}
           handleClose={handleCloseUpdateModal}
           handleUpdate={handleUpdate}
-
+          location={selectedLocation}
         />
       )}
 

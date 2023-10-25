@@ -27,7 +27,7 @@ function Search({handleSearch}) {
     <InputLeftElement pointerEvents="none">
       <AiOutlineSearch />
     </InputLeftElement>
-    <Input type="tel" placeholder="Search..." value={term} onChange={handleTerm} onKeyDown={handleKeyDown} />
+    <Input type="tel" placeholder="Press enter key to search item" value={term} onChange={handleTerm} onKeyDown={handleKeyDown} />
   </InputGroup>
   )
 }

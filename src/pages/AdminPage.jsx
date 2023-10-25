@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import LocationTable from "../components/location/LocationTable";
 import ActivityTable from "../components/activity/ActivityTable";
 import {
@@ -12,9 +12,16 @@ import {
 } from "@chakra-ui/react";
 
 function AdminPage() {
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  const handleTabChange = (index) => {
+    setSelectedTab(index);
+  };
+
+   
   return (
     <Box mt={20}>
-      <Tabs position="relative" variant="unstyled" align="center">
+      <Tabs position="relative" variant="soft-rounded" align="center" index={selectedTab} onChange={handleTabChange}>
         <TabList mb="1em">
           <Tab>Locations</Tab>
           <Tab>Activities</Tab>
@@ -30,7 +37,7 @@ function AdminPage() {
             <LocationTable />
           </TabPanel>
           <TabPanel>
-            <ActivityTable />
+            <ActivityTable selectedTab={true} />
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -30,7 +30,7 @@ function LoginPage() {
 
   const showToast = () => {
     toast({
-      title: "Authenticatio Failed",
+      title: "Authentication Failed",
       description: errorMessage,
       position: "top",
       status: "error",

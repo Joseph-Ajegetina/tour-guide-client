@@ -7,8 +7,6 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
-  Text,
-  useDisclosure,
   ModalFooter,
   FormControl,
   FormLabel,
@@ -65,7 +63,7 @@ function CreateLocationModal({ show, handleClose, handleCreate }) {
           <Button colorScheme="blue" mr={3} onClick={handleClose}>
             Close
           </Button>
-          <Button variant="ghost" onClick={handleSave}>
+          <Button colorScheme="green" onClick={handleSave}>
             Create
           </Button>
         </ModalFooter>
