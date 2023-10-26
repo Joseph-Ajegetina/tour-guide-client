@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
-import { Button } from "react-bootstrap";
 import LoadingSpinner from "../loading/LoadingSpinner";
 import { useState } from "react";
 import CreateLocationModal from "./modals/CreateLocationModal";
@@ -10,10 +9,29 @@ import ViewLocationModal from "./modals/ViewLocationModal";
 import DeleteLocationModal from "./modals/DeleteLocationModal";
 import Search from "../Search";
 
+import {
+  ButtonGroup,
+  IconButton,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  TableCaption,
+  HStack,
+  Box,
+  Button,
+  useToast
+} from "@chakra-ui/react";
+import { AiFillEdit} from "react-icons/ai";
+import {  MdAddCircle } from "react-icons/md";
+import { BsBoxArrowUpRight, BsFillTrashFill } from "react-icons/bs";
+
 function LocationTable() {
   const [locations, setLocations] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-
   const [isLoading, setIsLoading] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -21,7 +39,10 @@ function LocationTable() {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const handleCloseCreateModal = () => setShowCreateModal(false);
-  const handleShowCreateModal = () => setShowCreateModal(true);
+  const toast = useToast();
+
+  const handleShowCreateModal = () => {
+    setShowCreateModal(true)};
 
   const handleCloseUpdateModal = () => {
     setSelectedLocation(null);
@@ -59,6 +80,7 @@ function LocationTable() {
       await locationsService.createLocation(body);
       getAllLocations();
       handleCloseCreateModal();
+      showToast('New Location', `${body.city} added Successfully`, 'success')
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -70,6 +92,8 @@ function LocationTable() {
     try {
       await locationsService.updateLocation(id, body);
       getAllLocations();
+      handleCloseUpdateModal()
+      showToast('Update Locationn', `${body.city} updated Successfully`, 'success')
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -88,7 +112,6 @@ function LocationTable() {
     }
   };
 
-
   const findSelectedLocationFromId = (id) => {
     const foundLocation = locations.find((location) => location._id === id);
     setSelectedLocation(foundLocation);
@@ -99,17 +122,15 @@ function LocationTable() {
       setFilteredData(locations);
       return;
     }
-
+    const termLower = term.toLowerCase();
     const found = locations.filter(
       (location) =>
-        location.city.toLocaleLowerCase().includes(term) ||
-        location.country.toLocaleLowerCase().includes(term)
+        location.city.toLowerCase().includes(termLower) ||
+        location.country.toLowerCase().includes(termLower)
     );
 
     setFilteredData(found);
   };
-
-
 
   const getAllLocations = async () => {
     try {
@@ -129,136 +150,118 @@ function LocationTable() {
     getAllLocations();
   }, []);
 
+  const showToast = (title, description, status) => {
+    toast({
+      title: title,
+      description: description,
+      position: "top",
+      status: status,
+      duration: 5000,
+      isClosable: true,
+    });
+  };
   return isLoading ? (
     <LoadingSpinner />
   ) : (
-    <div className="container ">
-      <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded">
-        <div className="row ">
-          <div className="col-sm-3 mt-5 mb-4 text-gred">
-            <Search handleSearch={handleSearch} />
-          </div>
-          <div
-            className="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred"
-            style={{ color: "green" }}
-          >
-            <h2>
-              <b>Locations</b>
-            </h2>
-          </div>
-          <div className="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
-            <Button variant="primary" onClick={handleShowCreateModal}>
-              New
-            </Button>
-          </div>
-        </div>
-        <div className="row">
-          <div className="table-responsive ">
-            <table className="table table-striped table-hover table-bordered">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>City </th>
-                  <th>Country </th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {!!filteredData ? (
-                  filteredData.map((location, index) => {
-                    return (
-                      <tr key={location._id}>
-                        <td>{index + 1} </td>
-                        <td>{location.city}</td>
-                        <td>{location.country}</td>
-                        <td>
-                          <span
-                            onClick={() => {
-                              handleShowViewModal(location._id);
-                            }}
-                            className="action view"
-                            title="View"
-                            data-toggle="tooltip"
-                            style={{ color: "#10ab80" }}
-                          >
-                            <i className="material-icons">&#xE417;</i>
-                          </span>
-                          <span
-                            onClick={() => {
-                              handleShowUpdateModal(location._id);
-                            }}
-                            className="action edit"
-                            title="Edit"
-                            data-toggle="tooltip"
-                          >
-                            <i className="material-icons">&#xE254;</i>
-                          </span>
-                          <span
-                            onClick={() => {
-                              handleShowDeleteModal(location._id);
-                            }}
-                            className="action delete"
-                            title="Delete"
-                            data-toggle="tooltip"
-                            style={{ color: "red" }}
-                          >
-                            <i className="material-icons">&#xE872;</i>
-                          </span>
-                        </td>
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <div className="d-flex w-100 justify-content-center">
-                    No data{" "}
-                  </div>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
+    <Box my={"10"} w={"50"} maxW={'5xl'}>
+      <HStack pb={"10"} spacing={3} alignItems="center">
+        <Search handleSearch={handleSearch} />
+        <Button
+          rightIcon={<MdAddCircle />}
+          colorScheme="blue"
+          variant="outline"
+          onClick={handleShowCreateModal}
+        >
+          Add
+        </Button>
+      </HStack>
+      <TableContainer w={"full"} minW={"lg"}>
+        <Table variant="striped">
+          <TableCaption>Where activities can be found.</TableCaption>
+          <Thead>
+            <Tr>
+              <Th>#</Th>
+              <Th>City</Th>
+              <Th>Country</Th>
+              <Th>Actions</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {filteredData.map((location, index) => {
+              return (
+                <Tr key={location._id}>
+                  <Td>{index + 1}</Td>
+                  <Td>{location.city}</Td>
+                  <Td>{location.country}</Td>
+                  <Td>
+                    <ButtonGroup variant="solid" size="sm" spacing={3}>
+                      <IconButton
+                        colorScheme="blue"
+                        icon={<BsBoxArrowUpRight />}
+                        aria-label="Up"
+                        onClick={() => handleShowViewModal(location._id)}
+                      />
+                      <IconButton
+                        colorScheme="green"
+                        icon={<AiFillEdit />}
+                        aria-label="Edit"
+                        onClick={() => handleShowUpdateModal(location._id)}
+                      />
+                      <IconButton
+                        colorScheme="red"
+                        variant="outline"
+                        icon={<BsFillTrashFill />}
+                        aria-label="Delete"
+                        onClick={() => handleShowDeleteModal(location._id)}
+                      />
+                    </ButtonGroup>
+                  </Td>
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </Table>
+      </TableContainer>
 
-        {/* <!--- Model Box ---> */}
-        {/* New location */}
-        {showCreateModal && (
-          <CreateLocationModal
-            show={showCreateModal}
-            handleClose={handleCloseCreateModal}
-            handleCreate={handleCreate}
-            location={selectedLocation}
-          />
-        )}
+      {/* <!--- Model Box ---> */}
+      {/* New location */}
+      {showCreateModal && (
+        <CreateLocationModal
+          show={showCreateModal}
+          handleClose={handleCloseCreateModal}
+          handleCreate={handleCreate}
+        />
+      )}
 
-        {/* Update location */}
-        {showUpdateModal && (
-          <UpdateLocationModal
-            show={showUpdateModal}
-            handleClose={handleCloseUpdateModal}
-            handleUpdate={handleUpdate}
-            location={selectedLocation}
-          />
-        )}
+      {/* Update location */}
+      {showUpdateModal && (
+        <UpdateLocationModal
+          show={showUpdateModal}
+          handleClose={handleCloseUpdateModal}
+          handleUpdate={handleUpdate}
+          location={selectedLocation}
+        />
+      )}
 
-        {/* View location */}
-        {showViewModal && (
-          <ViewLocationModal
-            show={showViewModal}
-            handleClose={handleCloseViewModal}
-            location={selectedLocation}
-          />
-        )}
+      {/* View location */}
+      {showViewModal && (
+        <ViewLocationModal
+          show={showViewModal}
+          handleClose={handleCloseViewModal}
+          location={selectedLocation}
+        />
+      )}
 
-        {/* Delete */}
-        {showDeleteModal && (
-          <DeleteLocationModal
-            show={showDeleteModal}
-            handleClose={handleCloseDeleteModal}
-            handleDelete={handleDelete}
-            location={selectedLocation}
-          />
-        )}
-      </div>
-    </div>
+      {/* Delete */}
+      {showDeleteModal && (
+        <DeleteLocationModal
+          show={showDeleteModal}
+          handleClose={handleCloseDeleteModal}
+          handleDelete={handleDelete}
+          location={selectedLocation}
+        />
+      )}
+    </Box>
   );
 }
 

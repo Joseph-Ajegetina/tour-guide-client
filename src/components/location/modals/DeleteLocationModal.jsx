@@ -1,41 +1,39 @@
-import { Modal, Button } from "react-bootstrap";
+import {
+  Modal,
+  Button,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  Text,
+  ModalFooter,
+} from "@chakra-ui/react";
 
 function DeleteLocationModal({ show, location, handleClose, handleDelete }) {
-  return (
-    <div className="model_box">
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Delete Location</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Are you sure you want to delete location with city <strong>{location.city}</strong>?</p>
-        </Modal.Body>
 
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+  return (
+    <Modal blockScrollOnMount={false} isOpen={show} onClose={handleClose} size={'xl'} isCentered>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Delete Location</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <Text>
+          Are you sure you want to delete location <Text as={'b'}>{location.name}</Text> with city <Text as={'b'}>{location.city}</Text>?
+          </Text>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={handleClose}>
             Close
           </Button>
-          <Button
-            variant="danger"
-            onClick={() => {
-              handleDelete(location._id);
-            }}
-          >
+          <Button colorScheme={'red'} onClick={() => handleDelete(location._id)}>
             Delete
           </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* Model Box Finsihs */}
-    </div>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }
 
