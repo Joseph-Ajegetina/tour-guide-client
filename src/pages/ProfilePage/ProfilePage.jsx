@@ -85,7 +85,7 @@ function ProfilePage() {
     setIsSpinnerLoading(true);
     try {
       await userService.update(user._id, payload);
-      showToast()
+      showToast();
     } catch (error) {
       console.error(error);
     } finally {
@@ -147,8 +147,7 @@ function ProfilePage() {
           <FormLabel>User Icon</FormLabel>
           <Stack direction={["column", "row"]} spacing={6}>
             <Center>
-              <Avatar size="xl" src={imageUrl}>
-              </Avatar>
+              <Avatar size="xl" src={imageUrl}></Avatar>
             </Center>
             <Center w="full">
               <Stack>

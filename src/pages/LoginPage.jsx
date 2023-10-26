@@ -11,18 +11,22 @@ import {
   useToast,
   Spinner,
   Text,
+  InputGroup,
+  InputRightElement,
   HStack,
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import authService from "../services/auth.service";
 import { AuthContext } from "../context/auth.context";
 import { Link, useNavigate } from "react-router-dom";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { storeToken, authenticateUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -86,11 +90,28 @@ function LoginPage() {
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
-              <Input
+              <InputGroup>
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <InputRightElement h={"full"}>
+                  <Button
+                    variant={"ghost"}
+                    onClick={() =>
+                      setShowPassword((showPassword) => !showPassword)
+                    }
+                  >
+                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+              {/* <Input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-              />
+              /> */}
             </FormControl>
             <Stack spacing={10}>
               <Button

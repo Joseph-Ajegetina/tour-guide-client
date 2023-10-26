@@ -11,6 +11,7 @@ import AdminPage from './pages/AdminPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import { Box } from '@chakra-ui/react';
 import Footer from './components/Footer';
+import BookingPage from './pages/BookingPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
          <Route path="/signup/admin" element={<IsAnon> <SignUpPage  isAdmin={true}/> </IsAnon>} />
          <Route path="/dashboard" element={<IsPrivate> <AdminPage/> </IsPrivate>} />
          <Route path="/profile" element={<IsPrivate> <ProfilePage/> </IsPrivate>} />
+         <Route path="/:activityId/payment" element={<IsPrivate> <BookingPage/> </IsPrivate>} />
         <Route path="/login" element={<IsAnon> <LoginPage /> </IsAnon>} />
       </Routes>
       <Footer />
