@@ -33,7 +33,7 @@ function NavBar() {
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
   const bg = useColorModeValue("white", "gray.800");
   const mobileNav = useDisclosure();
-
+  
   const { toggleColorMode: toggleMode } = useColorMode();
   const text = useColorModeValue("dark", "light");
   const SwitchIcon = useColorModeValue(FaMoon, FaSun);
@@ -52,12 +52,9 @@ function NavBar() {
         ref={header}
         shadow={y > height ? "sm" : undefined}
         transition="box-shadow 0.2s"
-        borderTop="6px solid"
-        borderTopColor="brand.400"
         overflowY="hidden"
         bg={bg}
-        borderColor="gray.600"
-        borderBottomWidth={1}
+      
         w="full"
         px={{
           base: 2,
@@ -147,7 +144,7 @@ function NavBar() {
             </Box>
             <chakra.a
               href="/"
-              title="Choc Home Page"
+              title="Tour gudide"
               display="flex"
               alignItems="center"
             >

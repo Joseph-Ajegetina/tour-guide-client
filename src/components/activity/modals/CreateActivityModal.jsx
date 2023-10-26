@@ -1,5 +1,23 @@
 import React, { useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import {
+  Modal,
+  Button,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea,
+  Select,
+  VStack,
+  Stack,
+  HStack,
+  Box,
+} from "@chakra-ui/react";
 
 function CreateActivityModal({
   show,
@@ -62,7 +80,7 @@ function CreateActivityModal({
 
   const handleSave = () => {
     const newActivity = {
-      ...formData
+      ...formData,
     };
 
     handleCreate(newActivity, selectedImage);
@@ -99,240 +117,227 @@ function CreateActivityModal({
   };
 
   return (
-    <div className="model_box">
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>New Activity</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSave}>
-            <div className="row">
-              <div className="col-sm-6 mb-3">
-                <Form.Floating className="mb-4">
-                  <Form.Control
-                    className="b"
-                    id="floatingInputCustom"
-                    type="text"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleChange}
-                    placeholder="title"
-                  />
-                  <label htmlFor="floatingInputCustom">Title</label>
-                </Form.Floating>
-              </div>
-              <div className="col-sm-6 mb-3">
-                <Form.Floating className="mb-4">
-                  <Form.Control
-                    className="b"
-                    id="floatingInputCustom"
-                    type="text"
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
-                    placeholder="Category"
-                  />
-                  <label htmlFor="floatingInputCustom">Category</label>
-                </Form.Floating>
-              </div>
-              <div className="col-sm-6 mb-3">
-                <Form.Floating className="mb-4">
-                  <Form.Control
-                    className="b"
-                    id="floatingInputCustom"
-                    type="number"
-                    name="duration"
-                    value={formData.duration}
-                    onChange={handleChange}
-                    placeholder="duration"
-                  />
-                  <label htmlFor="floatingInputCustom">Duration</label>
-                </Form.Floating>
-              </div>
-              <div className="col-sm-6 mb-3">
-                <Form.Floating className="mb-4">
-                  <Form.Control
-                    className="b"
-                    id="floatingInputCustom"
-                    type="decimal"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleChange}
-                    placeholder="price"
-                  />
-                  <label htmlFor="floatingInputCustom">Price</label>
-                </Form.Floating>
-              </div>
-              <div className="col-sm-12 mb-3">
-                <Form.Group className="mb-4">
-                  <label htmlFor="floatingInputCustom">Description</label>
-                  <Form.Control
-                    className="b"
-                    id="floatingInputCustom"
-                    as="textarea"
-                    rows={2}
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                   
-                  />
-                </Form.Group>
-              </div>
-              <div className="col-sm-12 mb-5">
-                <Form.Select
-                  aria-label="Default select example"
-                  name="location"
-                  value={formData.location}
+    <Modal size={"3xl"} isOpen={show} onClose={handleClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>New Activity</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <Stack spacing={6}>
+            <HStack>
+              <FormControl mr="5%">
+                <FormLabel htmlFor="title" fontWeight={"normal"}>
+                  Title
+                </FormLabel>
+                <Input
+                  id="title"
+                  name="title"
+                  value={formData.title}
                   onChange={handleChange}
-                  placeholder="location"
-                >
-                  <option>Select location</option>
-                  {locationOptions.length &&
-                    locationOptions.map((location) => {
-                      return (
-                        <option key={location._id} value={location._id}>
-                          {location.city}
-                        </option>
-                      );
-                    })}
-                </Form.Select>
-              </div>
-              <div className="col-sm-12 mb-5">
-                <div className="items-wrapper d-flex align-items-center gap-3">
-                  <Form.Group className="w-100">
-                    <Form.Control
-                      className="b"
-                      id="floatingInputCustom"
-                      type="text"
-                      value={newInclusion}
-                      onChange={(e) => setNewInclusion(e.target.value)}
-                      onKeyDown={addInclusionFromEnterKey}
-                      placeholder="What does it include"
-                    />
-                  </Form.Group>
-                  <Button
-                    variant="secondary"
-                    onClick={addInclusion}
-                    className="btn"
-                  >
-                    Add
-                  </Button>
-                </div>
+                  placeholder="Name of the activity"
+                />
+              </FormControl>
 
-                <ul className="list-group mt-3">
-                  {formData.inclusions.map((include, index) => (
-                    <li
-                      key={index}
-                      className="list-group-item d-flex justify-content-between align-items-center"
-                    >
-                      <span>{include}</span>
-                      <Button
-                        variant="danger"
-                        onClick={() => {
-                          removeInclusion(include);
-                        }}
-                        className="h-38"
-                      >
-                        Remove
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="col-sm-12 mb-3">
-                <div className="items-wrapper d-flex align-items-center gap-3">
-                  <Form.Group className="w-100">
-                    <Form.Control
-                      className="b"
-                      id="floatingInputCustom"
-                      type="text"
-                      value={newRequirement}
-                      onChange={e => setNewRequirement(e.target.value)}
-                      onKeyDown={addRequirementFromEnterKey}
-                      placeholder="What does it require"
-                    />
-                  </Form.Group>
-                  <Button
-                    variant="secondary"
-                    onClick={addRequirement}
-                    className="btn"
-                  >
-                    Add
-                  </Button>
-                </div>
+              <FormControl mr="5%">
+                <FormLabel htmlFor="category" fontWeight={"normal"}>
+                  Category
+                </FormLabel>
+                <Input
+                  id="category"
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  placeholder="Falls under"
+                />
+              </FormControl>
+            </HStack>
+            <HStack>
+              <FormControl mr="5%">
+                <FormLabel htmlFor="duration" fontWeight={"normal"}>
+                  Duration
+                </FormLabel>
+                <Input
+                  id="duration"
+                  type="number"
+                  name="duration"
+                  value={formData.duration}
+                  onChange={handleChange}
+                  placeholder="How long"
+                />
+              </FormControl>
 
-                <ul className="list-group mt-5">
-                  {formData.requirements.map((require, index) => (
-                    <li
-                      key={index}
-                      className="list-group-item d-flex justify-content-between align-items-center"
+              <FormControl mr="5%">
+                <FormLabel htmlFor="price" fontWeight={"normal"}>
+                  Price
+                </FormLabel>
+                <Input
+                  type="number"
+                  id="price"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleChange}
+                  placeholder="Cost"
+                />
+              </FormControl>
+            </HStack>
+
+            <FormControl mt={4}>
+              <FormLabel>Description</FormLabel>
+              <Textarea
+                value={formData.description}
+                onChange={handleChange}
+                name="description"
+                placeholder="Description"
+              />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel
+                htmlFor="country"
+                fontSize="sm"
+                fontWeight="md"
+                color="gray.700"
+                _dark={{
+                  color: "gray.50",
+                }}
+              >
+                Location
+              </FormLabel>
+              <Select
+                id="location"
+                name="location"
+                autoComplete="location"
+                placeholder="Select location"
+                focusBorderColor="brand.400"
+                shadow="sm"
+                size="sm"
+                w="full"
+                rounded="md"
+                value={formData.location}
+                onChange={handleChange}
+              >
+                {locationOptions.length &&
+                  locationOptions.map((location) => {
+                    return (
+                      <option key={location._id} value={location._id}>
+                        {location.city}
+                      </option>
+                    );
+                  })}
+              </Select>
+            </FormControl>
+            <VStack>
+              <FormControl>
+                <FormLabel htmlFor="inclusions" fontWeight={"normal"}>
+                  Add Inclusions
+                </FormLabel>
+                <Input
+                  id="inclusions"
+                  value={newInclusion}
+                  onChange={(e) => setNewInclusion(e.target.value)}
+                  onKeyDown={addInclusionFromEnterKey}
+                  placeholder="What does it include"
+                />
+              </FormControl>
+              <Stack>
+                {formData.inclusions.map((include, index) => (
+                  <HStack
+                    w={"xl"}
+                    justifyContent={"space-between"}
+                    key={index}
+                    borderRadius={"md"}
+                    borderWidth="1px"
+                    py={2}
+                    px={2}
+                  >
+                    <Box>{include}</Box>
+                    <Button
+                      size={"sm"}
+                      colorScheme="red"
+                      onClick={() => {
+                        removeInclusion(include);
+                      }}
                     >
-                      <span>{require}</span>
-                      <Button
-                        variant="danger"
-                        onClick={() => {
-                          removeRequirement(require);
-                        }}
-                        className="h-38"
-                      >
-                        Remove
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="col-sm-12 mb-3">
-                <Form.Group className="mb-3">
-                  <Form.Label>Images</Form.Label>
-                  <input
-                    type="file"
-                    onChange={handleImageSelect}
-                    accept="image/*"
+                      Remove
+                    </Button>
+                  </HStack>
+                ))}
+              </Stack>
+            </VStack>
+            <VStack>
+              <FormControl>
+                <FormLabel htmlFor="requirements" fontWeight={"normal"}>
+                  Add requirements
+                </FormLabel>
+                <Input
+                  id="requirements"
+                  value={newRequirement}
+                  onChange={(e) => setNewRequirement(e.target.value)}
+                  onKeyDown={addRequirementFromEnterKey}
+                  placeholder="What does it include"
+                />
+              </FormControl>
+              <Stack spacing={3} mt={3}>
+                {formData.requirements.map((require, index) => (
+                  <HStack
+                    w={"xl"}
+                    justifyContent={"space-between"}
+                    key={index}
+                    borderRadius={"md"}
+                    borderWidth="1px"
+                    py={2}
+                    px={2}
+                  >
+                    <Box>{require}</Box>
+                    <Button
+                      size={"sm"}
+                      colorScheme="red"
+                      onClick={() => {
+                        removeRequirement(require);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </HStack>
+                ))}
+              </Stack>
+            </VStack>
+            <VStack>
+              <FormControl>
+                <FormLabel htmlFor="requirements" fontWeight={"normal"}>
+                  Add requirements
+                </FormLabel>
+                <Input
+                  id="requirements"
+                  type="file"
+                  onChange={handleImageSelect}
+                  accept="image/*"
+                />
+              </FormControl>
+              {selectedImage && (
+                <div className="mb-3">
+                  <p>Selected Image:</p>
+                  <img
+                    src={URL.createObjectURL(selectedImage)}
+                    alt="Selected"
+                    width="150"
                   />
-                </Form.Group>
-                {selectedImage && (
-                  <div className="mb-3">
-                    <p>Selected Image:</p>
-                    <img
-                      src={URL.createObjectURL(selectedImage)}
-                      alt="Selected"
-                      width="150"
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-          </Form>
-        </Modal.Body>
+                </div>
+              )}
+            </VStack>
+          </Stack>
+        </ModalBody>
 
-        <Modal.Footer>
-          <Button
-            className=" btn-lg px-5"
-            variant="danger"
-            onClick={handleClose}
-          >
+        <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={handleClose}>
             Close
           </Button>
-          <Button
-            variant="success"
-            onClick={handleSave}
-            className="btn-lg px-5"
-          >
+          <Button colorScheme="green" onClick={handleSave}>
             Create
           </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* Model Box Finsihs */}
-    </div>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }
 

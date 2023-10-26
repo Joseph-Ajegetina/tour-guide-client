@@ -13,9 +13,12 @@ import {
 
 function AdminPage() {
   const [selectedTab, setSelectedTab] = useState(0);
+  // using this to detect tab changes 
+  const [tabToggle, setTabToggle] = useState(false);
 
   const handleTabChange = (index) => {
     setSelectedTab(index);
+    setTabToggle(!tabToggle)
   };
 
    
@@ -37,7 +40,7 @@ function AdminPage() {
             <LocationTable />
           </TabPanel>
           <TabPanel>
-            <ActivityTable selectedTab={true} />
+            <ActivityTable tabToggle={tabToggle} />
           </TabPanel>
         </TabPanels>
       </Tabs>

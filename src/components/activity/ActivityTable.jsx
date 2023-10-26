@@ -29,7 +29,7 @@ import { AiFillEdit } from "react-icons/ai";
 import { MdAddCircle } from "react-icons/md";
 import { BsBoxArrowUpRight, BsFillTrashFill } from "react-icons/bs";
 
-function ActivityTable({ selectedTab }) {
+function ActivityTable({ tabToggle }) {
   const [activities, setActivities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
@@ -104,6 +104,7 @@ function ActivityTable({ selectedTab }) {
       await activitiesService.createActivity(payload);
       getAllActivities();
       handleCloseCreateModal();
+      showToast('New Activity', `${body.title} successfully created`, 'success')
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -128,6 +129,7 @@ function ActivityTable({ selectedTab }) {
             await activitiesService.updateActivity(id, payload);
             getAllActivities();
             handleCloseUpdateModal();
+            showToast('Update Activity', `${body.title} successfully updated`, 'success')
           })
           .catch((error) => {
             console.error(error);
@@ -150,6 +152,7 @@ function ActivityTable({ selectedTab }) {
       await activitiesService.deleteActivity(id);
       getAllActivities();
       handleCloseDeleteModal();
+      showToast('Remove Activity', "Activity successfully removed", 'success')
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -207,8 +210,11 @@ function ActivityTable({ selectedTab }) {
 
   useEffect(() => {
     getAllActivities();
-    getAllLocations();
   }, []);
+
+  useEffect(() => {
+    getAllLocations()
+  }, [tabToggle]);
   return isLoading ? (
     <LoadingSpinner />
   ) : (

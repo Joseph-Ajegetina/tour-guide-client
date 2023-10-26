@@ -10,6 +10,7 @@ import IsPrivate from './components/isPrivate';
 import AdminPage from './pages/AdminPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import { Box } from '@chakra-ui/react';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -23,7 +24,9 @@ function App() {
          <Route path="/profile" element={<IsPrivate> <ProfilePage/> </IsPrivate>} />
         <Route path="/login" element={<IsAnon> <LoginPage /> </IsAnon>} />
       </Routes>
+      <Footer />
     </Box>
+   
   );
 }
 
