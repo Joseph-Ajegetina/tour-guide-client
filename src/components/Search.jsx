@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { AiOutlineSearch } from "react-icons/ai";
+import {InputGroup, InputLeftElement, Input} from "@chakra-ui/react"
 
 function Search({handleSearch}) {
 
@@ -14,19 +16,19 @@ function Search({handleSearch}) {
   }
 
   return (
-    <div className="search">
-    <form className="form-inline">
-      <input
-        className="form-control mr-sm-2"
-        type="search"
-        value={term}
-        onChange={handleTerm}
-        onKeyDown={handleKeyDown}
-        placeholder="Search.."
-        aria-label="Search"
-      />
-    </form>
-  </div>
+    <InputGroup
+    display={{
+      base: "none",
+      lg: "block",
+    }}
+    mr={'auto'}
+    width={'sm'}
+  >
+    <InputLeftElement pointerEvents="none">
+      <AiOutlineSearch />
+    </InputLeftElement>
+    <Input type="tel" placeholder="Press enter key to search item" value={term} onChange={handleTerm} onKeyDown={handleKeyDown} />
+  </InputGroup>
   )
 }
 
