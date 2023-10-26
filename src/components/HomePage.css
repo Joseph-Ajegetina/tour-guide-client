@@ -1,0 +1,5 @@
+/* HomePage.css */
+.zoom-image:hover {
+    transform: scale(1.1); /* Increase the scale factor for a stronger zoom effect */
+  }
+  

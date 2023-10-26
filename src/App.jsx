@@ -9,6 +9,7 @@ import IsAnon from './components/isAnon';
 import IsPrivate from './components/isPrivate';
 import AdminPage from './pages/AdminPage';
 
+
 function App() {
   return (
     <div className="App">
@@ -21,7 +22,21 @@ function App() {
         <Route path="/login" element={<IsAnon> <LoginPage /> </IsAnon>} />
       </Routes>
     </div>
+
+
   );
 }
+
+
+
+
+// const theme = extendTheme({
+//   fonts: {
+//     body: "Your-Preferred-Font, sans-serif",
+//     heading: "Your-Preferred-Font, sans-serif",
+//     // Add more font settings as needed for different text elements
+//   },
+// });
+
 
 export default App;
