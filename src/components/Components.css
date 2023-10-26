@@ -1,0 +1,22 @@
+/* Components.css */
+
+/* Create a curved line between collection cards */
+.card-divider {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 10px;
+  }
+  
+  .card-divider::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100px; /* Adjust the width to control the curve */
+    height: 10px;
+    background-color: transparent; /* Set the background color of the line */
+    border-radius: 50%; /* Create a circle shape */
+    transform: translateX(-50%);
+  }
+  

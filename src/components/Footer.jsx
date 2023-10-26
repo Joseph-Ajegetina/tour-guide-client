@@ -9,7 +9,7 @@ import {
   VisuallyHidden,
 } from "@chakra-ui/react";
 import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
-import logo from "../assets/tour.png";
+import logo from "../assets/Logo.png";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 

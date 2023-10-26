@@ -13,6 +13,7 @@ import { Box } from '@chakra-ui/react';
 import Footer from './components/Footer';
 import BookingPage from './pages/BookingPage';
 
+
 function App() {
   return (
     <Box >
@@ -27,9 +28,20 @@ function App() {
         <Route path="/login" element={<IsAnon> <LoginPage /> </IsAnon>} />
       </Routes>
       <Footer />
-    </Box>
-   
+    </Box>  
   );
 }
+
+
+
+
+// const theme = extendTheme({
+//   fonts: {
+//     body: "Your-Preferred-Font, sans-serif",
+//     heading: "Your-Preferred-Font, sans-serif",
+//     // Add more font settings as needed for different text elements
+//   },
+// });
+
 
 export default App;

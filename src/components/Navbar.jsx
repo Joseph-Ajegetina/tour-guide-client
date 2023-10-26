@@ -17,6 +17,7 @@ import {
   MenuList,
   MenuItem,
   Center,
+  Image,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { AiOutlineMenu, AiFillHome } from "react-icons/ai";
@@ -28,6 +29,7 @@ import { useRef, useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 import { Link } from "react-router-dom";
+import logo from "../assets/Logo.png";
 
 function NavBar() {
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
@@ -148,7 +150,7 @@ function NavBar() {
               display="flex"
               alignItems="center"
             >
-              Logo
+              <Image w={'3xs'} src={logo} />
               <VisuallyHidden>Tour Guide</VisuallyHidden>
             </chakra.a>
             <IconButton
