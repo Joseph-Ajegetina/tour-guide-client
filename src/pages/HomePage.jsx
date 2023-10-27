@@ -25,6 +25,8 @@ import MusicPage from "../components/Categories/MusicPage";
 import NaturePage from "../components/Categories/NaturePage";
 import ImageCard from "../components/ImageCard"
 import TextCard from "../components/TextCard"
+import CaptionCarousel from '../components/CaptionCarousel'; // Update the path as needed
+
 
 
 
@@ -89,6 +91,10 @@ function HomePage() {
 
   return (
     <Container maxW="1400px"> {/* Wrap entire content in Chakra Container */}
+   <div>
+      <CaptionCarousel />
+      {/* Rest of your homepage content */}
+    </div>
 
     <div className="mt-4 p-4">
       <Box p={4}>

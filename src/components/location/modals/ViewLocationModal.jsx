@@ -12,9 +12,13 @@ import {
   FormLabel,
   Input,
   Textarea,
+  Heading,
+  Image,
+  Box
 } from "@chakra-ui/react";
 
-function ViewLocationModal({ show, location, handleClose,handleView }) {
+function ViewLocationModal({ show, location, handleClose }) {
+  console.log(location)
   const [city, setCity] = useState(location.city);
   const [country, setCountry] = useState(location.country);
   const [description, setDescription] = useState(location.description);
@@ -47,7 +51,7 @@ function ViewLocationModal({ show, location, handleClose,handleView }) {
             />
           </FormControl>
 
-          <FormControl mt={4}>
+          <FormControl mt={4} mb={4}>
             <FormLabel>Description</FormLabel>
             <Textarea
               value={description}
@@ -56,6 +60,14 @@ function ViewLocationModal({ show, location, handleClose,handleView }) {
               disabled
             />
           </FormControl>
+          <Box mt={'lg'}>
+              <Heading as={'h6'} size={'xs'}>Image</Heading>
+              {location.image &&  (
+                <Box boxSize="sm">
+                  <Image src={location.image} alt={location.city} />
+                </Box>
+              )}
+            </Box>
         </ModalBody>
 
         <ModalFooter>
