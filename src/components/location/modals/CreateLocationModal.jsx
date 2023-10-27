@@ -12,16 +12,28 @@ import {
   FormLabel,
   Input,
   Textarea,
+  VStack,
+  Image,
+  Text
 } from "@chakra-ui/react";
 
 function CreateLocationModal({ show, handleClose, handleCreate }) {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [description, setDescription] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleSave = () => {
-    const requestBody = { city, country };
-    handleCreate(requestBody);
+    const requestBody = { city, country, description };
+    
+    handleCreate(requestBody, selectedImage);
+  };
+
+  const handleImageSelect = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedImage(file);
+    }
   };
 
   return (
@@ -49,7 +61,7 @@ function CreateLocationModal({ show, handleClose, handleCreate }) {
             />
           </FormControl>
 
-          <FormControl mt={4}>
+          <FormControl mt={4} mb={4}>
             <FormLabel>Description</FormLabel>
             <Textarea
               value={description}
@@ -57,6 +69,31 @@ function CreateLocationModal({ show, handleClose, handleCreate }) {
               placeholder="Tell us about this place"
             />
           </FormControl>
+          <VStack mt={'md'}>
+              <FormControl>
+                <FormLabel htmlFor="requirements" fontWeight={"normal"}>
+                  Image
+                </FormLabel>
+                <Input
+                  id="requirements"
+                  type="file"
+                  onChange={handleImageSelect}
+                  accept="image/*"
+                />
+              </FormControl>
+
+              {selectedImage && (
+                <div className="mb-3">
+                  <Text>Image Selected</Text>
+
+                  <Image
+                    src={URL.createObjectURL(selectedImage)}
+                    alt="Selected"
+                    width="150"
+                  />
+                </div>
+              )}
+            </VStack>
         </ModalBody>
 
         <ModalFooter>

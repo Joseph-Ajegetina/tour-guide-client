@@ -16,6 +16,8 @@ import {
   VStack,
   Stack,
   HStack,
+  Text,
+  Image,
   Box,
 } from "@chakra-ui/react";
 
@@ -305,7 +307,7 @@ function CreateActivityModal({
             <VStack>
               <FormControl>
                 <FormLabel htmlFor="requirements" fontWeight={"normal"}>
-                  Add requirements
+                  Image
                 </FormLabel>
                 <Input
                   id="requirements"
@@ -314,10 +316,12 @@ function CreateActivityModal({
                   accept="image/*"
                 />
               </FormControl>
+
               {selectedImage && (
                 <div className="mb-3">
-                  <p>Selected Image:</p>
-                  <img
+                  <Text>Image Selected</Text>
+
+                  <Image
                     src={URL.createObjectURL(selectedImage)}
                     alt="Selected"
                     width="150"
