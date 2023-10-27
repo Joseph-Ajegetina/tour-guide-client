@@ -1,54 +1,35 @@
 import React from "react";
-import { Image, Flex, Text, Box, LinkBox, LinkOverlay } from "@chakra-ui/react";
+import {
+  Image,
+  Text,
+  Box,
+  LinkBox,
+  LinkOverlay,
+  Stack,
+  Heading,
+} from "@chakra-ui/react";
 function ActivityCard({ activity }) {
   return (
-    <Flex
-      bg="#edf3f8"
-      _dark={{
-        bg: "#3e3e3e",
-      }}
-      p={50}
-      w="sm"
-      alignItems="center"
-      justifyContent="center"
-    >
-      {activity && (
-        <Box
-          bg="white"
-          _dark={{
-            bg: "gray.800",
-          }}
-          maxW="sm"
-          borderWidth="1px"
-          rounded="lg"
-          shadow="lg"
-        >
-          <LinkBox>
-            <LinkOverlay href={`/activity/${activity._id}`}>
-              <Image
-                src={activity.images[0]}
-                alt={activity.title}
-                roundedTop="lg"
-              />
-
-              <Box p="6">
-                <Text
-                  mt="1"
-                  fontWeight="semibold"
-                  as="h4"
-                  lineHeight="tight"
-                  noOfLines={1}
-                >
-                  {activity.title}
-                </Text>
-
-                <Box>${activity.price}</Box>
-              </Box>
-            </LinkOverlay>
-          </LinkBox>
-        </Box>
-      )}
-    </Flex>
+    <Box maxW="sm" borderWidth="1px" borderRadius="lg">
+      <LinkBox>
+        <LinkOverlay href={`/activity/${activity._id}`}>
+          <Image
+            src={activity.images[0]}
+            alt="Image Alt Text 1"
+            borderRadius="lg"
+          />
+          <Box p="6">
+            <Stack spacing="3">
+              <Heading size="md">{activity.title}</Heading>
+              <Text>{activity.description}</Text>
+              <Text color="blue.600" fontSize="2xl">
+                ${activity.price}
+              </Text>
+            </Stack>
+          </Box>
+        </LinkOverlay>
+      </LinkBox>
+    </Box>
   );
 }
 
