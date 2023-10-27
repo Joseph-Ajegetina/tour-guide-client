@@ -22,6 +22,7 @@ import { useContext, useState } from "react";
 import authService from "../services/auth.service";
 import { AuthContext } from "../context/auth.context";
 import { useNavigate } from "react-router-dom";
+import useToastMessage from "../utils/useToastMessage";
 
 function SignupPage({ isAdmin }) {
   const [email, setEmail] = useState("");
@@ -35,30 +36,24 @@ function SignupPage({ isAdmin }) {
 
   const { storeToken, authenticateUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const toast = useToast();
+  const {showToast} = useToastMessage();
 
-  const showToast = () => {
-    toast({
-      title: "Registration Failed",
-      description: errorMessage,
-      position: "top",
-      status: "error",
-      duration: 5000,
-      isClosable: true,
-    });
-  };
+  const defaultImage = "http://bootdey.com/img/Content/avatar/avatar1.png"
+
+
 
   const handleSignUp = () => {
-    const requestBody = { email, password, firstName, lastName, username };
+    const requestBody = { email, password, firstName, lastName, username, image:defaultImage };
     if (isAdmin) {
       requestBody["isAdmin"] = true;
     }
     setIsLoading(true);
     authService
-      .login(requestBody)
+      .signup(requestBody)
       .then((response) => {
         storeToken(response.data.authToken);
         authenticateUser();
+        showToast('Account Create', `${username} account has been created successfully`, 'success')
         navigate("/login");
       })
       .catch((error) => {
@@ -66,7 +61,7 @@ function SignupPage({ isAdmin }) {
         if (error.response) {
           const errorDescription = error.response.data.message;
           setErrorMessage(errorDescription);
-          showToast();
+          showToast('Fail to create account', errorMessage, 'error');
         }
       });
   };
@@ -151,8 +146,9 @@ function SignupPage({ isAdmin }) {
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
-                loadingText="Submitting"
+                loadingText="Creating"
                 size="lg"
+                isLoading={isLoading}
                 bg={"blue.400"}
                 color={"white"}
                 _hover={{
@@ -160,7 +156,7 @@ function SignupPage({ isAdmin }) {
                 }}
                 onClick={handleSignUp}
               >
-                {isLoading ? <Spinner /> : <span>Sign in</span>}
+                Create
               </Button>
             </Stack>
             <Stack pt={6}>

@@ -11,6 +11,10 @@ import AdminPage from './pages/AdminPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import { Box } from '@chakra-ui/react';
 import Footer from './components/Footer';
+import BookingPage from './pages/BookingPage';
+import ActivityDetailPage from './pages/ActivityDetailPage';
+import Wishlists from './pages/Wishlists';
+import Bookings from './pages/Bookings';
 
 
 function App() {
@@ -23,11 +27,14 @@ function App() {
          <Route path="/signup/admin" element={<IsAnon> <SignUpPage  isAdmin={true}/> </IsAnon>} />
          <Route path="/dashboard" element={<IsPrivate> <AdminPage/> </IsPrivate>} />
          <Route path="/profile" element={<IsPrivate> <ProfilePage/> </IsPrivate>} />
+         <Route path="/:activityId/payment" element={<IsPrivate> <BookingPage/> </IsPrivate>} />
+         <Route path="/activity/:activityId" element={<IsPrivate> <ActivityDetailPage/> </IsPrivate>} />
         <Route path="/login" element={<IsAnon> <LoginPage /> </IsAnon>} />
+        <Route path="/bookings" element={<IsPrivate> <Bookings/> </IsPrivate>} />
+        <Route path="/wishlists" element={<IsPrivate> <Wishlists/> </IsPrivate>} />
       </Routes>
       <Footer />
-    </Box>
-   
+    </Box>  
   );
 }
 

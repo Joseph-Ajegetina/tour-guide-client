@@ -27,6 +27,22 @@ class UserService {
     return this.api.put(`/api/user/${id}`, requestBody);
   };
 
+  bookActivity = (id, activityId) => {
+    return this.api.post(`/api/user/${id}/booking/${activityId}`);
+  }
+
+  addActivityToWishlist = (id, activityId) => {
+    return this.api.post(`/api/user/${id}/wishlist/${activityId}`);
+  }
+
+  getWishlists = (id) => {
+    return this.api.get(`/api/user/wishlists/${id}`)
+  }
+
+  getBookings = (id) => {
+    return this.api.get(`/api/user/bookings/${id}`)
+  }
+
 
 }
 
