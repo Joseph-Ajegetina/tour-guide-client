@@ -8,7 +8,6 @@ import {
   Button,
   Heading,
   useColorModeValue,
-  useToast,
   Spinner,
   Text,
   InputGroup,
@@ -20,6 +19,7 @@ import authService from "../services/auth.service";
 import { AuthContext } from "../context/auth.context";
 import { Link, useNavigate } from "react-router-dom";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import useToastMessage from "../utils/useToastMessage";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -30,18 +30,8 @@ function LoginPage() {
 
   const { storeToken, authenticateUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const toast = useToast();
+  const {showToast} = useToastMessage();
 
-  const showToast = () => {
-    toast({
-      title: "Authentication Failed",
-      description: errorMessage,
-      position: "top",
-      status: "error",
-      duration: 5000,
-      isClosable: true,
-    });
-  };
 
   const handleLogin = () => {
     const requestBody = { email, password };
@@ -51,6 +41,7 @@ function LoginPage() {
       .then((response) => {
         storeToken(response.data.authToken);
         authenticateUser();
+        showToast('Login', 'Successfully log in', 'success')
         navigate("/");
       })
       .catch((error) => {
@@ -58,7 +49,7 @@ function LoginPage() {
         if (error.response) {
           const errorDescription = error.response.data.message;
           setErrorMessage(errorDescription);
-          showToast();
+          showToast('Authentication failed', errorDescription, 'error');
         }
       });
   };

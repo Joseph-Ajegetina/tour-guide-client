@@ -1,26 +1,9 @@
 import {
-  Text,
   Flex,
-  Center,
-  Divider,
-  Heading,
   Stack,
-  Image,
   Box,
-  FormControl,
-  InputLeftAddon,
-  FormLabel,
   useColorModeValue,
   useToast,
-  SimpleGrid,
-  GridItem,
-  InputGroup,
-  Textarea,
-  FormHelperText,
-  Avatar,
-  Icon,
-  Button,
-  Input,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -28,6 +11,7 @@ import activitiesService from "../services/activity.service";
 import LoadingSpinner from "../components/loading/LoadingSpinner";
 import Product from "../components/Product";
 import PaymentForm from "../components/PaymentForm";
+import useToastMessage from "../utils/useToastMessage";
 
 function BookingPage() {
   const [activity, setActivity] = useState(null);
@@ -35,18 +19,7 @@ function BookingPage() {
   const { activityId } = useParams();
   const bg = useColorModeValue("gray.50", "gray.800")
 
-  const toast = useToast();
-
-  const showToast = (title, description, status) => {
-    toast({
-      title: title,
-      description: description,
-      position: "top",
-      status: status,
-      duration: 5000,
-      isClosable: true,
-    });
-  };
+  const {showToast} = useToastMessage();
 
   useEffect(() => {
     getActivityDetail();

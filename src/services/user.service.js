@@ -35,6 +35,14 @@ class UserService {
     return this.api.post(`/api/user/${id}/wishlist/${activityId}`);
   }
 
+  getWishlists = (id) => {
+    return this.api.get(`/api/user/wishlists/${id}`)
+  }
+
+  getBookings = (id) => {
+    return this.api.get(`/api/user/bookings/${id}`)
+  }
+
 
 }
 

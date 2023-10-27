@@ -28,6 +28,7 @@ import {
 import { AiFillEdit } from "react-icons/ai";
 import { MdAddCircle } from "react-icons/md";
 import { BsBoxArrowUpRight, BsFillTrashFill } from "react-icons/bs";
+import useToastMessage from "../../utils/useToastMessage";
 
 function ActivityTable({ tabToggle }) {
   const [activities, setActivities] = useState([]);
@@ -40,19 +41,7 @@ function ActivityTable({ tabToggle }) {
   const [filteredData, setFilteredData] = useState([]);
   const [locations, setLocations] = useState([]);
 
-  const toast = useToast();
-
-  const showToast = (title, description, status) => {
-    toast({
-      title: title,
-      description: description,
-      position: "top",
-      status: status,
-      duration: 5000,
-      isClosable: true,
-    });
-  };
-
+  const {showToast} = useToastMessage();
   const handleCloseCreateModal = () => setShowCreateModal(false);
   const handleShowCreateModal = () => {
     setShowCreateModal(true);
@@ -106,7 +95,7 @@ function ActivityTable({ tabToggle }) {
       handleCloseCreateModal();
       showToast('New Activity', `${body.title} successfully created`, 'success')
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setIsLoading(false);
     }
   };
@@ -141,7 +130,7 @@ function ActivityTable({ tabToggle }) {
         handleCloseUpdateModal();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setIsLoading(false);
     }
   };
@@ -154,7 +143,7 @@ function ActivityTable({ tabToggle }) {
       handleCloseDeleteModal();
       showToast('Remove Activity', "Activity successfully removed", 'success')
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setIsLoading(false);
     }
   };
@@ -191,7 +180,7 @@ function ActivityTable({ tabToggle }) {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -203,7 +192,7 @@ function ActivityTable({ tabToggle }) {
       setLocations(data);
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setIsLoading(false);
     }
   };

@@ -1,217 +1,21 @@
-// import {
-//   Box,
-//   Input,
-//   InputGroup,
-//   Stack,
-//   InputLeftElement,
-//   Button,
-//   useToast,
-//   useToken,
-//   Alert,
-//   AlertIcon,
-//   ScaleFade,
-//   Center,
-//   Spinner,
-// } from "@chakra-ui/react";
-// import { FiCreditCard, FiMail, FiUser } from "react-icons/fi";
-// import { useEffect, useState } from "react";
-// import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-
-// export const PaymentForm = () => {
-//   // Some UI state => Ignore for now
-//   const [whiteAlpha900, placeHolderColor] = useToken("colors", [
-//     "whiteAlpha.900",
-//     "whiteAlpha.400",
-//   ]);
-//   const toast = useToast({
-//     position: "top",
-//     isClosable: true,
-//     duration: 3000,
-//   });
-//   const CARD_ELEMENT_OPTIONS = {
-//     hidePostalCode: true,
-//     iconStyle: "default",
-//     style: {
-//       base: {
-//         iconColor: whiteAlpha900,
-//         padding: "15px",
-//         color: "white",
-//         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-//         fontSmoothing: "antialiased",
-//         fontSize: "16px",
-//         "::placeholder": {
-//           color: placeHolderColor,
-//         },
-//       },
-//       invalid: {
-//         color: "#fa755a",
-//         iconColor: "#fa755a",
-//       },
-//     },
-//   };
-
-//   // Simple cardError state to show error from stripe card element
-//   const [cardError, setCardError] = useState("");
-//   const [clientSecret, setClientSecret] = useState("");
-//   const [name, setName] = useState("");
-//   const [email, setEmail] = useState("");
-
-//   // Init stripe and do some magic here
-//   const stripe = useStripe();
-//   const elements = useElements();
-//   const card = elements?.getElement(CardElement);
-
-//   const createPaymentIntent = async () => {
-//     const res = await fetch("/api/secret", {
-//       method: "POST",
-//       body: JSON.stringify({
-//         amount: 725.22 * 100,
-//       }),
-//     });
-//     const { clientSecret: clientSecretRes } = await res.json();
-//     setClientSecret(clientSecretRes);
-//   };
-
-//   const handleSubmit = async (values) => {
-//     if (!stripe || !elements || cardError || !clientSecret) {
-//       return;
-//     }
-
-//     try {
-//       const { error: stripeError, paymentIntent } =
-//         await stripe.confirmCardPayment(clientSecret, {
-//           payment_method: {
-//             card,
-//             billing_details: {
-//               name: values.name,
-//             },
-//           },
-//         });
-
-//       if (stripeError) {
-//         throw new Error(stripeError.message);
-//       } else if (paymentIntent?.status === "succeeded") {
-//         toast({
-//           title: "Payment Successfully Received",
-//           status: "success",
-//         });
-//       }
-//     } catch (error) {
-//       toast({
-//         title: "Error Occurred",
-//         description: error.message,
-//         status: "error",
-//       });
-//     }
-//   };
-
-//   useEffect(() => {
-//     createPaymentIntent();
-//   }, []);
-
-//   return (
-//     <Box p="2" px="4">
-//       {({ isSubmitting, values, setFieldValue }) => (
-//         <Stack pb="3" spacing={3}>
-//           <InputGroup>
-//             <InputLeftElement pointerEvents="none" children={<FiMail />} />
-//             <Input
-//               value={email}
-//               onChange={(e) => {
-//                 setEmail(e.target.value);
-//               }}
-//               id="email"
-//               placeholder="Email"
-//               type="email"
-//               required
-//             />
-//           </InputGroup>
-//           <InputGroup>
-//             <InputLeftElement pointerEvents="none" children={<FiUser />} />
-//             <Input
-//               value={name}
-//               onChange={(e) => {
-//                 setName(e.target.value);
-//               }}
-//               id="name"
-//               placeholder="Name on card"
-//               name="name"
-//               required
-//             />
-//           </InputGroup>
-
-//           <Box
-//             rounded="md"
-//             border="1px solid"
-//             borderColor="inherit"
-//             _hover={{ borderColor: "whiteAlpha.400" }}
-//             display="flex"
-//             h="10"
-//           >
-//             {!!stripe && !!elements ? (
-//               <CardElement
-//                 options={CARD_ELEMENT_OPTIONS}
-//                 onChange={(e) => {
-//                   setCardError(e.error?.message ?? "");
-//                 }}
-//               />
-//             ) : (
-//               <Center w="100%">
-//                 <Spinner />
-//               </Center>
-//             )}
-//           </Box>
-//           <ScaleFade in={!!cardError} unmountOnExit>
-//             <Alert status="error">
-//               <AlertIcon />
-//               {cardError}
-//             </Alert>
-//           </ScaleFade>
-//           <Button
-//             type="submit"
-//             colorScheme="purple"
-//             size="md"
-//             isLoading={isSubmitting}
-//             onClick={handleSubmit}
-//             leftIcon={<FiCreditCard />}
-//           >
-//             Pay US$725.22
-//           </Button>
-//         </Stack>
-//       )}
-//     </Box>
-//   );
-// };
-
-// export default PaymentForm;
-
-"use client";
-
 import {
   Flex,
   Box,
   FormControl,
   FormLabel,
   Input,
-  InputGroup,
   HStack,
-  InputRightElement,
   Stack,
   Button,
   Heading,
-  Text,
   useColorModeValue,
   Select,
-  Link,
-  useToast,
 } from "@chakra-ui/react";
 import { useState, useContext } from "react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import activitiesService from "../services/activity.service";
-import authService from "../services/auth.service";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import userService from "../services/user.service";
 import { AuthContext } from "../context/auth.context";
+import useToastMessage from "../utils/useToastMessage";
 
 function PaymentForm({ activityId }) {
   const [name, setName] = useState("");
@@ -220,20 +24,10 @@ function PaymentForm({ activityId }) {
   const [expYear, setExpYear] = useState("");
   const [cvv, setCvv] = useState("");
   const [loading, setLoading] = useState(false);
-  const {user} = useContext(AuthContext)
-   const toast = useToast();
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const showToast = (title, description, status) => {
-    toast({
-      title: title,
-      description: description,
-      position: "top",
-      status: status,
-      duration: 5000,
-      isClosable: true,
-    });
-  };
+  const {showToast} = useToastMessage();
   const CURRENT_YEAR = new Date().getFullYear();
 
   let MONTHS = [],
@@ -245,7 +39,6 @@ function PaymentForm({ activityId }) {
   }
 
   const handlePay = async () => {
-    const res = activitiesService.updateActivity(activityId);
     if (!name || !cvv || !expMonth || !expYear || !cardNumber) {
       return showToast(
         "Something went wrong",
@@ -265,9 +58,9 @@ function PaymentForm({ activityId }) {
     setLoading(true);
     try {
       // Mocking payment
-      const res = await userService.bookActivity(user._id, activityId);
-      navigate('/')
-      showToast("Booking Success", "Your booking was successful", "success")
+      await userService.bookActivity(user._id, activityId);
+      navigate("/");
+      showToast("Booking Success", "Your booking was successful", "success");
     } catch (error) {
       console.error(error);
     } finally {
@@ -297,7 +90,11 @@ function PaymentForm({ activityId }) {
           <Stack spacing={6}>
             <FormControl id="name" isRequired>
               <FormLabel>Card Holder's Name</FormLabel>
-              <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+              <Input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </FormControl>
             <FormControl id="number" isRequired>
               <FormLabel>Card Number</FormLabel>
@@ -336,7 +133,11 @@ function PaymentForm({ activityId }) {
                     onChange={(e) => setExpMonth(e.target.value)}
                   >
                     {MONTHS.map((month) => {
-                      return <option key={month} value={month}>{month}</option>;
+                      return (
+                        <option key={month} value={month}>
+                          {month}
+                        </option>
+                      );
                     })}
                   </Select>
                 </FormControl>

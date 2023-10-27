@@ -20,10 +20,14 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { AiOutlineMenu, AiFillHome } from "react-icons/ai";
+import {
+  AiOutlineMenu,
+  AiFillHome,
+  AiOutlineUnorderedList,
+} from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
-import { BiLogIn, BiLogOut } from "react-icons/bi";
-import {BsCardList} from "react-icons/bs"
+import { BiLogIn, BiLogOut, BiUserPlus } from "react-icons/bi";
+import { BsCardList } from "react-icons/bs";
 import { useScroll } from "framer-motion";
 import { useRef, useState } from "react";
 import { useContext } from "react";
@@ -35,7 +39,7 @@ function NavBar() {
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
   const bg = useColorModeValue("white", "gray.800");
   const mobileNav = useDisclosure();
-  
+
   const { toggleColorMode: toggleMode } = useColorMode();
   const text = useColorModeValue("dark", "light");
   const SwitchIcon = useColorModeValue(FaMoon, FaSun);
@@ -56,7 +60,6 @@ function NavBar() {
         transition="box-shadow 0.2s"
         overflowY="hidden"
         bg={bg}
-      
         w="full"
         px={{
           base: 2,
@@ -120,17 +123,10 @@ function NavBar() {
                     )}
 
                     <Button variant="ghost" leftIcon={<BsCardList />} size="sm">
-                      <Link to="/wishlist">Wish List</Link>
+                      <Link to="/wishlists">Wishlists</Link>
                     </Button>
                     <Button variant="ghost" leftIcon={<BsCardList />} size="sm">
                       <Link to="/bookings">Bookings</Link>
-                    </Button>
-                  </>
-                )}
-                {!isLoggedIn && (
-                  <>
-                    <Button variant="ghost" leftIcon={<BiLogIn />} size="sm">
-                      <Link to="/login">Log In</Link>
                     </Button>
                     <Button
                       variant="ghost"
@@ -142,6 +138,16 @@ function NavBar() {
                     </Button>
                   </>
                 )}
+                {!isLoggedIn && (
+                  <>
+                    <Button variant="ghost" leftIcon={<BiLogIn />} size="sm">
+                      <Link to="/login">Log In</Link>
+                    </Button>
+                    <Button variant="ghost" leftIcon={<BiUserPlus />} size="sm">
+                      <Link to="/signup">Register</Link>
+                    </Button>
+                  </>
+                )}
               </VStack>
             </Box>
             <chakra.a
@@ -150,7 +156,7 @@ function NavBar() {
               display="flex"
               alignItems="center"
             >
-              <Image w={'3xs'} src={logo} />
+              <Image w={"3xs"} src={logo} />
               <VisuallyHidden>Tour Guide</VisuallyHidden>
             </chakra.a>
             <IconButton
@@ -172,8 +178,29 @@ function NavBar() {
                 md: "inline-flex",
               }}
             >
+              {!isLoggedIn && (
+                <>
+                  <Button variant="ghost" leftIcon={<BiLogIn />} size="sm">
+                    <Link to="/login">Log In</Link>
+                  </Button>
+                  <Button variant="ghost" leftIcon={<BiUserPlus />} size="sm">
+                    <Link to="/signup">Register</Link>
+                  </Button>
+                </>
+              )}
+
               {isLoggedIn && (
                 <>
+                  <Button variant="ghost" leftIcon={<BsCardList />} size="sm">
+                    <Link to="/bookings">Bookings</Link>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    leftIcon={<AiOutlineUnorderedList />}
+                    size="sm"
+                  >
+                    <Link to="/wishlists">Wishlists</Link>
+                  </Button>
                   {user.isAdmin && (
                     <>
                       <Button
@@ -209,11 +236,11 @@ function NavBar() {
                 {!isLoggedIn && (
                   <>
                     <MenuItem>
-                      <Link to="/login">Sign In</Link>
+                      <Link to="/login">Log In</Link>
                     </MenuItem>
                     <MenuItem>
                       <Center>
-                        <Link to="/signup">Sign up</Link>
+                        <Link to="/signup">Register</Link>
                       </Center>
                     </MenuItem>
                   </>

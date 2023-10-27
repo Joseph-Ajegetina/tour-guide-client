@@ -28,6 +28,7 @@ import {
 import { AiFillEdit} from "react-icons/ai";
 import {  MdAddCircle } from "react-icons/md";
 import { BsBoxArrowUpRight, BsFillTrashFill } from "react-icons/bs";
+import useToastMessage from "../../utils/useToastMessage";
 
 function LocationTable() {
   const [locations, setLocations] = useState([]);
@@ -39,7 +40,8 @@ function LocationTable() {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const handleCloseCreateModal = () => setShowCreateModal(false);
-  const toast = useToast();
+
+  const {showToast} = useToastMessage();
 
   const handleShowCreateModal = () => {
     setShowCreateModal(true)};
@@ -82,7 +84,7 @@ function LocationTable() {
       handleCloseCreateModal();
       showToast('New Location', `${body.city} added Successfully`, 'success')
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setIsLoading(false);
     }
   };
@@ -93,9 +95,9 @@ function LocationTable() {
       await locationsService.updateLocation(id, body);
       getAllLocations();
       handleCloseUpdateModal()
-      showToast('Update Locationn', `${body.city} updated Successfully`, 'success')
+      showToast('Update Location', `${body.city} updated Successfully`, 'success')
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setIsLoading(false);
     }
   };
@@ -105,9 +107,10 @@ function LocationTable() {
     try {
       await locationsService.deleteLocation(id);
       getAllLocations();
+      showToast('Delete Location', `Location delted Successfully`, 'success')
       handleCloseDeleteModal();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setIsLoading(false);
     }
   };
@@ -141,7 +144,7 @@ function LocationTable() {
       setFilteredData(data);
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setIsLoading(false);
     }
   };
@@ -149,17 +152,6 @@ function LocationTable() {
   useEffect(() => {
     getAllLocations();
   }, []);
-
-  const showToast = (title, description, status) => {
-    toast({
-      title: title,
-      description: description,
-      position: "top",
-      status: status,
-      duration: 5000,
-      isClosable: true,
-    });
-  };
   return isLoading ? (
     <LoadingSpinner />
   ) : (

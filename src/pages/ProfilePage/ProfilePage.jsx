@@ -17,12 +17,11 @@ import {
   Center,
   useToast,
 } from "@chakra-ui/react";
+import useToastMessage from "../../utils/useToastMessage";
 
 function ProfilePage() {
   const { user } = useContext(AuthContext);
-  const [imageUrl, setImageUrl] = useState(
-    user.image || "http://bootdey.com/img/Content/avatar/avatar1.png"
-  );
+  const [imageUrl, setImageUrl] = useState(user.image);
 
   const [show, setShow] = useState(false);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
@@ -35,19 +34,7 @@ function ProfilePage() {
     phone: "",
   });
 
-  const toast = useToast();
-
-  const showToast = () => {
-    toast({
-      title: "Profile Update",
-      description: "Profile updated successfully.",
-      position: "top",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
-  };
-
+  const { showToast } = useToastMessage();
   const handleImageUpload = async (e) => {
     const uploadData = new FormData();
     uploadData.append("imgUrl", e.target.files[0]);
@@ -57,9 +44,10 @@ function ProfilePage() {
       const res = await uploadService.single(uploadData);
       setImageUrl(res.data.fileUrl);
       hideFileInput();
-      showToast();
+      showToast("Update", "Image uploaded successfully", "success");
     } catch (err) {
-      console.log("Error while uploading the file: ", err);
+      console.error("Error while uploading the file: ", err);
+      showToast("Error", "Could not upload image", "error");
     } finally {
       setIsBtnLoading(false);
       hideFileInput();
@@ -85,9 +73,14 @@ function ProfilePage() {
     setIsSpinnerLoading(true);
     try {
       await userService.update(user._id, payload);
-      showToast();
+      showToast("Update", "Profile updated successfully", "success");
     } catch (error) {
       console.error(error);
+      showToast(
+        "Error Update",
+        "Something went wrong updating profile",
+        "error"
+      );
     } finally {
       setIsSpinnerLoading(false);
     }
