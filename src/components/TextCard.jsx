@@ -9,7 +9,7 @@ function TextCard() {
 
   return (
   
-<Tabs variant='soft-rounded' color='#89441d'>
+<Tabs variant='soft-rounded' colorScheme='orange'>
   <TabList>
     <Tab>Thrill Attractions worldwide</Tab>
     <Tab>Thrill destinations worldwide</Tab>

@@ -17,7 +17,7 @@ const settings = {
 
 const cards = [
   {
-    title: 'Hanoi, Vietnam',
+    title: 'Bai Dinh - Trang An, Vietnam',
     text: "Immerse yourself in Vietnamese culture and history with a day trip from Hanoi to Ninh Binh",
     image:
       'https://lilystravel.com/wp-content/uploads/2019/11/HM.jpg',
@@ -26,7 +26,7 @@ const cards = [
     title: 'Park Güell, Barcelona',
     text: "Discover the unique architecture of Gaudí's masterpiece in Barcelona",
     image:
-      'https://images.unsplash.com/photo-1593368858664-a7fe556ab936?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGFyayUyMGd1ZWxsfGVufDB8fDB8fHww',
+      'https://nanani.world/wp-content/uploads/2019/12/9FA902A0-FAFB-463F-8AD2-CBA5B445E5AF-scaled-1.jpeg',
   },
   
   {
@@ -74,7 +74,7 @@ const CaptionCarousel = () => {
         variant="ghost"
         position="absolute"
         left="0%"  /* Customize the left position */
-        top="60%"   /* Customize the top position */
+        top="80%"   /* Customize the top position */
         transform="translate(0%, -50%)"
         zIndex={2}
         onClick={handlePrevClick}
@@ -87,7 +87,7 @@ const CaptionCarousel = () => {
         variant="ghost"
         position="absolute"
         right="48%"  /* Customize the right position */
-        top="60%"   /* Customize the top position */
+        top="80%"   /* Customize the top position */
         transform="translate(0%, -50%)"
         zIndex={2}
         onClick={handleNextClick}
@@ -112,7 +112,7 @@ const CaptionCarousel = () => {
                 w="full"
                 maxW="lg"
                 position="absolute"
-                bottom="70" /* Move the text to the bottom */
+                bottom="60" /* Move the text to the bottom */
                 left="-300"   /* Move the text to the left */
                 top="50%"
                 transform="translate(0, -50%)"
