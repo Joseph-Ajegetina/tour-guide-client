@@ -20,7 +20,7 @@ import {
 import useToastMessage from "../../utils/useToastMessage";
 
 function ProfilePage() {
-  const { user } = useContext(AuthContext);
+  const { user, updateImage } = useContext(AuthContext);
   const [imageUrl, setImageUrl] = useState(user.image);
 
   const [show, setShow] = useState(false);
@@ -74,6 +74,7 @@ function ProfilePage() {
     try {
       await userService.update(user._id, payload);
       showToast("Update", "Profile updated successfully", "success");
+      updateImage(imageUrl);
     } catch (error) {
       console.error(error);
       showToast(

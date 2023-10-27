@@ -8,6 +8,7 @@ import UpdateLocationModal from "./modals/UpdateLocationModal";
 import ViewLocationModal from "./modals/ViewLocationModal";
 import DeleteLocationModal from "./modals/DeleteLocationModal";
 import Search from "../Search";
+import uploadService from "../../services/upload.service";
 
 import {
   ButtonGroup,
@@ -23,10 +24,9 @@ import {
   HStack,
   Box,
   Button,
-  useToast
 } from "@chakra-ui/react";
-import { AiFillEdit} from "react-icons/ai";
-import {  MdAddCircle } from "react-icons/md";
+import { AiFillEdit } from "react-icons/ai";
+import { MdAddCircle } from "react-icons/md";
 import { BsBoxArrowUpRight, BsFillTrashFill } from "react-icons/bs";
 import useToastMessage from "../../utils/useToastMessage";
 
@@ -41,10 +41,11 @@ function LocationTable() {
   const [showViewModal, setShowViewModal] = useState(false);
   const handleCloseCreateModal = () => setShowCreateModal(false);
 
-  const {showToast} = useToastMessage();
+  const { showToast } = useToastMessage();
 
   const handleShowCreateModal = () => {
-    setShowCreateModal(true)};
+    setShowCreateModal(true);
+  };
 
   const handleCloseUpdateModal = () => {
     setSelectedLocation(null);
@@ -76,28 +77,81 @@ function LocationTable() {
     setShowViewModal(false);
   };
 
-  const handleCreate = async (body) => {
+  const handleCreate = async (body, image) => {
+    let payload = body;
+    const uploadData = new FormData();
+    let imagePath;
     setIsLoading(true);
     try {
-      await locationsService.createLocation(body);
+      if (image) {
+        uploadData.append("imgUrl", image);
+        const res = await uploadService.single(uploadData);
+        imagePath = res.data.fileUrl;
+        payload["image"] = imagePath;
+      }
+      await locationsService.createLocation(payload);
       getAllLocations();
       handleCloseCreateModal();
-      showToast('New Location', `${body.city} added Successfully`, 'success')
+      showToast("New Location", `${body.city} added Successfully`, "success");
     } catch (error) {
       console.error(error);
       setIsLoading(false);
+      showToast("Error", `Something went wrong creating location`, "error");
     }
   };
 
-  const handleUpdate = async (id, body) => {
-    setIsLoading(true);
+  const handleUpdate = async (id, body, image) => {
+    let payload = body;
+    const uploadData = new FormData();
+    let imagePath;
+ 
     try {
-      await locationsService.updateLocation(id, body);
-      getAllLocations();
-      handleCloseUpdateModal()
-      showToast('Update Location', `${body.city} updated Successfully`, 'success')
+      setIsLoading(true);
+      if (image) {
+        uploadData.append("imgUrl", image);
+        uploadService
+          .single(uploadData)
+          .then((res) => {
+            imagePath = res.data.fileUrl;
+            payload["image"] = imagePath;
+          })
+          .then(async (_) => {
+            setIsLoading(true);
+            await locationsService.updateLocation(id, payload);
+            getAllLocations();
+            handleCloseUpdateModal();
+            showToast(
+              "Update Location",
+              `${body.city} updated Successfully`,
+              "success"
+            );
+          })
+          .catch((error) => {
+            console.error(error);
+            showToast(
+              "Error",
+              `Error occured while uploading and updating`,
+              "error"
+            );
+          });
+      } else {
+        await locationsService.updateLocation(id, payload);
+        getAllLocations();
+        handleCloseUpdateModal();
+        showToast(
+          "Update Location",
+          `${body.city} updated Successfully`,
+          "success"
+        );
+      }
     } catch (error) {
       console.error(error);
+      showToast(
+        "Update Location",
+        `Error occured while uploading and updating`,
+        "error"
+      );
+    } finally {
       setIsLoading(false);
     }
   };
@@ -107,7 +161,7 @@ function LocationTable() {
     try {
       await locationsService.deleteLocation(id);
       getAllLocations();
-      showToast('Delete Location', `Location delted Successfully`, 'success')
+      showToast("Delete Location", `Location delted Successfully`, "success");
       handleCloseDeleteModal();
     } catch (error) {
       console.error(error);
@@ -155,7 +209,7 @@ function LocationTable() {
   return isLoading ? (
     <LoadingSpinner />
   ) : (
-    <Box my={"10"} w={"50"} maxW={'5xl'}>
+    <Box my={"10"} w={"50"} maxW={"5xl"}>
       <HStack pb={"10"} spacing={3} alignItems="center">
         <Search handleSearch={handleSearch} />
         <Button

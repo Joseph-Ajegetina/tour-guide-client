@@ -3,7 +3,6 @@ import { SimpleGrid } from "@chakra-ui/react";
 import ActivityCard from "../activity/ActivityCard";
 
 function CategoryContent({ activities }) {
-  console.log("activies in content ", activities);
   return (
     <SimpleGrid spacing={4} columns={3}>
       {activities &&

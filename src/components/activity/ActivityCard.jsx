@@ -21,7 +21,7 @@ function ActivityCard({ activity }) {
           <Box p="6">
             <Stack spacing="3">
               <Heading size="md">{activity.title}</Heading>
-              <Text>{activity.description}</Text>
+              <Text isTruncated>{activity.description}</Text>
               <Text color="blue.600" fontSize="2xl">
                 ${activity.price}
               </Text>

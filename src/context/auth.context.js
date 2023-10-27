@@ -50,6 +50,16 @@ function AuthProviderWrapper(props) {
     authenticateUser();
   };
 
+  const updateImage = (img) => {
+    if(!img){
+      return 
+    }
+
+    setUser((prevUser) => {
+      return {...prevUser,image:img }
+    })
+  }
+
   useEffect(() => {
     // Run the function after the initial render,
     // after the components in the App render for the first time.
@@ -65,6 +75,7 @@ function AuthProviderWrapper(props) {
         storeToken,
         authenticateUser,
         logOutUser,
+        updateImage
       }}
     >
       {props.children}

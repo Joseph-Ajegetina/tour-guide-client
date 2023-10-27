@@ -21,6 +21,7 @@ import LoadingSpinner from "../components/loading/LoadingSpinner";
 import useToastMessage from "../utils/useToastMessage";
 import locationsService from "../services/location.service";
 import CategoryContent from "../components/Categories/CategoryContent";
+import CaptionCarousel from "../components/CaptionCarousel";
 
 function HomePage() {
   const [activities, setActivities] = useState([]);
@@ -75,7 +76,6 @@ function HomePage() {
     setLoading(true);
     try {
       const res = await locationsService.getAllLocations();
-      console.log("all locations ", res);
       setLocations(res.data);
     } catch (err) {
       console.error(err);
@@ -107,6 +107,9 @@ function HomePage() {
   return !loading ? (
     <Container maxW="1400px">
       {/* Wrap entire content in Chakra Container */}
+      <div>
+        <CaptionCarousel />
+      </div>
       <div className="mt-4 p-4">
         <Box p={4}>
           <Heading as="h2" size="lg" mb={4}>
@@ -139,7 +142,7 @@ function HomePage() {
                 <Tab
                   key={category}
                   onClick={() => onTabChange(category)}
-                  isSelected={selectedCategory === category}
+                  
                 >
                   {category}
                 </Tab>
