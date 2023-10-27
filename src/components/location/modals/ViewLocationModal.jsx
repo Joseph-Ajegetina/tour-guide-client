@@ -18,7 +18,6 @@ import {
 } from "@chakra-ui/react";
 
 function ViewLocationModal({ show, location, handleClose }) {
-  console.log(location)
   const [city, setCity] = useState(location.city);
   const [country, setCountry] = useState(location.country);
   const [description, setDescription] = useState(location.description);
