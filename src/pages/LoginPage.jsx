@@ -8,36 +8,30 @@ import {
   Button,
   Heading,
   useColorModeValue,
-  useToast,
   Spinner,
   Text,
+  InputGroup,
+  InputRightElement,
   HStack,
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import authService from "../services/auth.service";
 import { AuthContext } from "../context/auth.context";
 import { Link, useNavigate } from "react-router-dom";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import useToastMessage from "../utils/useToastMessage";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { storeToken, authenticateUser } = useContext(AuthContext);
   const navigate = useNavigate();
-  const toast = useToast();
+  const {showToast} = useToastMessage();
 
-  const showToast = () => {
-    toast({
-      title: "Authentication Failed",
-      description: errorMessage,
-      position: "top",
-      status: "error",
-      duration: 5000,
-      isClosable: true,
-    });
-  };
 
   const handleLogin = () => {
     const requestBody = { email, password };
@@ -47,6 +41,7 @@ function LoginPage() {
       .then((response) => {
         storeToken(response.data.authToken);
         authenticateUser();
+        showToast('Login', 'Successfully log in', 'success')
         navigate("/");
       })
       .catch((error) => {
@@ -54,7 +49,7 @@ function LoginPage() {
         if (error.response) {
           const errorDescription = error.response.data.message;
           setErrorMessage(errorDescription);
-          showToast();
+          showToast('Authentication failed', errorDescription, 'error');
         }
       });
   };
@@ -86,11 +81,28 @@ function LoginPage() {
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
-              <Input
+              <InputGroup>
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <InputRightElement h={"full"}>
+                  <Button
+                    variant={"ghost"}
+                    onClick={() =>
+                      setShowPassword((showPassword) => !showPassword)
+                    }
+                  >
+                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+              {/* <Input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-              />
+              /> */}
             </FormControl>
             <Stack spacing={10}>
               <Button

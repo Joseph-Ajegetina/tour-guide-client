@@ -17,6 +17,9 @@ import {
   Stack,
   HStack,
   Box,
+  Heading,
+  Flex,
+  Image,
 } from "@chakra-ui/react";
 
 function UpdateActivityModal({
@@ -303,10 +306,10 @@ function UpdateActivityModal({
                 ))}
               </Stack>
             </VStack>
-            <VStack>
-              <FormControl>
+            <Flex>
+              <FormControl maxWidth={'80'} mr={'auto'}>
                 <FormLabel htmlFor="requirements" fontWeight={"normal"}>
-                  Add requirements
+                 Select image
                 </FormLabel>
                 <Input
                   id="requirements"
@@ -325,7 +328,17 @@ function UpdateActivityModal({
                   />
                 </div>
               )}
-            </VStack>
+
+              {!selectedImage && (
+                <>
+                  {activity.images.length > 0 && (
+                    <Box boxSize="sm">
+                      <Image src={activity.images[0]} alt={activity.title} />
+                    </Box>
+                  )}
+                </>
+              )}
+            </Flex>
           </Stack>
         </ModalBody>
 
@@ -343,4 +356,3 @@ function UpdateActivityModal({
 }
 
 export default UpdateActivityModal;
-
