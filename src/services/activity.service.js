@@ -43,6 +43,10 @@ class ActivitiesService {
   deleteActivity = (id) => {
     return this.api.delete(`/api/activities/${id}`);
   };
+
+  getLocationActivity = (id) => {
+    return this.api.get(`/api/activities/location/${id}`);
+  };
 }
 
 // Create one instance (object) of the service
