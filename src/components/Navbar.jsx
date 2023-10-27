@@ -31,6 +31,9 @@ import { AuthContext } from "../context/auth.context";
 import { Link } from "react-router-dom";
 import logo from "../assets/Logo.png";
 
+
+
+
 function NavBar() {
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
   const bg = useColorModeValue("white", "gray.800");

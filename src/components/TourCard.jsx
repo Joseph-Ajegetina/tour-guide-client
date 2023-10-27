@@ -15,6 +15,26 @@ function TourCard() {
       reviewCount: 34,
       rating: 4,
     },
+    {
+      imageUrl: 'https://images.unsplash.com/photo-1605130284535-11dd9eedc58a?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8N3x8fGVufDB8fHx8fA%3D%3D',
+      imageAlt: 'Rear view of modern home with pool',
+      beds: 3,
+      baths: 2,
+      title: 'Barcelona: Entry Ticket to Sagrada Familia',
+      formattedPrice: '$1,900.00',
+      reviewCount: 34,
+      rating: 4,
+    },
+    {
+      imageUrl: 'https://images.robertharding.com/zoom/RM/RH/HORIZONTAL/698-3190.jpg',
+      imageAlt: 'Rear view of modern home with pool',
+      beds: 3,
+      baths: 2,
+      title: 'Barcelona: Entry Ticket to Sagrada Familia',
+      formattedPrice: '$1,900.00',
+      reviewCount: 34,
+      rating: 4,
+    },
     // Add more property objects with different details and images
   ];
 

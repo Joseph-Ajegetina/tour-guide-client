@@ -7,13 +7,13 @@ function CulturePage() {
         <SimpleGrid spacing={4} columns={3}>
           <Box maxW="sm" borderWidth="1px" borderRadius="lg">
             <Image
-              src="https://cdn.pixabay.com/photo/2015/07/29/22/56/taj-mahal-866692_1280.jpg"
+              src="https://cdn.getyourguide.com/img/tour/031a2cb9f5ad6654.jpeg/145.jpg"
               alt="Image Alt Text 1"
               borderRadius="lg"
             />
             <Box p="6">
               <Stack spacing="3">
-                <Heading size="md">Taj Mahal, India</Heading>
+                <Heading size="md">Ouzoud Waterfalls, Marrakech</Heading>
                 <Text>
                   This sofa is perfect for modern tropical spaces, baroque
                   inspired spaces, earthy toned spaces, and for people who love

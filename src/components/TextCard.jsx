@@ -25,7 +25,8 @@ function TextCard() {
           >
             <GridItem rowSpan={2} colSpan={-1} bg='tomato'>
               <Box color='white' fontSize='lg'>
-                Attraction 1
+              Sistine Chapel, Rome
+              Vatican Museums
               </Box>
             </GridItem>
             <GridItem colSpan={2} bg='papayawhip'>
