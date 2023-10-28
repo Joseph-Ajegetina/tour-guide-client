@@ -194,7 +194,7 @@ function TextCard() {
             </GridItem>
             <GridItem  colSpan={4} bg='papayawhip'>
               <Box color='#b64f26' fontSize='lg' >
-              <p style={{ margin: '10px',fontWeight: 'bold', lineHeight: '1.5'  }}>
+              <p style={{ margin: '-3px',fontWeight: 'bold', lineHeight: '1.5'  }}>
               <strong>Americas</strong>
               <br />
               Colombia&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Brazil&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Argentine&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Peru&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ecuador&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Panama
@@ -215,50 +215,3 @@ function TextCard() {
 export default TextCard;
 
 
-// import React from "react";
-// import { Box, Grid, GridItem } from "@chakra-ui/react";
-
-// function AttractionBox({ name, tours }) {
-//   return (
-//     <GridItem
-//       colSpan={3} // Set the number of columns to control the spacing between boxes
-//     >
-//       <Box
-//         backgroundColor="black"
-//         borderRadius="20px"
-//         padding="1rem"
-//         fontFamily="Century Gothic, sans-serif"
-//         lineHeight="1.5"
-//         marginTop="-2rem"
-//         marginLeft="-4"
-//         w="200px"
-//         h="50px"
-//       >
-//         <p style={{ color: "#333", marginBottom: "4px" }}>{name}</p>
-//         <p style={{ color: "#777", marginTop: "5px" }}>{`${tours} available tours now`}</p>
-//       </Box>
-//     </GridItem>
-//   );
-// }
-
-// function YourComponent() {
-//   // An array with data for 40 boxes (e.g., name and tours)
-//   const attractionData = [
-//     { name: "Attraction 1", tours: 820 },
-//     { name: "Attraction 2", tours: 650 },
-//     // ... Add data for the remaining 38 attractions
-//   ];
-
-//   return (
-//     <Grid
-//       templateColumns="repeat(4, 1fr)" // Adjust the number of columns as needed
-//       gap={4} // Set the gap between grid items
-//     >
-//       {attractionData.map((attraction, index) => (
-//         <AttractionBox key={index} name={attraction.name} tours={attraction.tours} />
-//       ))}
-//     </Grid>
-//   );
-// }
-
-// export default YourComponent;

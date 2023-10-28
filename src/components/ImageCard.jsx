@@ -90,7 +90,7 @@ function ImageCard() {
         icon={<ChevronLeftIcon />}
         onClick={showPrevious}
         size="lg"
-        colorScheme="blue"
+        colorScheme="orange"
         isRound
         transform="translate(0, 150%)"
         // Add any additional styling you need
@@ -156,7 +156,7 @@ function ImageCard() {
         icon={<ChevronRightIcon />}
         onClick={showNext}
         size="lg"
-        colorScheme="blue"
+        colorScheme="orange"        
         isRound
         right="20px" // Move to the right (adjust the value)
         transform="translate(0, 10%)"
