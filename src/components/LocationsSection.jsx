@@ -11,31 +11,6 @@ const cardStyle = {
   matgin: "0 10px",
 };
 
-const textStyle = {
-  position: "absolute",
-  bottom: 10,
-  left: 50,
-  padding: "8px",
-  color: "beige",
-  fontSize: "16px",
-  fontWeight: "bold",
-  fontFamily: "Century Gothic, sans-serif",
-  textShadow: "10px 10px 10px rgba(100, 50, 20, 0.5)",
-  width: "60%", // Take up the full width of the container
-  background: "rgba(0, 0, 0, 0.2)", // Semi-transparent background
-  borderRadius: "0 0 10px 10px", // Rounded corners only at the bottom // Adjust the shadow values as needed
-};
-
-
-const gradientOverlay = {
-  position: "absolute",
-  bottom: 35,
-  left: 0,
-  width: "70%",
-  height: "10%", // Adjust the height for the desired shading area
-  background: "linear-gradient(to bottom, rgba(100,0,0,0), rgba(10,0,50,0.7))", // Adjust the gradient color and opacity
-};
-
 
 function LocationsSection() {
   const [locations, setLocations] = useState([]);
