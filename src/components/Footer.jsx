@@ -45,8 +45,10 @@ function Footer() {
   const { isLoggedIn } = useContext(AuthContext);
   return (
     <Box
-      bg={useColorModeValue("gray.50", "gray.900")}
-      color={useColorModeValue("gray.700", "gray.200")}
+      bg= "#40300f"  
+      // {useColorModeValue("gray.50", "gray.900")}
+      color="papayawhip"
+      // {useColorModeValue("gray.700", "gray.200")}
     >
       <Container
         as={Stack}
@@ -89,7 +91,16 @@ function Footer() {
           justify={{ base: "center", md: "space-between" }}
           align={{ base: "center", md: "center" }}
         >
-          <Text>© 2022 Tour Guide</Text>
+          <Text color="papayawhip">© 2023 Travel Thrill     ---            All rights reserved
+
+              <br  />
+              Accra, Ghana
+              <br />
+              Crete, Greece
+              <br />
+              <br />
+
+          </Text>
           <Stack direction={"row"} spacing={6}>
             <SocialButton label={"Twitter"} href={"#"}>
               <FaTwitter />

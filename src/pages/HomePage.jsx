@@ -84,12 +84,11 @@ function HomePage() {
       </div>
       <div className="mt-4 p-4">
         <Box p={4}>
-          <Heading as="h2" size="lg" mb={4}>
-            Unforgettable Experiences
+        <Heading as="h2" size="lg" mb={4} color="#5c3915">
+            Immerse in Unforgettable Experiences
           </Heading>
         </Box>
 
-        <Divider my={6} />
         <SimpleGrid columns={{ base: 2, md: 4 }} spacing={2}>
           {noCategoryActivities &&
             noCategoryActivities.map((activity, index) => (
@@ -97,14 +96,14 @@ function HomePage() {
             ))}
         </SimpleGrid>
 
-        <Divider my={6} />
+        <Divider my={6} borderBottom="2px" borderColor="#e35b2f" />
         <Box p={4}>
           <div className="card-divider"></div>
-          <Heading as="h2" size="lg" mb={4}>
-            Collections
+          <Heading as="h2" size="lg" mb={4} color="#5c3915">
+        Collections
           </Heading>
-          <Divider my={6} />
-          <Text fontSize="lg">Check out our Collections</Text>
+          <Divider my={6} borderBottom="2px" borderColor="#e35b2f" />
+          <Text fontSize="lg" color="#e35b2f" >Check out our newest Collections</Text>
         </Box>
 
         <Tabs isFitted variant="enclosed" isLazy>
@@ -130,13 +129,13 @@ function HomePage() {
         </Tabs>
         <Box p={4}>
           <div className="card-divider"></div>
-          <Heading as="h2" size="lg" mb={4}>
+          <Heading as="h2" size="lg" mb={4} color="#5c3915">
             Thrilling cities around the world
           </Heading>
-          <Divider my={6} />
+          <Divider my={6} borderBottom="2px" borderColor="#e35b2f" />
 
-          <Text fontSize="lg">
-            Explore more activities and tours in our collections.
+          <Text fontSize="lg" color="#e35b2f">
+            Explore more activities and tours in city collection.
           </Text>
         </Box>
 
@@ -145,10 +144,10 @@ function HomePage() {
 
         <Box p={4}>
           <div className="card-divider"></div>
-          <Heading as="h2" size="lg" mb={4}>
-            Explore culture around the world
+          <Heading as="h2" size="lg" mb={4} color="#5c3915">
+            Discover culture around the world
           </Heading>
-          <Divider my={6} />
+          <Divider my={6} borderBottom="2px" borderColor="#e35b2f" />
         </Box>
 
         <TextCard />

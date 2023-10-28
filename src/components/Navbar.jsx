@@ -56,7 +56,7 @@ function NavBar() {
     return scrollY.onChange(() => setY(scrollY.get()));
   }, [scrollY]);
   return (
-    <Box shadow="md" pos="relative">
+    <Box shadow="md" pos="relative" color="#89441d">
       <chakra.header
         ref={header}
         shadow={y > height ? "sm" : undefined}
