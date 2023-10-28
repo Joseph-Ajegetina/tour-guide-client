@@ -11,7 +11,6 @@ const cardStyle = {
   matgin: "0 10px",
 };
 
-
 function LocationsSection() {
   const [locations, setLocations] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -47,36 +46,36 @@ function LocationsSection() {
     );
   };
 
-  return !loading ? (
-    <Flex justify="space-between">
-      <IconButton
-        icon={<ChevronLeftIcon />}
-        onClick={showPrevious}
-        size="lg"
-        colorScheme="orange"
-        isRound
-        transform="translate(0, 150%)"
-        // Add any additional styling you need
-      />
-      {locations &&
-        locations.map((location, index) => {
-          if (index >= currentIndex && index < currentIndex + 5) {
-            return <LocationCard key={location._id} location={location} />;
-          }
-        })}
+  return (
+    !loading && (
+      <Flex justify="space-between">
+        <IconButton
+          icon={<ChevronLeftIcon />}
+          onClick={showPrevious}
+          size="lg"
+          colorScheme="orange"
+          isRound
+          transform="translate(0, 150%)"
+          // Add any additional styling you need
+        />
+        {locations &&
+          locations.map((location, index) => {
+            if (index >= currentIndex && index < currentIndex + 5) {
+              return <LocationCard key={location._id} location={location} />;
+            }
+          })}
 
-      <IconButton
-        icon={<ChevronRightIcon />}
-        onClick={showNext}
-        size="lg"
-        colorScheme="orange"
-        isRound
-        right="20px" // Move to the right (adjust the value)
-        transform="translate(0, 150%)"
-      />
-    </Flex>
-  ) : (
-    <LoadingSpinner />
+        <IconButton
+          icon={<ChevronRightIcon />}
+          onClick={showNext}
+          size="lg"
+          colorScheme="orange"
+          isRound
+          right="20px" // Move to the right (adjust the value)
+          transform="translate(0, 150%)"
+        />
+      </Flex>
+    )
   );
 }
 

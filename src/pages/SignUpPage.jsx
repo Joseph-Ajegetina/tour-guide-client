@@ -38,7 +38,7 @@ function SignupPage({ isAdmin }) {
   const navigate = useNavigate();
   const {showToast} = useToastMessage();
 
-  const defaultImage = "http://bootdey.com/img/Content/avatar/avatar1.png"
+  const defaultImage = "https://avatars.dicebear.com/api/male/username.svg"
 
 
 
