@@ -17,14 +17,27 @@ const settings = {
 
 const cards = [
   {
-    title: 'Great Barrier Reef',
-    text: "Explore the underwater magic of the Great Barrier Reef in Queensland, Australia",
+    title: 'Bai Dinh - Trang An, Vietnam',
+    text: "Immerse yourself in Vietnamese culture and history with a day trip from Hanoi to Ninh Binh",
+    image:
+      'https://lilystravel.com/wp-content/uploads/2019/11/HM.jpg',
+  },
+  {
+    title: 'Park Güell, Barcelona',
+    text: "Discover the unique architecture of Gaudí's masterpiece in Barcelona",
+    image:
+      'https://nanani.world/wp-content/uploads/2019/12/9FA902A0-FAFB-463F-8AD2-CBA5B445E5AF-scaled-1.jpeg',
+  },
+  
+  {
+    title: 'Great Barrier Reef, Queensland',
+    text: "Explore the underwater magic of the Great Barrier Reef in the Australia coastline",
     image:
       'https://www.telegraph.co.uk/content/dam/travel/Spark/tourism-australia-2018/tourism-aus-turtle-teq.png',
   },
   {
     title: 'Flamengo Show, Seville',
-    text: "Find the best original Flamengo shows in Andalusia",
+    text: "Find the best original Flamengo shows in its birthplace in Andalusia",
     image:
 "https://cdn.kimkim.com/files/a/images/88fa66240d212977f46eee8f60f121051ee1fc6b/original-d883c8b124a4fb821f097db56ada47e0.jpg"  },
   {
@@ -45,7 +58,7 @@ const CaptionCarousel = () => {
   };
 
   return (
-    <Box position="relative" height="400px" width="full" overflow="hidden">
+    <Box position="relative" height="500px" width="full" overflow="hidden">
       <link
         rel="stylesheet"
         type="text/css"
@@ -60,11 +73,12 @@ const CaptionCarousel = () => {
         aria-label="left-arrow"
         variant="ghost"
         position="absolute"
-        left="30%"  /* Customize the left position */
-        top="50%"   /* Customize the top position */
+        left="0%"  /* Customize the left position */
+        top="80%"   /* Customize the top position */
         transform="translate(0%, -50%)"
         zIndex={2}
         onClick={handlePrevClick}
+        style={{ fontSize: "20px", borderWidth: "1px", fontWeight: "bold" }}
       >
         <BiLeftArrowAlt size="40px" />
       </IconButton>
@@ -72,11 +86,12 @@ const CaptionCarousel = () => {
         aria-label="right-arrow"
         variant="ghost"
         position="absolute"
-        right="30%"  /* Customize the right position */
-        top="50%"   /* Customize the top position */
+        right="48%"  /* Customize the right position */
+        top="80%"   /* Customize the top position */
         transform="translate(0%, -50%)"
         zIndex={2}
         onClick={handleNextClick}
+        style={{ fontSize: "20px", borderWidth: "1px", fontWeight: "bold" }}
       >
         <BiRightArrowAlt size="40px" />
       </IconButton>
@@ -97,7 +112,7 @@ const CaptionCarousel = () => {
                 w="full"
                 maxW="lg"
                 position="absolute"
-                bottom="70" /* Move the text to the bottom */
+                bottom="60" /* Move the text to the bottom */
                 left="-300"   /* Move the text to the left */
                 top="50%"
                 transform="translate(0, -50%)"
@@ -105,7 +120,7 @@ const CaptionCarousel = () => {
                 <Heading fontSize={{ base: '2xl', md: 'xl', lg: '5xl' }} color="#e35b2f">
                   {card.title}
                 </Heading>
-                <Text fontSize={{ base: 'md', lg: 'lg' }} color="#5c3915">
+                <Text fontSize={{ base: 'md', lg: 'lg' }} color="#ffffff">
                   {card.text}
                 </Text>
               </Stack>
