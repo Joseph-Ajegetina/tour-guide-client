@@ -17,6 +17,7 @@ function ActivityCard({ activity }) {
             src={activity.images[0]}
             alt="Image Alt Text 1"
             borderRadius="lg"
+            h={'xs'} w={'full'} 
           />
           <Box p="6">
             <Stack spacing="3">
