@@ -7,7 +7,7 @@ function TourCard({ activity }) {
       <LinkBox>
         <LinkOverlay href={`/activity/${activity._id}`}>
           <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
-            {<Image h={'xs'} w={'full'} src={activity.images[0]} alt={activity.title} />}
+            {<Image h={'3xs'} w={'full'} src={activity.images[0]} alt={activity.title} />}
 
             <Box p="6">
               <Box display="flex" alignItems="baseline">

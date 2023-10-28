@@ -23,11 +23,12 @@ import CategoryContent from "../components/Categories/CategoryContent";
 import CaptionCarousel from "../components/CaptionCarousel";
 
 function HomePage() {
+  const defaultCategories = ['Culture', 'Music', 'Food', 'Nature']
   const [activities, setActivities] = useState([]);
   const [activiesByCategories, setActivitiesByCategories] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("Culture");
   const [noCategoryActivities, setNoCategoryActivities] = useState();
-  const [categories, setCategories] = useState();
+  const [categories, setCategories] = useState(defaultCategories);
 
   const onTabChange = (category) => {
     setSelectedCategory(category);
@@ -51,8 +52,6 @@ function HomePage() {
     }, {});
 
     setActivitiesByCategories(activitiesByCategory);
-    const categoryNames = Object.keys(activitiesByCategory);
-    setCategories(categoryNames);
   };
 
   const getNoCategoryActivities = (data) => {
@@ -93,7 +92,7 @@ function HomePage() {
         <SimpleGrid columns={{ base: 2, md: 4 }} spacing={2}>
           {noCategoryActivities &&
             noCategoryActivities.map((activity, index) => (
-              <TourCard activity={activity} />
+              <TourCard key={activity._id} activity={activity} />
             ))}
         </SimpleGrid>
 
