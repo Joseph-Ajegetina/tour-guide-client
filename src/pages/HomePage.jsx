@@ -84,12 +84,14 @@ function HomePage() {
       </div>
       <div className="mt-4 p-4">
         <Box p={4}>
+
           <Heading as="h2" size="lg" mb={4}>
             Unforgettable Experiences
           </Heading>
+          <Divider my={6} />
+
         </Box>
 
-        <Divider my={6} />
         <SimpleGrid columns={{ base: 2, md: 4 }} spacing={2}>
           {noCategoryActivities &&
             noCategoryActivities.map((activity, index) => (
@@ -97,7 +99,6 @@ function HomePage() {
             ))}
         </SimpleGrid>
 
-        <Divider my={6} />
         <Box p={4}>
           <div className="card-divider"></div>
           <Heading as="h2" size="lg" mb={4}>
