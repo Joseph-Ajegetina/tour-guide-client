@@ -207,7 +207,7 @@ function ActivityTable({ tabToggle }) {
   return isLoading ? (
     <LoadingSpinner />
   ) : (
-    <Box my={"10"} w={"50"} maxW={"5xl"}>
+    <Box my={"10"} w={"50"} maxW={"6xl"}>
       <HStack pb={"10"} spacing={3} alignItems="center">
         <Search handleSearch={handleSearch} />
         <Button
@@ -219,8 +219,8 @@ function ActivityTable({ tabToggle }) {
           Add
         </Button>
       </HStack>
-      <TableContainer w={"full"} minW={"lg"}>
-        <Table variant="striped" colorScheme="green">
+      <TableContainer w={"full"} minW={"5xl"}>
+        <Table variant="striped">
           <TableCaption>
             Manage the activities that will be displayed.
           </TableCaption>
