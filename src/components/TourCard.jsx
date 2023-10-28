@@ -5,7 +5,14 @@ function TourCard({ activity }) {
   return (
     activity && (
       <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
-        {<Image src={activity.images[0]} alt={activity.title} />}
+        {
+          <Image
+            h={"xs"}
+            width={"full"}
+            src={activity.images[0]}
+            alt={activity.title}
+          />
+        }
 
         <Box p="6">
           <Box display="flex" alignItems="baseline">

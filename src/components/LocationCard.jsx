@@ -10,16 +10,17 @@ const cardStyle = {
 const textStyle = {
   position: "absolute",
   bottom: 10,
-  left: 150,
+  left: 50,
   padding: "8px",
   color: "beige",
   fontSize: "16px",
   fontWeight: "bold",
   fontFamily: "Century Gothic, sans-serif",
-  textShadow: "10px 10px 20px rgba(100, 100, 20, 1.5)",
-  width: "100%", // Take up the full width of the container
+  textShadow: "10px 10px 10px rgba(100, 50, 20, 0.5)",
+  width: "60%", // Take up the full width of the container
   borderRadius: "0 0 10px 10px", // Rounded corners only at the bottom // Adjust the shadow values as needed
 };
+
 
 function LocationCard({ location }) {
   return (

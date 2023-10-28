@@ -10,13 +10,16 @@ import {
 } from "@chakra-ui/react";
 function ActivityCard({ activity }) {
   return (
-    <Box maxW="sm" borderWidth="1px" borderRadius="lg">
+    <Box maxW="sm" borderWidth="1px" borderRadius="lg" >
       <LinkBox>
         <LinkOverlay href={`/activity/${activity._id}`}>
           <Image
             src={activity.images[0]}
             alt="Image Alt Text 1"
             borderRadius="lg"
+            h={'xs'}
+            width={'full'}
+            
           />
           <Box p="6">
             <Stack spacing="3">
