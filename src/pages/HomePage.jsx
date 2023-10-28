@@ -104,7 +104,6 @@ function HomePage() {
           <Heading as="h2" size="lg" mb={4}>
             Collections
           </Heading>
-          <Divider my={6} />
           <Text fontSize="lg">Check out our Collections</Text>
         </Box>
 
@@ -134,11 +133,12 @@ function HomePage() {
           <Heading as="h2" size="lg" mb={4}>
             Thrilling cities around the world
           </Heading>
-          <Divider my={6} />
-
           <Text fontSize="lg">
             Explore more activities and tours in our collections.
           </Text>
+          <Divider my={6} />
+
+          
         </Box>
 
         {/* Display ImageCard component below the Collections */}
