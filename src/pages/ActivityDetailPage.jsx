@@ -7,18 +7,15 @@ import {
   Text,
   Image,
   Flex,
-  VStack,
   Button,
   Heading,
   SimpleGrid,
   StackDivider,
   useColorModeValue,
   List,
-  useToast,
   ListItem,
 } from "@chakra-ui/react";
-import { MdLocalShipping } from "react-icons/md";
-import { useNavigate, useNavigation, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import activitiesService from "../services/activity.service";
 import LoadingSpinner from "../components/loading/LoadingSpinner";

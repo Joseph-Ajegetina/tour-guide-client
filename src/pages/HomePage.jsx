@@ -13,21 +13,20 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import TourCard from "../components/TourCard"; // Adjust the relative path as needed
-import ImageCard from "../components/ImageCard";
+import LocationsSection from "../components/LocationsSection";
 import TextCard from "../components/TextCard";
 import { useState, useEffect } from "react";
 import activitiesService from "../services/activity.service";
 import LoadingSpinner from "../components/loading/LoadingSpinner";
 import useToastMessage from "../utils/useToastMessage";
-import locationsService from "../services/location.service";
 import CategoryContent from "../components/Categories/CategoryContent";
 import CaptionCarousel from "../components/CaptionCarousel";
 
 function HomePage() {
   const [activities, setActivities] = useState([]);
   const [activiesByCategories, setActivitiesByCategories] = useState(null);
-  const [locations, setLocations] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Culture");
+  const [noCategoryActivities, setNoCategoryActivities] = useState();
   const [categories, setCategories] = useState();
 
   const onTabChange = (category) => {
@@ -39,7 +38,6 @@ function HomePage() {
 
   useEffect(() => {
     getAllActivities();
-    getAllLocations();
   }, []);
 
   const filterActivities = (data) => {
@@ -57,6 +55,11 @@ function HomePage() {
     setCategories(categoryNames);
   };
 
+  const getNoCategoryActivities = (data) => {
+    const activities = data.filter((activity) => !activity.category);
+    setNoCategoryActivities(activities);
+  };
+
   const getAllActivities = async () => {
     setLoading(true);
     try {
@@ -64,6 +67,7 @@ function HomePage() {
       const data = res.data;
       setActivities(data);
       filterActivities(data);
+      getNoCategoryActivities(data);
     } catch (err) {
       console.error(err);
       showToast("Error ", "Something went wrong getting activities", "error");
@@ -71,38 +75,6 @@ function HomePage() {
       setLoading(false);
     }
   };
-
-  const getAllLocations = async () => {
-    setLoading(true);
-    try {
-      const res = await locationsService.getAllLocations();
-      setLocations(res.data);
-    } catch (err) {
-      console.error(err);
-      showToast("Error ", "Something went wrong getting locations", "error");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const cardData = [
-    {
-      title: "Card 1",
-      content: "Content for Card 1",
-    },
-    {
-      title: "Card 2",
-      content: "Content for Card 2",
-    },
-    {
-      title: "Card 3",
-      content: "Content for Card 3",
-    },
-    {
-      title: "Card 3",
-      content: "Content for Card 3",
-    },
-  ];
 
   return !loading ? (
     <Container maxW="1400px">
@@ -115,14 +87,14 @@ function HomePage() {
           <Heading as="h2" size="lg" mb={4}>
             Unforgettable Experiences
           </Heading>
-          <Divider my={6} />
         </Box>
 
         <Divider my={6} />
         <SimpleGrid columns={{ base: 2, md: 4 }} spacing={2}>
-          {cardData.map((card, index) => (
-            <TourCard key={index} title={card.title} content={card.content} />
-          ))}
+          {noCategoryActivities &&
+            noCategoryActivities.map((activity, index) => (
+              <TourCard activity={activity} />
+            ))}
         </SimpleGrid>
 
         <Divider my={6} />
@@ -139,11 +111,7 @@ function HomePage() {
           <TabList mb="1em">
             {categories &&
               categories.map((category) => (
-                <Tab
-                  key={category}
-                  onClick={() => onTabChange(category)}
-                  
-                >
+                <Tab key={category} onClick={() => onTabChange(category)}>
                   {category}
                 </Tab>
               ))}
@@ -173,7 +141,7 @@ function HomePage() {
         </Box>
 
         {/* Display ImageCard component below the Collections */}
-        <ImageCard />
+        <LocationsSection />
 
         <Box p={4}>
           <div className="card-divider"></div>

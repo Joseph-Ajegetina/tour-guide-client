@@ -24,7 +24,7 @@ function UpdateLocationModal({ show, location, handleClose, handleUpdate }) {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleSave = () => {
-    const requestBody = { city, country };
+    const requestBody = { city, country, description };
     handleUpdate(location._id, requestBody, selectedImage);
   };
 

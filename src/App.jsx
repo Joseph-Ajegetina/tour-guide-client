@@ -15,6 +15,7 @@ import BookingPage from './pages/BookingPage';
 import ActivityDetailPage from './pages/ActivityDetailPage';
 import Wishlists from './pages/Wishlists';
 import Bookings from './pages/Bookings';
+import LocationDetailPage from './pages/LocationDetail';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
          <Route path="/profile" element={<IsPrivate> <ProfilePage/> </IsPrivate>} />
          <Route path="/:activityId/payment" element={<IsPrivate> <BookingPage/> </IsPrivate>} />
          <Route path="/activity/:activityId" element={<IsPrivate> <ActivityDetailPage/> </IsPrivate>} />
+         <Route path="/location/:locationId" element={<IsPrivate> <LocationDetailPage/> </IsPrivate>} />
         <Route path="/login" element={<IsAnon> <LoginPage /> </IsAnon>} />
         <Route path="/bookings" element={<IsPrivate> <Bookings/> </IsPrivate>} />
         <Route path="/wishlists" element={<IsPrivate> <Wishlists/> </IsPrivate>} />
@@ -37,17 +39,5 @@ function App() {
     </Box>  
   );
 }
-
-
-
-
-// const theme = extendTheme({
-//   fonts: {
-//     body: "Your-Preferred-Font, sans-serif",
-//     heading: "Your-Preferred-Font, sans-serif",
-//     // Add more font settings as needed for different text elements
-//   },
-// });
-
 
 export default App;
