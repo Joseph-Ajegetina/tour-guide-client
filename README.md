@@ -1,70 +1,53 @@
-# Getting Started with Create React App
+# World Tour Guide Web Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+A modern web application that enables users to explore and book tourist destinations worldwide. The platform provides an interactive interface for travelers to discover locations, manage bookings, and create wishlists, while administrators can manage destination listings through a dedicated dashboard.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+### User Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Location Exploration**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  - Browse tourist destinations worldwide
+  - View detailed information about each location
+  - Filter and search destinations
+  - View high-quality images of locations
 
-### `npm test`
+- **User Authentication**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  - Secure user registration and login
+  - Personal profile management
+  - Booking history tracking
 
-### `npm run build`
+- **Booking System**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  - Real-time availability checking
+  - Secure booking process
+  - Booking confirmation and management
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Wishlist Management**
+  - Add/remove destinations to personal wishlist
+  - Save favorite locations for later
+  - Quick access to saved destinations
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Admin Features
 
-### `npm run eject`
+- **Comprehensive Dashboard**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+  - Secure admin authentication
+  - Overview of platform statistics
+  - User management capabilities
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Location Management**
+  - Create new destination listings
+  - Update existing location information
+  - Delete outdated listings
+  - Manage location images and details
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Technology Stack
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Frontend Framework**: Angular
+- **State Management**: [e.g., Redux, Context API]
+- **UI Components**: Chakra UI
